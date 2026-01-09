@@ -80,10 +80,10 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <div className="flex items-baseline space-x-2">
-                  <span className="text-3xl font-bold text-slate-900">$278.5K</span>
-                  <span className="text-xs font-medium text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full flex items-center">
-                    <TrendingDown size={12} className="mr-1" />
-                    3.68%
+                  <span className="text-3xl font-bold text-slate-900">$363.0K</span>
+                  <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center">
+                    <TrendingUp size={12} className="mr-1" />
+                    30.4%
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">From previous year</p>
@@ -98,13 +98,14 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <div className="flex items-baseline space-x-2">
-                  <span className="text-3xl font-bold text-slate-900">$325.4K</span>
+                  <span className="text-3xl font-bold text-slate-900">$384.6K</span>
                   <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center">
                     <TrendingUp size={12} className="mr-1" />
-                    0.21%
+                    18.2%
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">From previous year</p>
+                <p className="text-xs text-muted-foreground mt-2">309 awards issued in FY24/25</p>
+                <p className="text-xs text-slate-400 mt-1">Internal: $323,362 • External: $61,215</p>
               </CardContent>
             </Card>
 
