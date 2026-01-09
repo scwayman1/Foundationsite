@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: coastline-foundation
+    runtime: node
+    buildCommand: corepack enable && pnpm install && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.0
+      - key: VITE_FRONTEND_FORGE_API_KEY
+        sync: false
+      - key: VITE_FRONTEND_FORGE_API_URL
+        value: https://forge.butterfly-effect.dev
