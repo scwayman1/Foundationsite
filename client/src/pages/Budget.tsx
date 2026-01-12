@@ -15,7 +15,7 @@ export default function Budget() {
         <div className="container relative z-10">
           <div className="max-w-3xl">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/30 border border-white/40 text-slate-900 text-sm font-medium mb-6 backdrop-blur-sm">
-              Fiscal Year 2025-26
+              Fiscal Year 2024-25
             </div>
             <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 leading-tight">
               Financial <span className="text-white drop-shadow-md">Transparency</span>
@@ -28,7 +28,7 @@ export default function Budget() {
               <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogTrigger asChild>
                   <Button size="lg" className="bg-slate-900 text-white hover:bg-slate-800 shadow-xl shadow-slate-900/20 border-none">
-                    <FileText className="mr-2 h-5 w-5" /> View FY 25-26 Budget Document
+                    <FileText className="mr-2 h-5 w-5" /> View FY 24-25 Budget Document
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-5xl h-[90vh] p-0 overflow-hidden bg-white border-none">
@@ -44,9 +44,9 @@ export default function Budget() {
                       </Button>
                     </div>
                     <div className="flex-1 overflow-auto p-4 bg-slate-100 flex items-center justify-center">
-                      <img 
-                        src="/budget-fy25-26.png" 
-                        alt="FY 25-26 Budget Document" 
+                      <img
+                        src="/budget-fy24-25.png"
+                        alt="FY 24-25 Budget Document"
                         className="max-w-full shadow-2xl rounded-lg"
                       />
                     </div>
@@ -66,16 +66,14 @@ export default function Budget() {
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Revenue</p>
-                    <h3 className="text-3xl font-bold text-slate-900 mt-1">$228,000</h3>
+                    <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Donations</p>
+                    <h3 className="text-3xl font-bold text-slate-900 mt-1">$363.0K</h3>
                   </div>
                   <div className="p-3 bg-emerald-100 rounded-xl text-emerald-600">
                     <TrendingUp size={24} />
                   </div>
                 </div>
-                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                  <div className="bg-emerald-500 h-full w-full rounded-full"></div>
-                </div>
+                <p className="text-sm text-slate-600 mt-2">Fiscal Year 2024-25</p>
               </CardContent>
             </Card>
             
@@ -83,16 +81,14 @@ export default function Budget() {
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Expenses</p>
-                    <h3 className="text-3xl font-bold text-slate-900 mt-1">$157,450</h3>
+                    <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Scholarships Awarded</p>
+                    <h3 className="text-3xl font-bold text-slate-900 mt-1">$384.6K</h3>
                   </div>
-                  <div className="p-3 bg-rose-100 rounded-xl text-rose-600">
+                  <div className="p-3 bg-blue-100 rounded-xl text-blue-600">
                     <BarChart3 size={24} />
                   </div>
                 </div>
-                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                  <div className="bg-rose-500 h-full w-[69%] rounded-full"></div>
-                </div>
+                <p className="text-sm text-slate-600 mt-2">309 awards in FY24/25</p>
               </CardContent>
             </Card>
             
@@ -100,16 +96,14 @@ export default function Budget() {
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Projected Surplus</p>
-                    <h3 className="text-3xl font-bold text-slate-900 mt-1">$70,550</h3>
+                    <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Assets</p>
+                    <h3 className="text-3xl font-bold text-slate-900 mt-1">$4.62M</h3>
                   </div>
-                  <div className="p-3 bg-blue-100 rounded-xl text-blue-600">
+                  <div className="p-3 bg-teal-100 rounded-xl text-teal-600">
                     <PieChart size={24} />
                   </div>
                 </div>
-                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                  <div className="bg-blue-500 h-full w-[31%] rounded-full"></div>
-                </div>
+                <p className="text-sm text-slate-600 mt-2">+10.0% from prior year</p>
               </CardContent>
             </Card>
           </div>
