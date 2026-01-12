@@ -1,11 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { BarChart3, DollarSign, TrendingUp, PieChart, ArrowUpRight, FileText, X } from "lucide-react";
-import { useState } from "react";
+import { BarChart3, DollarSign, TrendingUp, PieChart, ArrowUpRight, FileText } from "lucide-react";
 
 export default function Budget() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -25,34 +22,13 @@ export default function Budget() {
             </p>
             
             <div className="mt-8">
-              <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                <DialogTrigger asChild>
-                  <Button size="lg" className="bg-slate-900 text-white hover:bg-slate-800 shadow-xl shadow-slate-900/20 border-none">
-                    <FileText className="mr-2 h-5 w-5" /> View FY 24-25 Budget Document
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-5xl h-[90vh] p-0 overflow-hidden bg-white border-none">
-                  <div className="relative w-full h-full flex flex-col">
-                    <div className="absolute top-4 right-4 z-50">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600"
-                        onClick={() => setIsModalOpen(false)}
-                      >
-                        <X className="h-5 w-5" />
-                      </Button>
-                    </div>
-                    <div className="flex-1 overflow-auto p-4 bg-slate-100 flex items-center justify-center">
-                      <img
-                        src="/budget-fy24-25.png"
-                        alt="FY 24-25 Budget Document"
-                        className="max-w-full shadow-2xl rounded-lg"
-                      />
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <Button
+                size="lg"
+                className="bg-slate-900 text-white hover:bg-slate-800 shadow-xl shadow-slate-900/20 border-none"
+                onClick={() => window.open('https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:d9574f31-703b-4958-bfb3-52d45d1f522d', '_blank')}
+              >
+                <FileText className="mr-2 h-5 w-5" /> View FY 24-25 Budget Document
+              </Button>
             </div>
           </div>
         </div>
