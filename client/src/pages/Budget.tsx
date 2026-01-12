@@ -8,7 +8,7 @@ export default function Budget() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-900 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[url('/coastline-speaker-wide.jpg')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
         <div className="container relative z-10">
           <div className="max-w-3xl">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/30 border border-white/40 text-slate-900 text-sm font-medium mb-6 backdrop-blur-sm">

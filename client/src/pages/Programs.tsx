@@ -8,7 +8,7 @@ export default function Programs() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-r from-amber-500 to-orange-600 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[url('/coastline-classroom.jpg')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
         <div className="container relative z-10">
           <div className="max-w-3xl">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/20 border border-white/30 text-white text-sm font-medium mb-6 backdrop-blur-sm">
@@ -38,7 +38,7 @@ export default function Programs() {
               <div className="h-48 overflow-hidden relative">
                 <div className="absolute inset-0 bg-blue-900/60 z-10 group-hover:bg-blue-900/40 transition-colors duration-300"></div>
                 <img 
-                  src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  src="/coastline-classroom.jpg" 
                   alt="Cybersecurity" 
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                 />
@@ -67,13 +67,8 @@ export default function Programs() {
 
             {/* Business & Finance */}
             <Card className="border-none shadow-xl overflow-hidden group h-full flex flex-col">
-              <div className="h-48 overflow-hidden relative">
-                <div className="absolute inset-0 bg-teal-900/60 z-10 group-hover:bg-teal-900/40 transition-colors duration-300"></div>
-                <img 
-                  src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="Business" 
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                />
+              <div className="h-48 overflow-hidden relative bg-gradient-to-br from-teal-600 to-teal-800">
+                <div className="absolute inset-0 bg-teal-900/20 z-10 group-hover:bg-teal-900/10 transition-colors duration-300"></div>
                 <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2 text-white">
                   <Briefcase size={20} className="text-teal-300" />
                   <span className="font-bold tracking-wide">Business & Finance</span>
@@ -99,13 +94,8 @@ export default function Programs() {
 
             {/* Healthcare */}
             <Card className="border-none shadow-xl overflow-hidden group h-full flex flex-col">
-              <div className="h-48 overflow-hidden relative">
-                <div className="absolute inset-0 bg-rose-900/60 z-10 group-hover:bg-rose-900/40 transition-colors duration-300"></div>
-                <img 
-                  src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="Healthcare" 
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                />
+              <div className="h-48 overflow-hidden relative bg-gradient-to-br from-rose-600 to-rose-800">
+                <div className="absolute inset-0 bg-rose-900/20 z-10 group-hover:bg-rose-900/10 transition-colors duration-300"></div>
                 <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2 text-white">
                   <Heart size={20} className="text-rose-300" />
                   <span className="font-bold tracking-wide">Stem and Biotech</span>

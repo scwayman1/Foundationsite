@@ -10,7 +10,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[url('/coastline-speaker-close.jpg')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
         
         <div className="container relative z-10">
@@ -137,9 +137,9 @@ export default function Home() {
             <div className="w-full md:w-1/2 relative">
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-blue-100 rounded-full z-0"></div>
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-teal-50 rounded-full z-0"></div>
-              <img 
-                src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                alt="Students collaborating" 
+              <img
+                src="/coastline-community.jpg"
+                alt="Coastline College community"
                 className="relative z-10 rounded-2xl shadow-2xl w-full object-cover h-[400px]"
               />
               <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl z-20 max-w-xs hidden md:block border border-slate-100">
@@ -248,29 +248,33 @@ export default function Home() {
                 title: "IT & Cybersecurity",
                 desc: "Preparing talent for the booming digital economy with programs in Cybersecurity, Computer Networking, and Software Development.",
                 stat: "33% Job Growth",
-                image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                image: "/coastline-classroom.jpg"
               },
               {
                 title: "Business & Finance",
                 desc: "Serving the Professional and Business Services sector with programs in management, marketing, and finance.",
                 stat: "44% Economic Impact",
-                image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                image: null
               },
               {
                 title: "Healthcare & Biotech",
                 desc: "Aligning with the largest industry in Orange County through health sciences, allied health, and life sciences programs.",
                 stat: "~195k Regional Jobs",
-                image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                image: null
               }
             ].map((program, idx) => (
               <div key={idx} className="group rounded-2xl overflow-hidden bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300">
                 <div className="h-48 overflow-hidden relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent z-10"></div>
-                  <img 
-                    src={program.image} 
-                    alt={program.title} 
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                  />
+                  {program.image ? (
+                    <img
+                      src={program.image}
+                      alt={program.title}
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className={`w-full h-full ${idx === 1 ? 'bg-gradient-to-br from-blue-600 to-blue-800' : 'bg-gradient-to-br from-teal-600 to-teal-800'}`}></div>
+                  )}
                   <div className="absolute bottom-4 left-4 z-20">
                     <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-medium">
                       {program.stat}
@@ -300,7 +304,7 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="py-20 bg-blue-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[url('/coastline-speaker-wide.jpg')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
         <div className="container relative z-10 text-center">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">Ready to Make an Impact?</h2>
           <p className="text-blue-100 text-lg max-w-2xl mx-auto mb-10">
