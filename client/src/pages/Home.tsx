@@ -143,8 +143,19 @@ export default function Home() {
       </section>
 
       {/* KPI Section */}
-      <section className="py-16 bg-slate-50 -mt-10 relative z-20">
-        <div className="container">
+      <section className="py-16 bg-gradient-to-b from-slate-50 to-white -mt-10 relative z-20">
+        {/* Subtle floating orbs */}
+        <motion.div
+          className="absolute top-20 left-10 w-32 h-32 bg-blue-200/30 rounded-full blur-2xl"
+          animate={{ y: [0, -15, 0], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-10 right-20 w-40 h-40 bg-teal-200/20 rounded-full blur-2xl"
+          animate={{ y: [0, 20, 0], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
+        <div className="container relative">
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
             initial="hidden"
@@ -154,24 +165,25 @@ export default function Home() {
           >
             {/* Total Assets Card */}
             <motion.div variants={cardVariant}>
-              <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full">
+              <Card className="glass-card border-white/50 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full relative">
                 <motion.div
-                  className="absolute top-0 left-0 w-1 bg-blue-600"
+                  className="absolute top-0 left-0 w-1.5 bg-gradient-to-b from-blue-500 to-blue-700 rounded-full"
                   initial={{ height: "0%" }}
                   whileInView={{ height: "100%" }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                 />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Assets</CardTitle>
+                  <CardTitle className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Assets</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-3xl font-bold text-slate-900">
+                    <span className="text-3xl font-bold gradient-text-blue">
                       <AnimatedNumber value={4.62} prefix="$" suffix="M" decimals={2} />
                     </span>
                     <motion.span
-                      className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center"
+                      className="text-xs font-medium text-emerald-600 bg-emerald-50/80 backdrop-blur-sm px-2 py-0.5 rounded-full flex items-center border border-emerald-100"
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
@@ -181,31 +193,32 @@ export default function Home() {
                       10.0%
                     </motion.span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">Growth from $4.2M previous year</p>
+                  <p className="text-xs text-slate-500 mt-2">Growth from $4.2M previous year</p>
                 </CardContent>
               </Card>
             </motion.div>
 
             {/* Total Donations Card */}
             <motion.div variants={cardVariant}>
-              <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full">
+              <Card className="glass-card border-white/50 hover:shadow-2xl hover:shadow-teal-500/10 transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full relative">
                 <motion.div
-                  className="absolute top-0 left-0 w-1 bg-teal-500"
+                  className="absolute top-0 left-0 w-1.5 bg-gradient-to-b from-teal-400 to-teal-600 rounded-full"
                   initial={{ height: "0%" }}
                   whileInView={{ height: "100%" }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.3 }}
                 />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-teal-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Donations</CardTitle>
+                  <CardTitle className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Donations</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-3xl font-bold text-slate-900">
+                    <span className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
                       <AnimatedNumber value={363.0} prefix="$" suffix="K" decimals={1} />
                     </span>
                     <motion.span
-                      className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center"
+                      className="text-xs font-medium text-emerald-600 bg-emerald-50/80 backdrop-blur-sm px-2 py-0.5 rounded-full flex items-center border border-emerald-100"
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
@@ -215,31 +228,32 @@ export default function Home() {
                       30.4%
                     </motion.span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">From previous year</p>
+                  <p className="text-xs text-slate-500 mt-2">From previous year</p>
                 </CardContent>
               </Card>
             </motion.div>
 
             {/* Scholarships Awarded Card */}
             <motion.div variants={cardVariant}>
-              <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full">
+              <Card className="glass-card border-white/50 hover:shadow-2xl hover:shadow-amber-500/10 transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full relative">
                 <motion.div
-                  className="absolute top-0 left-0 w-1 bg-amber-500"
+                  className="absolute top-0 left-0 w-1.5 bg-gradient-to-b from-amber-400 to-orange-500 rounded-full"
                   initial={{ height: "0%" }}
                   whileInView={{ height: "100%" }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.4 }}
                 />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Scholarships Awarded</CardTitle>
+                  <CardTitle className="text-sm font-medium text-slate-500 uppercase tracking-wider">Scholarships Awarded</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-3xl font-bold text-slate-900">
+                    <span className="text-3xl font-bold gradient-text-gold">
                       <AnimatedNumber value={384.6} prefix="$" suffix="K" decimals={1} />
                     </span>
                     <motion.span
-                      className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center"
+                      className="text-xs font-medium text-emerald-600 bg-emerald-50/80 backdrop-blur-sm px-2 py-0.5 rounded-full flex items-center border border-emerald-100"
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
@@ -249,7 +263,7 @@ export default function Home() {
                       18.2%
                     </motion.span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">309 awards issued in FY24/25</p>
+                  <p className="text-xs text-slate-500 mt-2">309 awards issued in FY24/25</p>
                   <p className="text-xs text-slate-400 mt-1">Internal: $323,362 • External: $61,215</p>
                 </CardContent>
               </Card>
@@ -257,24 +271,25 @@ export default function Home() {
 
             {/* Students Impacted Card */}
             <motion.div variants={cardVariant}>
-              <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full">
+              <Card className="glass-card border-white/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full relative">
                 <motion.div
-                  className="absolute top-0 left-0 w-1 bg-indigo-500"
+                  className="absolute top-0 left-0 w-1.5 bg-gradient-to-b from-indigo-400 to-purple-600 rounded-full"
                   initial={{ height: "0%" }}
                   whileInView={{ height: "100%" }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.5 }}
                 />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Students Impacted</CardTitle>
+                  <CardTitle className="text-sm font-medium text-slate-500 uppercase tracking-wider">Students Impacted</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-3xl font-bold text-slate-900">
+                    <span className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                       <AnimatedNumber value={208} decimals={0} />
                     </span>
                     <motion.span
-                      className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center"
+                      className="text-xs font-medium text-emerald-600 bg-emerald-50/80 backdrop-blur-sm px-2 py-0.5 rounded-full flex items-center border border-emerald-100"
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
@@ -284,7 +299,7 @@ export default function Home() {
                       38.67%
                     </motion.span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">From previous year</p>
+                  <p className="text-xs text-slate-500 mt-2">From previous year</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -293,7 +308,16 @@ export default function Home() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-20 bg-white overflow-hidden">
+      <section className="py-20 bg-white overflow-hidden relative">
+        {/* Floating gradient orb */}
+        <motion.div
+          className="absolute top-1/4 right-0 w-96 h-96 bg-gradient-to-br from-blue-100/40 to-teal-100/40 rounded-full blur-3xl -z-10"
+          animate={{
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
         <div className="container">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <motion.div
@@ -350,7 +374,7 @@ export default function Home() {
                 className="text-3xl md:text-4xl font-heading font-bold text-slate-900"
                 variants={fadeInUp}
               >
-                Bridging Resource Gaps for <span className="text-blue-600">Student Success</span>
+                Bridging Resource Gaps for <span className="gradient-text-blue">Student Success</span>
               </motion.h2>
               <motion.p
                 className="text-slate-600 leading-relaxed text-lg"
@@ -379,8 +403,19 @@ export default function Home() {
       </section>
 
       {/* Strategic Objectives */}
-      <section className="py-20 bg-slate-50">
-        <div className="container">
+      <section className="py-20 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden">
+        {/* Decorative elements */}
+        <motion.div
+          className="absolute -top-20 -left-20 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -bottom-20 -right-20 w-80 h-80 bg-teal-100/30 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
+        <div className="container relative">
           <motion.div
             className="text-center max-w-3xl mx-auto mb-16"
             initial="hidden"
@@ -392,7 +427,7 @@ export default function Home() {
               className="text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-4"
               variants={fadeInUp}
             >
-              Strategic Objectives
+              Strategic <span className="gradient-text">Objectives</span>
             </motion.h2>
             <motion.p
               className="text-slate-600 text-lg"
@@ -415,41 +450,46 @@ export default function Home() {
                 title: "Strengthen Fundraising and Resource Development",
                 desc: "Diversify funding sources and expand partnerships to increase financial support.",
                 icon: <DollarSign className="w-6 h-6 text-white" />,
-                color: "bg-blue-600"
+                gradient: "from-blue-500 to-blue-700",
+                glow: "group-hover:shadow-blue-500/25"
               },
               {
                 id: 2,
                 title: "Enhance Program Innovation and Student Success",
                 desc: "Develop new programs in emerging fields and expand work-based learning opportunities.",
                 icon: <GraduationCap className="w-6 h-6 text-white" />,
-                color: "bg-teal-500"
+                gradient: "from-teal-400 to-teal-600",
+                glow: "group-hover:shadow-teal-500/25"
               },
               {
                 id: 3,
                 title: "Strengthen Outreach and Community Engagement",
                 desc: "Increase Coastline's visibility and forge stronger community connections.",
                 icon: <Users className="w-6 h-6 text-white" />,
-                color: "bg-indigo-500"
+                gradient: "from-indigo-500 to-purple-600",
+                glow: "group-hover:shadow-indigo-500/25"
               },
               {
                 id: 4,
                 title: "Enhance Industry Engagement and Workforce Impact",
                 desc: "Deepen relationships with employers and align programs to labor market needs.",
                 icon: <Briefcase className="w-6 h-6 text-white" />,
-                color: "bg-amber-500"
+                gradient: "from-amber-400 to-orange-500",
+                glow: "group-hover:shadow-amber-500/25"
               }
             ].map((item) => (
               <motion.div
                 key={item.id}
-                className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex items-start gap-6 group cursor-default"
+                className={`glass-card p-8 rounded-2xl hover:shadow-2xl transition-all duration-300 border-white/60 flex items-start gap-6 group cursor-default ${item.glow}`}
                 variants={cardVariant}
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
               >
                 <motion.div
-                  className={`flex-shrink-0 w-14 h-14 rounded-xl ${item.color} flex items-center justify-center shadow-lg`}
+                  className={`flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-lg relative overflow-hidden`}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
                   {item.icon}
                 </motion.div>
                 <div>
