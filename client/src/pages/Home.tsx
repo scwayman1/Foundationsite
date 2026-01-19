@@ -2,6 +2,63 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, TrendingUp, TrendingDown, Users, GraduationCap, DollarSign, Briefcase } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import { motion, useInView, useSpring, useTransform } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+
+// Animated counter component for KPIs
+function AnimatedNumber({ value, prefix = "", suffix = "", decimals = 0 }: { value: number; prefix?: string; suffix?: string; decimals?: number }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const spring = useSpring(0, { duration: 2000, bounce: 0 });
+  const display = useTransform(spring, (current) =>
+    `${prefix}${current.toFixed(decimals)}${suffix}`
+  );
+  const [displayValue, setDisplayValue] = useState(`${prefix}0${suffix}`);
+
+  useEffect(() => {
+    if (isInView) {
+      spring.set(value);
+    }
+  }, [isInView, spring, value]);
+
+  useEffect(() => {
+    return display.on("change", (latest) => setDisplayValue(latest));
+  }, [display]);
+
+  return <span ref={ref}>{displayValue}</span>;
+}
+
+// Reusable fade-in animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 }
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" as const }
+  }
+};
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -12,164 +69,311 @@ export default function Home() {
       <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
         <div className="absolute inset-0 bg-[url('/coastline-speaker-close.jpg')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
-        
+
         <div className="container relative z-10">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-medium mb-4 backdrop-blur-sm">
+          <motion.div
+            className="max-w-3xl mx-auto text-center space-y-6"
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+          >
+            <motion.div
+              className="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-medium mb-4 backdrop-blur-sm"
+              variants={fadeInUp}
+              transition={{ duration: 0.6 }}
+            >
               <span className="flex h-2 w-2 rounded-full bg-blue-400 mr-2 animate-pulse"></span>
               Empowering Future Leaders
-            </div>
-            <h1 className="text-4xl md:text-6xl font-heading font-bold leading-tight tracking-tight">
+            </motion.div>
+            <motion.h1
+              className="text-4xl md:text-6xl font-heading font-bold leading-tight tracking-tight"
+              variants={fadeInUp}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
               Investing in <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-400">Student Success</span>
-            </h1>
-            <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            </motion.h1>
+            <motion.p
+              className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed"
+              variants={fadeInUp}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               Supporting students through scholarships, endowments, and innovative financial programs that expand Coastline's capacity to meet student and community needs.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Button 
-                size="lg" 
-                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white border-none shadow-lg shadow-blue-900/20 transition-all hover:scale-105"
+            </motion.p>
+            <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+              variants={fadeInUp}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <Button
+                size="lg"
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white border-none shadow-lg shadow-blue-900/20 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25"
                 onClick={() => setLocation("/strategic-plan")}
               >
                 View Strategic Plan
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="w-full sm:w-auto border-white/20 bg-white/5 hover:bg-white/10 text-white backdrop-blur-sm transition-all hover:scale-105"
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full sm:w-auto border-white/20 bg-white/5 hover:bg-white/10 text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-white/40"
                 onClick={() => setLocation("/dashboard")}
               >
                 Board Dashboard
               </Button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-        
-        {/* Abstract shapes */}
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl"></div>
+
+        {/* Animated abstract shapes */}
+        <motion.div
+          className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute top-0 right-0 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.2, 0.1]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
       </section>
 
       {/* KPI Section */}
       <section className="py-16 bg-slate-50 -mt-10 relative z-20">
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Total Assets Card - Updated */}
-            <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group">
-              <div className="absolute top-0 left-0 w-1 h-full bg-blue-600 group-hover:h-full transition-all duration-300"></div>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Assets</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline space-x-2">
-                  <span className="text-3xl font-bold text-slate-900">$4.62M</span>
-                  <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center">
-                    <TrendingUp size={12} className="mr-1" />
-                    10.0%
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">Growth from $4.2M previous year</p>
-              </CardContent>
-            </Card>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={staggerContainer}
+          >
+            {/* Total Assets Card */}
+            <motion.div variants={cardVariant}>
+              <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full">
+                <motion.div
+                  className="absolute top-0 left-0 w-1 bg-blue-600"
+                  initial={{ height: "0%" }}
+                  whileInView={{ height: "100%" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Assets</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-3xl font-bold text-slate-900">
+                      <AnimatedNumber value={4.62} prefix="$" suffix="M" decimals={2} />
+                    </span>
+                    <motion.span
+                      className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 }}
+                    >
+                      <TrendingUp size={12} className="mr-1" />
+                      10.0%
+                    </motion.span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">Growth from $4.2M previous year</p>
+                </CardContent>
+              </Card>
+            </motion.div>
 
             {/* Total Donations Card */}
-            <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group">
-              <div className="absolute top-0 left-0 w-1 h-full bg-teal-500 group-hover:h-full transition-all duration-300"></div>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Donations</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline space-x-2">
-                  <span className="text-3xl font-bold text-slate-900">$363.0K</span>
-                  <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center">
-                    <TrendingUp size={12} className="mr-1" />
-                    30.4%
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">From previous year</p>
-              </CardContent>
-            </Card>
+            <motion.div variants={cardVariant}>
+              <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full">
+                <motion.div
+                  className="absolute top-0 left-0 w-1 bg-teal-500"
+                  initial={{ height: "0%" }}
+                  whileInView={{ height: "100%" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                />
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Donations</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-3xl font-bold text-slate-900">
+                      <AnimatedNumber value={363.0} prefix="$" suffix="K" decimals={1} />
+                    </span>
+                    <motion.span
+                      className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.6 }}
+                    >
+                      <TrendingUp size={12} className="mr-1" />
+                      30.4%
+                    </motion.span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">From previous year</p>
+                </CardContent>
+              </Card>
+            </motion.div>
 
             {/* Scholarships Awarded Card */}
-            <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group">
-              <div className="absolute top-0 left-0 w-1 h-full bg-amber-500 group-hover:h-full transition-all duration-300"></div>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Scholarships Awarded</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline space-x-2">
-                  <span className="text-3xl font-bold text-slate-900">$384.6K</span>
-                  <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center">
-                    <TrendingUp size={12} className="mr-1" />
-                    18.2%
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">309 awards issued in FY24/25</p>
-                <p className="text-xs text-slate-400 mt-1">Internal: $323,362 • External: $61,215</p>
-              </CardContent>
-            </Card>
+            <motion.div variants={cardVariant}>
+              <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full">
+                <motion.div
+                  className="absolute top-0 left-0 w-1 bg-amber-500"
+                  initial={{ height: "0%" }}
+                  whileInView={{ height: "100%" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                />
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Scholarships Awarded</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-3xl font-bold text-slate-900">
+                      <AnimatedNumber value={384.6} prefix="$" suffix="K" decimals={1} />
+                    </span>
+                    <motion.span
+                      className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.7 }}
+                    >
+                      <TrendingUp size={12} className="mr-1" />
+                      18.2%
+                    </motion.span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">309 awards issued in FY24/25</p>
+                  <p className="text-xs text-slate-400 mt-1">Internal: $323,362 • External: $61,215</p>
+                </CardContent>
+              </Card>
+            </motion.div>
 
             {/* Students Impacted Card */}
-            <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group">
-              <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500 group-hover:h-full transition-all duration-300"></div>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Students Impacted</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline space-x-2">
-                  <span className="text-3xl font-bold text-slate-900">208</span>
-                  <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center">
-                    <TrendingUp size={12} className="mr-1" />
-                    38.67%
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">From previous year</p>
-              </CardContent>
-            </Card>
-          </div>
+            <motion.div variants={cardVariant}>
+              <Card className="border-none shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group h-full">
+                <motion.div
+                  className="absolute top-0 left-0 w-1 bg-indigo-500"
+                  initial={{ height: "0%" }}
+                  whileInView={{ height: "100%" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                />
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Students Impacted</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-3xl font-bold text-slate-900">
+                      <AnimatedNumber value={208} decimals={0} />
+                    </span>
+                    <motion.span
+                      className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.8 }}
+                    >
+                      <TrendingUp size={12} className="mr-1" />
+                      38.67%
+                    </motion.span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">From previous year</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Mission Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white overflow-hidden">
         <div className="container">
           <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="w-full md:w-1/2 relative">
-              <div className="absolute -top-4 -left-4 w-24 h-24 bg-blue-100 rounded-full z-0"></div>
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-teal-50 rounded-full z-0"></div>
-              <img
+            <motion.div
+              className="w-full md:w-1/2 relative"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+            >
+              <motion.div
+                className="absolute -top-4 -left-4 w-24 h-24 bg-blue-100 rounded-full z-0"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div
+                className="absolute -bottom-4 -right-4 w-32 h-32 bg-teal-50 rounded-full z-0"
+                animate={{ scale: [1, 1.15, 1] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              />
+              <motion.img
                 src="/coastline-community.jpg"
                 alt="Coastline College community"
                 className="relative z-10 rounded-2xl shadow-2xl w-full object-cover h-[400px]"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
               />
-              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl z-20 max-w-xs hidden md:block border border-slate-100">
-                <p className="font-heading font-bold text-4xl text-blue-600 mb-1">1985</p>
+              <motion.div
+                className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl z-20 max-w-xs hidden md:block border border-slate-100"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <p className="font-heading font-bold text-4xl text-blue-600 mb-1">
+                  <AnimatedNumber value={1985} decimals={0} />
+                </p>
                 <p className="text-sm text-slate-600 font-medium">Established to support student success</p>
-              </div>
-            </div>
-            <div className="w-full md:w-1/2 space-y-6">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-sm font-medium">
+              </motion.div>
+            </motion.div>
+            <motion.div
+              className="w-full md:w-1/2 space-y-6"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainer}
+            >
+              <motion.div
+                className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-sm font-medium"
+                variants={fadeInUp}
+              >
                 Our Mission
-              </div>
-              <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900">
+              </motion.div>
+              <motion.h2
+                className="text-3xl md:text-4xl font-heading font-bold text-slate-900"
+                variants={fadeInUp}
+              >
                 Bridging Resource Gaps for <span className="text-blue-600">Student Success</span>
-              </h2>
-              <p className="text-slate-600 leading-relaxed text-lg">
+              </motion.h2>
+              <motion.p
+                className="text-slate-600 leading-relaxed text-lg"
+                variants={fadeInUp}
+              >
                 The Coastline College Foundation embodies an entrepreneurial spirit as the college's charitable arm. Our mission is to support students through scholarships, endowments, and innovative financial programs that expand Coastline's capacity to meet student and community needs.
-              </p>
-              <p className="text-slate-600 leading-relaxed">
+              </motion.p>
+              <motion.p
+                className="text-slate-600 leading-relaxed"
+                variants={fadeInUp}
+              >
                 In alignment with Coastline's core values of accessibility and upward mobility, the Foundation's role is to bridge resource gaps – empowering students to become impactful contributors to society – and to foster the innovative, "no barriers" ethos of the college.
-              </p>
-              <div className="pt-4">
-                <Button 
-                  variant="outline" 
-                  className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-300"
+              </motion.p>
+              <motion.div className="pt-4" variants={fadeInUp}>
+                <Button
+                  variant="outline"
+                  className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-300 transition-all duration-300 hover:scale-105"
                   onClick={() => setLocation("/about")}
                 >
                   Learn More About Us <ArrowRight size={16} className="ml-2" />
                 </Button>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -177,12 +381,34 @@ export default function Home() {
       {/* Strategic Objectives */}
       <section className="py-20 bg-slate-50">
         <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-4">Strategic Objectives</h2>
-            <p className="text-slate-600 text-lg">Our roadmap for the future focuses on four key pillars designed to maximize impact and sustainability.</p>
-          </div>
+          <motion.div
+            className="text-center max-w-3xl mx-auto mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.h2
+              className="text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-4"
+              variants={fadeInUp}
+            >
+              Strategic Objectives
+            </motion.h2>
+            <motion.p
+              className="text-slate-600 text-lg"
+              variants={fadeInUp}
+            >
+              Our roadmap for the future focuses on four key pillars designed to maximize impact and sustainability.
+            </motion.p>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={staggerContainer}
+          >
             {[
               {
                 id: 1,
@@ -213,36 +439,59 @@ export default function Home() {
                 color: "bg-amber-500"
               }
             ].map((item) => (
-              <div key={item.id} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 flex items-start gap-6 group">
-                <div className={`flex-shrink-0 w-14 h-14 rounded-xl ${item.color} flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300`}>
+              <motion.div
+                key={item.id}
+                className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex items-start gap-6 group cursor-default"
+                variants={cardVariant}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              >
+                <motion.div
+                  className={`flex-shrink-0 w-14 h-14 rounded-xl ${item.color} flex items-center justify-center shadow-lg`}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
                   {item.icon}
-                </div>
+                </motion.div>
                 <div>
-                  <h3 className="text-xl font-heading font-bold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors">{item.title}</h3>
+                  <h3 className="text-xl font-heading font-bold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors duration-300">{item.title}</h3>
                   <p className="text-slate-600 leading-relaxed">{item.desc}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Program Areas */}
       <section className="py-20 bg-white">
         <div className="container">
-          <div className="flex justify-between items-end mb-12">
-            <div>
+          <motion.div
+            className="flex justify-between items-end mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeInUp}>
               <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-2">Program Areas</h2>
               <p className="text-slate-600">Targeted initiatives aligned with industry needs</p>
-            </div>
-            <Link href="/programs">
-              <Button variant="ghost" className="hidden md:flex text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-                View All Programs <ArrowRight size={16} className="ml-2" />
-              </Button>
-            </Link>
-          </div>
+            </motion.div>
+            <motion.div variants={fadeInUp}>
+              <Link href="/programs">
+                <Button variant="ghost" className="hidden md:flex text-blue-600 hover:text-blue-700 hover:bg-blue-50 transition-all duration-300 hover:scale-105">
+                  View All Programs <ArrowRight size={16} className="ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={staggerContainer}
+          >
             {[
               {
                 title: "IT & Cybersecurity",
@@ -263,66 +512,135 @@ export default function Home() {
                 image: null
               }
             ].map((program, idx) => (
-              <div key={idx} className="group rounded-2xl overflow-hidden bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300">
+              <motion.div
+                key={idx}
+                className="group rounded-2xl overflow-hidden bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-shadow duration-300"
+                variants={cardVariant}
+                whileHover={{ y: -8 }}
+                transition={{ duration: 0.3 }}
+              >
                 <div className="h-48 overflow-hidden relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent z-10"></div>
                   {program.image ? (
-                    <img
+                    <motion.img
                       src={program.image}
                       alt={program.title}
-                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.5 }}
                     />
                   ) : (
-                    <div className={`w-full h-full ${idx === 1 ? 'bg-gradient-to-br from-blue-600 to-blue-800' : 'bg-gradient-to-br from-teal-600 to-teal-800'}`}></div>
+                    <motion.div
+                      className={`w-full h-full ${idx === 1 ? 'bg-gradient-to-br from-blue-600 to-blue-800' : 'bg-gradient-to-br from-teal-600 to-teal-800'}`}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.5 }}
+                    />
                   )}
-                  <div className="absolute bottom-4 left-4 z-20">
+                  <motion.div
+                    className="absolute bottom-4 left-4 z-20"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + idx * 0.1 }}
+                  >
                     <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-medium">
                       {program.stat}
                     </span>
-                  </div>
+                  </motion.div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-heading font-bold text-slate-900 mb-3">{program.title}</h3>
+                  <h3 className="text-xl font-heading font-bold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors duration-300">{program.title}</h3>
                   <p className="text-slate-600 text-sm leading-relaxed mb-4">{program.desc}</p>
                   <Link href="/programs">
-                    <span className="text-blue-600 text-sm font-semibold flex items-center group-hover:translate-x-1 transition-transform cursor-pointer">
+                    <motion.span
+                      className="text-blue-600 text-sm font-semibold flex items-center cursor-pointer"
+                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       Learn more <ArrowRight size={14} className="ml-1" />
-                    </span>
+                    </motion.span>
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
-          
-          <div className="mt-8 text-center md:hidden">
+          </motion.div>
+
+          <motion.div
+            className="mt-8 text-center md:hidden"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
             <Link href="/programs">
               <Button variant="outline" className="w-full">View All Programs</Button>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-20 bg-blue-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/coastline-speaker-wide.jpg')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
-        <div className="container relative z-10 text-center">
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">Ready to Make an Impact?</h2>
-          <p className="text-blue-100 text-lg max-w-2xl mx-auto mb-10">
+
+        {/* Animated background orbs */}
+        <motion.div
+          className="absolute -bottom-32 -left-32 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 20, 0],
+            y: [0, -20, 0]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -top-32 -right-32 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, -30, 0],
+            y: [0, 30, 0]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+
+        <motion.div
+          className="container relative z-10 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+        >
+          <motion.h2
+            className="text-3xl md:text-4xl font-heading font-bold mb-6"
+            variants={fadeInUp}
+          >
+            Ready to Make an Impact?
+          </motion.h2>
+          <motion.p
+            className="text-blue-100 text-lg max-w-2xl mx-auto mb-10"
+            variants={fadeInUp}
+          >
             Join us in shaping the future of education and workforce development. Your support creates opportunities for students and strengthens our community.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          </motion.p>
+          <motion.div
+            className="flex flex-col sm:flex-row justify-center gap-4"
+            variants={fadeInUp}
+          >
             <Link href="/get-involved">
-              <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 font-semibold">
-                Get Involved
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 font-semibold shadow-lg shadow-blue-950/20 transition-all duration-300">
+                  Get Involved
+                </Button>
+              </motion.div>
             </Link>
             <Link href="/about">
-              <Button size="lg" variant="outline" className="border-blue-400 text-blue-100 hover:bg-blue-800 hover:text-white hover:border-white">
-                Learn More
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                <Button size="lg" variant="outline" className="border-blue-400 text-blue-100 hover:bg-blue-800 hover:text-white hover:border-white transition-all duration-300">
+                  Learn More
+                </Button>
+              </motion.div>
             </Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
     </div>
   );
