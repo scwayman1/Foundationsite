@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, TrendingUp, TrendingDown, Users, GraduationCap, DollarSign, Briefcase } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
+import { useCoastlinePhotos } from "@/contexts/PhotoContext";
 
 // Animated counter component for KPIs
 function AnimatedNumber({ value, prefix = "", suffix = "", decimals = 0 }: { value: number; prefix?: string; suffix?: string; decimals?: number }) {
@@ -62,12 +63,43 @@ const cardVariant = {
 
 export default function Home() {
   const [, setLocation] = useLocation();
+  const { getHeroPhoto, getRandomPhoto, getCardPhotos, isReady } = useCoastlinePhotos();
+
+  // Memoize photo selections so they stay stable during the session
+  // Photos will change on page refresh, giving a fresh feel each visit
+  const heroPhoto = useMemo(
+    () => getHeroPhoto("campus-facilities"),
+    [getHeroPhoto]
+  );
+
+  const missionPhoto = useMemo(
+    () => getRandomPhoto("student-success"),
+    [getRandomPhoto]
+  );
+
+  const ctaPhoto = useMemo(
+    () => getHeroPhoto("community-events"),
+    [getHeroPhoto]
+  );
+
+  // Get photos for program cards - each card gets a relevant category
+  const programPhotos = useMemo(() => ({
+    it: getRandomPhoto("student-success"),
+    business: getRandomPhoto("campus-facilities"),
+    healthcare: getRandomPhoto("community-events"),
+  }), [getRandomPhoto]);
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
-        <div className="absolute inset-0 bg-[url('/coastline-speaker-close.jpg')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
+        {/* Dynamic background from Photo Engine */}
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-10 mix-blend-overlay transition-opacity duration-700"
+          style={{
+            backgroundImage: `url('${heroPhoto?.fullUrl || "/coastline-speaker-close.jpg"}')`
+          }}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
 
         <div className="container relative z-10">
@@ -338,8 +370,8 @@ export default function Home() {
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
               />
               <motion.img
-                src="/coastline-community.jpg"
-                alt="Coastline College community"
+                src={missionPhoto?.fullUrl || "/coastline-community.jpg"}
+                alt={missionPhoto?.description || "Coastline College community"}
                 className="relative z-10 rounded-2xl shadow-2xl w-full object-cover h-[400px]"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
@@ -537,19 +569,22 @@ export default function Home() {
                 title: "IT & Cybersecurity",
                 desc: "Preparing talent for the booming digital economy with programs in Cybersecurity, Computer Networking, and Software Development.",
                 stat: "33% Job Growth",
-                image: "/coastline-classroom.jpg"
+                image: programPhotos.it?.fullUrl || "/coastline-classroom.jpg",
+                fallbackGradient: "from-blue-600 to-indigo-800"
               },
               {
                 title: "Business & Finance",
                 desc: "Serving the Professional and Business Services sector with programs in management, marketing, and finance.",
                 stat: "44% Economic Impact",
-                image: null
+                image: programPhotos.business?.fullUrl || null,
+                fallbackGradient: "from-blue-600 to-blue-800"
               },
               {
                 title: "Healthcare & Biotech",
                 desc: "Aligning with the largest industry in Orange County through health sciences, allied health, and life sciences programs.",
                 stat: "~195k Regional Jobs",
-                image: null
+                image: programPhotos.healthcare?.fullUrl || null,
+                fallbackGradient: "from-teal-600 to-teal-800"
               }
             ].map((program, idx) => (
               <motion.div
@@ -571,7 +606,7 @@ export default function Home() {
                     />
                   ) : (
                     <motion.div
-                      className={`w-full h-full ${idx === 1 ? 'bg-gradient-to-br from-blue-600 to-blue-800' : 'bg-gradient-to-br from-teal-600 to-teal-800'}`}
+                      className={`w-full h-full bg-gradient-to-br ${program.fallbackGradient}`}
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.5 }}
                     />
@@ -620,7 +655,13 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="py-20 bg-blue-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/coastline-speaker-wide.jpg')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
+        {/* Dynamic background from Photo Engine */}
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-10 mix-blend-overlay transition-opacity duration-700"
+          style={{
+            backgroundImage: `url('${ctaPhoto?.fullUrl || "/coastline-speaker-wide.jpg"}')`
+          }}
+        />
 
         {/* Animated background orbs */}
         <motion.div
