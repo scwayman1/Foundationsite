@@ -186,11 +186,14 @@ export function PhotoProvider({ children }: PhotoProviderProps) {
   }, [photos]);
 
   // Get multiple photos for cards (shuffled)
+  // If category is empty string, returns from all photos
   const getCardPhotos = useCallback((category: string, count: number): Photo[] => {
-    const categoryPhotos = photos.filter((p) => p.category === category);
+    const pool = category
+      ? photos.filter((p) => p.category === category)
+      : photos;
 
     // Shuffle and take requested count
-    const shuffled = [...categoryPhotos].sort(() => Math.random() - 0.5);
+    const shuffled = [...pool].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, count);
   }, [photos]);
 
