@@ -3,7 +3,8 @@ import { createContext, useContext, useEffect, useState, useCallback, useMemo, R
 // =============================================================================
 // CONFIGURATION
 // =============================================================================
-const PHOTO_SERVER_BASE_URL = "https://coastgallery-aokxqmpi.manus.space";
+// Use local photos served from public folder (no external dependency)
+const PHOTO_SERVER_BASE_URL = "";
 const PHOTO_API_ENDPOINT = "/api/photos.json";
 
 // =============================================================================

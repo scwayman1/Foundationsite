@@ -1,0 +1,157 @@
+{
+  "photos": [
+    {
+      "id": "aeron-z",
+      "url": "/Aeron Z.jpg",
+      "category": "student-success",
+      "description": "Aeron Z - Student Success Story",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "coastline-campus",
+      "url": "/Coastline Campus.jpg",
+      "category": "campus-facilities",
+      "description": "Coastline College Campus",
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "id": "justine-ruby",
+      "url": "/Justine and Ruby.jpg",
+      "category": "community-events",
+      "description": "Justine and Ruby at Foundation Event",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "meribeth-student",
+      "url": "/Meribeth and Student.jpg",
+      "category": "student-success",
+      "description": "Meribeth with Student",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "michelle-anna",
+      "url": "/Michelle and Anna.jpg",
+      "category": "community-events",
+      "description": "Michelle and Anna at Event",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "scholarship-recipients",
+      "url": "/Scholarship Recipients .jpg",
+      "category": "student-success",
+      "description": "Scholarship Recipients Celebration",
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "id": "scott-podium",
+      "url": "/Scott Podium.jpg",
+      "category": "community-events",
+      "description": "Scott Speaking at Podium",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "scott-podium-2",
+      "url": "/Scott Podium2.jpg",
+      "category": "community-events",
+      "description": "Scott at Foundation Event",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "scott-speaking",
+      "url": "/Scott Speaking.jpg",
+      "category": "community-events",
+      "description": "Scott Speaking to Audience",
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "id": "scott-guest",
+      "url": "/Scott and Guest.jpg",
+      "category": "community-events",
+      "description": "Scott with Guest at Event",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "scott-scholarship-family",
+      "url": "/Scott at Scholarship family.jpg",
+      "category": "student-success",
+      "description": "Scott with Scholarship Family",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "tom-student",
+      "url": "/Tom and Student.jpg",
+      "category": "student-success",
+      "description": "Tom with Student",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "coastline-award-1",
+      "url": "/coastline-award-1.jpg",
+      "category": "community-events",
+      "description": "Award Ceremony",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "coastline-award-2",
+      "url": "/coastline-award-2.jpg",
+      "category": "community-events",
+      "description": "Award Presentation",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "coastline-award-3",
+      "url": "/coastline-award-3.jpg",
+      "category": "student-success",
+      "description": "Award Recipient",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "coastline-classroom",
+      "url": "/coastline-classroom.jpg",
+      "category": "campus-facilities",
+      "description": "Coastline College Classroom",
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "id": "coastline-community",
+      "url": "/coastline-community.jpg",
+      "category": "community-events",
+      "description": "Community Gathering",
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "id": "coastline-speaker-close",
+      "url": "/coastline-speaker-close.jpg",
+      "category": "community-events",
+      "description": "Speaker at Foundation Event",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "coastline-speaker-wide",
+      "url": "/coastline-speaker-wide.jpg",
+      "category": "community-events",
+      "description": "Wide Shot of Speaker Event",
+      "width": 1200,
+      "height": 800
+    }
+  ],
+  "categories": ["student-success", "campus-facilities", "community-events"]
+}
