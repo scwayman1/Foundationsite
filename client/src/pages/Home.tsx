@@ -67,27 +67,34 @@ export default function Home() {
 
   // Memoize photo selections so they stay stable during the session
   // Photos will change on page refresh, giving a fresh feel each visit
+  // Uses category-agnostic approach: tries specific category first, falls back to any photo
   const heroPhoto = useMemo(
-    () => getHeroPhoto("campus-facilities"),
-    [getHeroPhoto]
+    () => getHeroPhoto() || getRandomPhoto(),
+    [getHeroPhoto, getRandomPhoto]
   );
 
   const missionPhoto = useMemo(
-    () => getRandomPhoto("student-success"),
+    () => getRandomPhoto(),
     [getRandomPhoto]
   );
 
   const ctaPhoto = useMemo(
-    () => getHeroPhoto("community-events"),
-    [getHeroPhoto]
+    () => getHeroPhoto() || getRandomPhoto(),
+    [getHeroPhoto, getRandomPhoto]
   );
 
-  // Get photos for program cards - each card gets a relevant category
-  const programPhotos = useMemo(() => ({
-    it: getRandomPhoto("student-success"),
-    business: getRandomPhoto("campus-facilities"),
-    healthcare: getRandomPhoto("community-events"),
-  }), [getRandomPhoto]);
+  // Get photos for program cards - distribute unique photos across cards
+  const programPhotos = useMemo(() => {
+    // Use getCardPhotos to get 3 shuffled unique photos
+    // Pass empty string to get from all categories
+    const cardPhotos = getCardPhotos("", 3);
+
+    return {
+      it: cardPhotos[0] || null,
+      business: cardPhotos[1] || null,
+      healthcare: cardPhotos[2] || null,
+    };
+  }, [getCardPhotos]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -569,22 +576,19 @@ export default function Home() {
                 title: "IT & Cybersecurity",
                 desc: "Preparing talent for the booming digital economy with programs in Cybersecurity, Computer Networking, and Software Development.",
                 stat: "33% Job Growth",
-                image: programPhotos.it?.fullUrl || "/coastline-classroom.jpg",
-                fallbackGradient: "from-blue-600 to-indigo-800"
+                image: programPhotos.it?.fullUrl || "/coastline-classroom.jpg"
               },
               {
                 title: "Business & Finance",
                 desc: "Serving the Professional and Business Services sector with programs in management, marketing, and finance.",
                 stat: "44% Economic Impact",
-                image: programPhotos.business?.fullUrl || null,
-                fallbackGradient: "from-blue-600 to-blue-800"
+                image: programPhotos.business?.fullUrl || "/coastline-community.jpg"
               },
               {
                 title: "Healthcare & Biotech",
                 desc: "Aligning with the largest industry in Orange County through health sciences, allied health, and life sciences programs.",
                 stat: "~195k Regional Jobs",
-                image: programPhotos.healthcare?.fullUrl || null,
-                fallbackGradient: "from-teal-600 to-teal-800"
+                image: programPhotos.healthcare?.fullUrl || "/coastline-speaker-close.jpg"
               }
             ].map((program, idx) => (
               <motion.div
@@ -596,21 +600,13 @@ export default function Home() {
               >
                 <div className="h-48 overflow-hidden relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent z-10"></div>
-                  {program.image ? (
-                    <motion.img
-                      src={program.image}
-                      alt={program.title}
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.5 }}
-                    />
-                  ) : (
-                    <motion.div
-                      className={`w-full h-full bg-gradient-to-br ${program.fallbackGradient}`}
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.5 }}
-                    />
-                  )}
+                  <motion.img
+                    src={program.image}
+                    alt={program.title}
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.5 }}
+                  />
                   <motion.div
                     className="absolute bottom-4 left-4 z-20"
                     initial={{ opacity: 0, y: 10 }}
