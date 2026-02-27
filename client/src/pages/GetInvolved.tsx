@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Handshake, Users, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { Heart, Handshake, Users, Mail, Phone, MapPin, ArrowRight, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -25,6 +26,47 @@ const cardVariant = {
 };
 
 export default function GetInvolved() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    message: "",
+  });
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [statusMessage, setStatusMessage] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("sending");
+    setStatusMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setStatus("success");
+        setStatusMessage(data.message || "Your message has been sent successfully!");
+        setFormData({ firstName: "", lastName: "", email: "", message: "" });
+      } else {
+        setStatus("error");
+        setStatusMessage(data.error || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setStatus("error");
+      setStatusMessage("Unable to send your message. Please email us directly at foundation@cccd.edu.");
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* ── Hero Section ── */}
@@ -180,8 +222,8 @@ export default function GetInvolved() {
                     <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/[0.06] flex items-center justify-center text-blue-300">
                       <Mail size={18} />
                     </div>
-                    <a href="mailto:foundation@coastline.edu" className="text-slate-300 hover:text-white transition-colors">
-                      foundation@coastline.edu
+                    <a href="mailto:foundation@cccd.edu" className="text-slate-300 hover:text-white transition-colors">
+                      foundation@cccd.edu
                     </a>
                   </div>
                   <div className="flex items-start gap-4">
@@ -199,47 +241,120 @@ export default function GetInvolved() {
 
             {/* Right: Contact Form */}
             <div className="md:w-7/12 p-10 md:p-14 bg-white">
-              <form className="space-y-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-2">
-                    <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">First Name</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-[#fafbfd] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm"
-                      placeholder="Jane"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">Last Name</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-[#fafbfd] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm"
-                      placeholder="Doe"
-                    />
-                  </div>
-                </div>
+              <AnimatePresence mode="wait">
+                {status === "success" ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="flex flex-col items-center justify-center h-full text-center py-12"
+                  >
+                    <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mb-6">
+                      <CheckCircle className="w-8 h-8 text-green-500" />
+                    </div>
+                    <h3 className="text-2xl font-heading font-bold text-slate-900 mb-3">Message Sent!</h3>
+                    <p className="text-slate-400 mb-8 max-w-sm">{statusMessage}</p>
+                    <Button
+                      onClick={() => setStatus("idle")}
+                      variant="outline"
+                      className="rounded-xl px-6 py-3 border-slate-200 text-slate-600 hover:bg-slate-50"
+                    >
+                      Send Another Message
+                    </Button>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="space-y-5"
+                    onSubmit={handleSubmit}
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="space-y-2">
+                        <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">First Name</label>
+                        <input
+                          type="text"
+                          name="firstName"
+                          value={formData.firstName}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-[#fafbfd] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm"
+                          placeholder="Jane"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">Last Name</label>
+                        <input
+                          type="text"
+                          name="lastName"
+                          value={formData.lastName}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-[#fafbfd] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm"
+                          placeholder="Doe"
+                        />
+                      </div>
+                    </div>
 
-                <div className="space-y-2">
-                  <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">Email Address</label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-[#fafbfd] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm"
-                    placeholder="jane@example.com"
-                  />
-                </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">Email Address</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-[#fafbfd] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm"
+                        placeholder="jane@example.com"
+                      />
+                    </div>
 
-                <div className="space-y-2">
-                  <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">Message</label>
-                  <textarea
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-[#fafbfd] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all h-32 resize-none text-sm"
-                    placeholder="How would you like to get involved?"
-                  />
-                </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.08em]">Message</label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200/80 bg-[#fafbfd] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all h-32 resize-none text-sm"
+                        placeholder="How would you like to get involved?"
+                      />
+                    </div>
 
-                <Button className="w-full bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/15 py-6 rounded-xl text-[15px] font-semibold btn-premium">
-                  Send Message <ArrowRight size={16} className="ml-2" />
-                </Button>
-              </form>
+                    {/* Error message */}
+                    {status === "error" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex items-center gap-3 p-4 rounded-xl bg-red-50 border border-red-100 text-sm text-red-600"
+                      >
+                        <AlertCircle size={18} className="flex-shrink-0" />
+                        <span>{statusMessage}</span>
+                      </motion.div>
+                    )}
+
+                    <Button
+                      type="submit"
+                      disabled={status === "sending"}
+                      className="w-full bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/15 py-6 rounded-xl text-[15px] font-semibold btn-premium disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      {status === "sending" ? (
+                        <>
+                          <Loader2 size={16} className="mr-2 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          Send Message <ArrowRight size={16} className="ml-2" />
+                        </>
+                      )}
+                    </Button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         </div>
