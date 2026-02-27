@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Search, Filter, Edit2, Save, X, Building2, User, Calendar, CheckCircle, AlertCircle, Clock } from "lucide-react";
+import { Search, Filter, Edit2, Save, Building2, User, Calendar, CheckCircle, AlertCircle, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
 
 // Organization data type

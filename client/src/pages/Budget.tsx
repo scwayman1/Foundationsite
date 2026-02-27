@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { BarChart3, DollarSign, TrendingUp, PieChart, ArrowUpRight, FileText } from "lucide-react";
 
 export default function Budget() {
