@@ -54,10 +54,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               whileHover={{ scale: 1.01 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-600/20 group-hover:shadow-blue-600/30 transition-all duration-300">
-                <span className="font-heading font-bold text-lg">C</span>
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent" />
-              </div>
+              <img 
+                src="/coastline-shield-primary.svg" 
+                alt="Coastline College" 
+                className="w-10 h-10 object-contain flex-shrink-0"
+              />
               <div className="flex flex-col">
                 <span className="font-heading font-bold text-[15px] leading-tight text-slate-900 tracking-tight">Coastline College</span>
                 <span className="text-[11px] font-semibold text-slate-400 tracking-[0.08em] uppercase">Foundation</span>
@@ -186,9 +187,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {/* Brand Column */}
             <div className="md:col-span-5">
               <div className="flex items-center gap-3 mb-5">
-                <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-600/20">
-                  <span className="font-heading font-bold text-base">C</span>
-                </div>
+                <img 
+                  src="/coastline-shield-white.svg" 
+                  alt="Coastline College" 
+                  className="w-9 h-9 object-contain flex-shrink-0"
+                />
                 <div>
                   <span className="font-heading font-bold text-white text-sm tracking-tight">Coastline College Foundation</span>
                 </div>

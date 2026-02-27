@@ -102,8 +102,8 @@ export default function Home() {
             transition={{ duration: 1.5, ease: "easeOut" }}
           />
           {/* Multi-layer gradient overlay for depth */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/90 via-[#0A1628]/75 to-[#0A1628]/95" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/70 via-[#0A1628]/50 to-[#0A1628]/75" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/40 to-transparent" />
         </div>
 
         {/* Ambient glow orbs */}

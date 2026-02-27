@@ -31,8 +31,8 @@ export default function About() {
       {/* ── Hero Section ── */}
       <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('/coastline-award-1.jpg')] bg-cover bg-center" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/90 via-[#0A1628]/75 to-[#0A1628]/95" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/70 via-[#0A1628]/50 to-[#0A1628]/75" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/40 to-transparent" />
         <div className="absolute inset-0 dot-grid opacity-[0.04]" />
         <div className="absolute top-1/3 -left-32 w-[500px] h-[500px] bg-blue-600/[0.06] rounded-full blur-[120px]" />
 
