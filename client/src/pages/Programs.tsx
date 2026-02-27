@@ -1,200 +1,266 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Shield, Briefcase, Heart, Cpu, Palette, Scale, CheckCircle } from "lucide-react";
+import { ArrowRight, TrendingUp, Users, Briefcase, GraduationCap, ChevronRight, Building2, Cpu, HeartPulse, Wrench, Leaf, Globe } from "lucide-react";
 import { Link } from "wouter";
+import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { useCoastlinePhotos } from "@/contexts/PhotoContext";
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 }
+  }
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 32, scale: 0.97 },
+  visible: {
+    opacity: 1, y: 0, scale: 1,
+    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }
+  }
+};
 
 export default function Programs() {
+  const { getCardPhotos } = useCoastlinePhotos();
+
+  const programPhotos = useMemo(() => {
+    return getCardPhotos("", 6);
+  }, [getCardPhotos]);
+
+  const programs = [
+    {
+      title: "IT & Cybersecurity",
+      desc: "Preparing talent for the booming digital economy with programs in Cybersecurity, Computer Networking, and Software Development.",
+      stat: "33% Job Growth",
+      statDetail: "Projected growth in cybersecurity roles by 2032",
+      icon: <Cpu className="w-5 h-5" />,
+      gradient: "from-blue-500 to-blue-600",
+      photo: programPhotos[0]?.fullUrl || "/coastline-classroom.jpg"
+    },
+    {
+      title: "Business & Finance",
+      desc: "Serving the Professional and Business Services sector with programs in management, marketing, and finance.",
+      stat: "44% Economic Impact",
+      statDetail: "Contribution to Orange County's service economy",
+      icon: <Building2 className="w-5 h-5" />,
+      gradient: "from-teal-400 to-teal-500",
+      photo: programPhotos[1]?.fullUrl || "/coastline-community.jpg"
+    },
+    {
+      title: "Healthcare & Biotech",
+      desc: "Aligning with the largest industry in Orange County through health sciences, allied health, and life sciences programs.",
+      stat: "~195k Regional Jobs",
+      statDetail: "Healthcare sector employment in Orange County",
+      icon: <HeartPulse className="w-5 h-5" />,
+      gradient: "from-rose-400 to-rose-500",
+      photo: programPhotos[2]?.fullUrl || "/coastline-speaker-close.jpg"
+    },
+    {
+      title: "Advanced Manufacturing",
+      desc: "Supporting the manufacturing sector with programs in process technology, supply chain management, and quality assurance.",
+      stat: "High Demand",
+      statDetail: "Critical workforce pipeline for regional manufacturers",
+      icon: <Wrench className="w-5 h-5" />,
+      gradient: "from-amber-400 to-orange-500",
+      photo: programPhotos[3]?.fullUrl || "/coastline-classroom.jpg"
+    },
+    {
+      title: "Sustainability & Green Tech",
+      desc: "Preparing students for the growing green economy with programs in environmental science and sustainable practices.",
+      stat: "Emerging Field",
+      statDetail: "Growing demand for sustainability professionals",
+      icon: <Leaf className="w-5 h-5" />,
+      gradient: "from-emerald-400 to-emerald-500",
+      photo: programPhotos[4]?.fullUrl || "/coastline-community.jpg"
+    },
+    {
+      title: "Global Trade & Logistics",
+      desc: "Leveraging Orange County's position as a trade hub with programs in international business and supply chain logistics.",
+      stat: "Strategic Location",
+      statDetail: "Proximity to major ports and international markets",
+      icon: <Globe className="w-5 h-5" />,
+      gradient: "from-violet-400 to-purple-500",
+      photo: programPhotos[5]?.fullUrl || "/coastline-speaker-close.jpg"
+    }
+  ];
+
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-amber-500 to-orange-600 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/coastline-classroom.jpg')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
-        <div className="container relative z-10">
+      {/* ── Hero Section ── */}
+      <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/coastline-classroom.jpg')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/90 via-[#0A1628]/75 to-[#0A1628]/95" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/70 to-transparent" />
+        <div className="absolute inset-0 dot-grid opacity-[0.04]" />
+        <div className="absolute bottom-1/3 right-0 w-[500px] h-[500px] bg-teal-500/[0.05] rounded-full blur-[120px]" />
+
+        <motion.div
+          className="container relative z-10"
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+        >
           <div className="max-w-3xl">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/20 border border-white/30 text-white text-sm font-medium mb-6 backdrop-blur-sm">
-              Academic Excellence
-            </div>
-            <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 leading-tight">
-              Programs that <span className="text-amber-200">Shape the Future</span>
-            </h1>
-            <p className="text-xl text-white/90 leading-relaxed max-w-2xl">
-              Targeted initiatives aligned with industry needs, preparing students for success in the evolving global economy.
-            </p>
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] border border-white/[0.08] backdrop-blur-xl mb-6"
+              variants={fadeInUp}
+            >
+              <span className="text-[13px] font-medium text-blue-200/90 tracking-wide">Academic Excellence</span>
+            </motion.div>
+            <motion.h1
+              className="text-4xl md:text-6xl font-heading font-bold mb-6 leading-[1.08]"
+              variants={fadeInUp}
+            >
+              Program Areas &{" "}
+              <span className="gradient-text-hero">Industry Alignment</span>
+            </motion.h1>
+            <motion.p
+              className="text-lg md:text-xl text-slate-300/90 leading-relaxed max-w-2xl"
+              variants={fadeInUp}
+            >
+              Our programs are strategically aligned with Orange County's key industry sectors, ensuring students graduate with skills that match workforce demands.
+            </motion.p>
           </div>
-        </div>
+        </motion.div>
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#fafbfd] to-transparent" />
       </section>
 
-      {/* Flagship Programs */}
-      <section className="py-20 bg-white">
+      {/* ── Industry Alignment Stats ── */}
+      <section className="relative -mt-12 z-20 pb-16">
         <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-4">Flagship Programs</h2>
-            <p className="text-slate-600 text-lg">Our most impactful areas of study designed for high-demand careers.</p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* IT & Cybersecurity */}
-            <Card className="border-none shadow-xl overflow-hidden group h-full flex flex-col">
-              <div className="h-48 overflow-hidden relative">
-                <div className="absolute inset-0 bg-blue-900/60 z-10 group-hover:bg-blue-900/40 transition-colors duration-300"></div>
-                <img 
-                  src="/coastline-classroom.jpg" 
-                  alt="Cybersecurity" 
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2 text-white">
-                  <Shield size={20} className="text-blue-300" />
-                  <span className="font-bold tracking-wide">IT & Cybersecurity</span>
-                </div>
-              </div>
-              <CardContent className="p-6 flex-1 flex flex-col">
-                <p className="text-slate-600 mb-6 flex-1">
-                  Preparing talent for the booming digital economy with programs in Cybersecurity, Computer Networking, and Software Development.
-                </p>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <CheckCircle size={16} className="text-blue-500" />
-                    <span>33% Job Growth (2023-2033)</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <CheckCircle size={16} className="text-blue-500" />
-                    <span>Industry Certifications</span>
-                  </div>
-                </div>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">Learn More</Button>
-              </CardContent>
-            </Card>
-
-            {/* Business & Finance */}
-            <Card className="border-none shadow-xl overflow-hidden group h-full flex flex-col">
-              <div className="h-48 overflow-hidden relative bg-gradient-to-br from-teal-600 to-teal-800">
-                <div className="absolute inset-0 bg-teal-900/20 z-10 group-hover:bg-teal-900/10 transition-colors duration-300"></div>
-                <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2 text-white">
-                  <Briefcase size={20} className="text-teal-300" />
-                  <span className="font-bold tracking-wide">Business & Finance</span>
-                </div>
-              </div>
-              <CardContent className="p-6 flex-1 flex flex-col">
-                <p className="text-slate-600 mb-6 flex-1">
-                  Serving the Professional and Business Services sector with programs in management, marketing, and finance.
-                </p>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <CheckCircle size={16} className="text-teal-500" />
-                    <span>44% Economic Impact</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <CheckCircle size={16} className="text-teal-500" />
-                    <span>Entrepreneurship Focus</span>
-                  </div>
-                </div>
-                <Button className="w-full bg-teal-600 hover:bg-teal-700">Learn More</Button>
-              </CardContent>
-            </Card>
-
-            {/* Healthcare */}
-            <Card className="border-none shadow-xl overflow-hidden group h-full flex flex-col">
-              <div className="h-48 overflow-hidden relative bg-gradient-to-br from-rose-600 to-rose-800">
-                <div className="absolute inset-0 bg-rose-900/20 z-10 group-hover:bg-rose-900/10 transition-colors duration-300"></div>
-                <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2 text-white">
-                  <Heart size={20} className="text-rose-300" />
-                  <span className="font-bold tracking-wide">Stem and Biotech</span>
-                </div>
-              </div>
-              <CardContent className="p-6 flex-1 flex flex-col">
-                <p className="text-slate-600 mb-6 flex-1">
-                  Aligning with the largest industry in Orange County through health sciences, allied health, and life sciences programs.
-                </p>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <CheckCircle size={16} className="text-rose-500" />
-                    <span>~195k Regional Jobs</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <CheckCircle size={16} className="text-rose-500" />
-                    <span>Clinical Partnerships</span>
-                  </div>
-                </div>
-                <Button className="w-full bg-rose-600 hover:bg-rose-700">Learn More</Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* More Programs */}
-      <section className="py-20 bg-slate-50">
-        <div className="container">
-          <h2 className="text-3xl font-heading font-bold text-slate-900 mb-12 text-center">Additional Areas of Excellence</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-3 gap-5"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-40px" }}
+            variants={staggerContainer}
+          >
             {[
-              {
-                title: "STEM",
-                desc: "Supporting industries like advanced manufacturing, aerospace, and environmental science.",
-                icon: <Cpu size={32} className="text-indigo-500" />,
-                color: "border-indigo-200 hover:border-indigo-400"
-              },
-              {
-                title: "Arts & Digital Media",
-                desc: "Intersecting with the creative economy through Digital Graphics, Animation, and Visual Arts.",
-                icon: <Palette size={32} className="text-purple-500" />,
-                color: "border-purple-200 hover:border-purple-400"
-              },
-              {
-                title: "Public Service",
-                desc: "Aligning with Public Sector industries through Criminal Justice, Homeland Security, and Education.",
-                icon: <Scale size={32} className="text-amber-500" />,
-                color: "border-amber-200 hover:border-amber-400"
-              }
-            ].map((item, idx) => (
-              <div key={idx} className={`bg-white p-8 rounded-2xl border-2 ${item.color} transition-all duration-300 hover:shadow-lg group`}>
-                <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
-                <h3 className="text-xl font-heading font-bold text-slate-900 mb-3">{item.title}</h3>
-                <p className="text-slate-600 leading-relaxed">{item.desc}</p>
-              </div>
+              { icon: <TrendingUp className="w-5 h-5" />, label: "Industry-Aligned Programs", value: "6+", color: "from-blue-500 to-blue-600" },
+              { icon: <Users className="w-5 h-5" />, label: "Students Enrolled", value: "200+", color: "from-teal-400 to-teal-500" },
+              { icon: <Briefcase className="w-5 h-5" />, label: "Corporate Partners", value: "40+", color: "from-amber-400 to-orange-500" }
+            ].map((stat, idx) => (
+              <motion.div key={idx} variants={cardVariant}>
+                <div className="glass-card rounded-2xl p-6 card-hover group relative overflow-hidden">
+                  <div className={`absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r ${stat.color} rounded-t-2xl`} />
+                  <div className="flex items-center gap-4">
+                    <div className={`flex-shrink-0 w-11 h-11 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-white shadow-lg`}>
+                      {stat.icon}
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
+                      <div className="text-xs text-slate-400 font-medium">{stat.label}</div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Application Process */}
-      <section className="py-20 bg-white">
-        <div className="container">
-          <div className="bg-slate-900 rounded-3xl p-8 md:p-16 text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl"></div>
-            
-            <div className="relative z-10 text-center max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">Ready to Apply?</h2>
-              <p className="text-slate-300 text-lg mb-10">
-                Start your journey with Coastline College today. Our streamlined application process makes it easy to get started.
-              </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 text-left">
-                <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/10">
-                  <div className="text-4xl font-bold text-blue-400 mb-2">01</div>
-                  <h3 className="font-bold text-lg mb-2">Explore Programs</h3>
-                  <p className="text-sm text-slate-300">Browse our catalog to find the right fit for your goals.</p>
+      {/* ── Program Cards ── */}
+      <section className="py-16 bg-[#fafbfd] relative overflow-hidden">
+        <div className="absolute inset-0 ring-pattern" />
+        <div className="container relative z-10">
+          <motion.div
+            className="text-center max-w-2xl mx-auto mb-14"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer}
+          >
+            <motion.span className="text-[11px] font-semibold text-blue-600 uppercase tracking-[0.12em] mb-3 block" variants={fadeInUp}>
+              Our Programs
+            </motion.span>
+            <motion.h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-4" variants={fadeInUp}>
+              Workforce-Ready Education
+            </motion.h2>
+            <motion.p className="text-slate-400 text-[16px]" variants={fadeInUp}>
+              Each program area is designed to address specific industry needs in Orange County and beyond.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-40px" }}
+            variants={staggerContainer}
+          >
+            {programs.map((program, idx) => (
+              <motion.div
+                key={idx}
+                className="group rounded-2xl overflow-hidden bg-white border border-slate-100/80 shadow-sm hover:shadow-xl transition-all duration-500 card-hover"
+                variants={cardVariant}
+              >
+                <div className="h-48 overflow-hidden relative">
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent z-10" />
+                  <img
+                    src={program.photo}
+                    alt={program.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute bottom-4 left-4 z-20">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/[0.12] backdrop-blur-xl border border-white/[0.15] text-white text-xs font-medium">
+                      {program.stat}
+                    </span>
+                  </div>
+                  <div className="absolute top-4 right-4 z-20">
+                    <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${program.gradient} flex items-center justify-center text-white shadow-lg`}>
+                      {program.icon}
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/10">
-                  <div className="text-4xl font-bold text-blue-400 mb-2">02</div>
-                  <h3 className="font-bold text-lg mb-2">Apply Online</h3>
-                  <p className="text-sm text-slate-300">Complete the simple online application form.</p>
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-700 transition-colors duration-300">{program.title}</h3>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-2">{program.desc}</p>
+                  <p className="text-xs text-slate-300 italic">{program.statDetail}</p>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/10">
-                  <div className="text-4xl font-bold text-blue-400 mb-2">03</div>
-                  <h3 className="font-bold text-lg mb-2">Register</h3>
-                  <p className="text-sm text-slate-300">Sign up for classes and begin your education.</p>
-                </div>
-              </div>
-              
-              <Button size="lg" className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-6 rounded-full shadow-lg shadow-blue-500/30 transition-all hover:scale-105">
-                Start Application
-              </Button>
-            </div>
-          </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
+      </section>
+
+      {/* ── CTA Section ── */}
+      <section className="py-24 bg-gradient-to-br from-blue-700 via-blue-800 to-[#0A1628] text-white relative overflow-hidden">
+        <div className="absolute inset-0 root-pattern opacity-30" />
+        <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-blue-400/[0.1] rounded-full blur-[100px] animate-pulse-glow" />
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-teal-400/[0.06] rounded-full blur-[120px]" />
+
+        <motion.div
+          className="container relative z-10 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer}
+        >
+          <motion.h2 className="text-3xl md:text-5xl font-heading font-bold mb-5" variants={fadeInUp}>
+            Support Our Programs
+          </motion.h2>
+          <motion.p className="text-blue-100/80 text-lg max-w-2xl mx-auto mb-10 leading-relaxed" variants={fadeInUp}>
+            Your investment in our programs directly impacts student success and workforce readiness in Orange County.
+          </motion.p>
+          <motion.div className="flex flex-col sm:flex-row justify-center gap-4" variants={fadeInUp}>
+            <Link href="/get-involved">
+              <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 font-semibold shadow-xl shadow-blue-950/20 px-8 py-6 rounded-xl text-[15px] btn-premium">
+                Get Involved <ArrowRight size={16} className="ml-2" />
+              </Button>
+            </Link>
+            <Link href="/budget">
+              <Button size="lg" variant="outline" className="border-white/[0.15] text-white hover:bg-white/[0.08] hover:border-white/[0.25] px-8 py-6 rounded-xl text-[15px] font-semibold">
+                View Budget
+              </Button>
+            </Link>
+          </motion.div>
+        </motion.div>
       </section>
     </div>
   );
