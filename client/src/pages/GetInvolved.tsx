@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, Handshake, Users, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
-import { Link } from "wouter";
 
 export default function GetInvolved() {
   return (

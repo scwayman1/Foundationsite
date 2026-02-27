@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Shield, Briefcase, Heart, Cpu, Palette, Scale, CheckCircle } from "lucide-react";
-import { Link } from "wouter";
+import { Shield, Briefcase, Heart, Cpu, Palette, Scale, CheckCircle } from "lucide-react";
 
 export default function Programs() {
   return (

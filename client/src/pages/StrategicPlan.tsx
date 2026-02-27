@@ -1,7 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Target, TrendingUp, Users, Briefcase, CheckCircle } from "lucide-react";
-import { Link } from "wouter";
+import { Target, TrendingUp, Users, Briefcase, CheckCircle } from "lucide-react";
 
 export default function StrategicPlan() {
   return (

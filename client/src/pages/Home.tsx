@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, TrendingUp, TrendingDown, Users, GraduationCap, DollarSign, Briefcase } from "lucide-react";
+import { ArrowRight, TrendingUp, Users, GraduationCap, DollarSign, Briefcase } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { useRef, useEffect, useState, useMemo } from "react";
@@ -35,11 +35,6 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0 }
 };
 
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 }
-};
-
 const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
@@ -63,7 +58,7 @@ const cardVariant = {
 
 export default function Home() {
   const [, setLocation] = useLocation();
-  const { getHeroPhoto, getRandomPhoto, getCardPhotos, isReady } = useCoastlinePhotos();
+  const { getHeroPhoto, getRandomPhoto, getCardPhotos } = useCoastlinePhotos();
 
   // Memoize photo selections so they stay stable during the session
   // Photos will change on page refresh, giving a fresh feel each visit
