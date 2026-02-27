@@ -252,7 +252,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center text-slate-400">
                     <Phone size={14} />
                   </div>
-                  <span className="text-sm text-slate-400">(714) 546-7600</span>
+                  <span className="text-sm text-slate-400">(714) 241-6154</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center text-slate-400">

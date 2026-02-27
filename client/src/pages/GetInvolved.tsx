@@ -174,7 +174,7 @@ export default function GetInvolved() {
                     <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/[0.06] flex items-center justify-center text-blue-300">
                       <Phone size={18} />
                     </div>
-                    <span className="text-slate-300">(714) 546-7600</span>
+                    <span className="text-slate-300">(714) 241-6154</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/[0.06] flex items-center justify-center text-blue-300">
