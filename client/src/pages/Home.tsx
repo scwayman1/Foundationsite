@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, TrendingUp, TrendingDown, Users, GraduationCap, DollarSign, Briefcase, Target, Sparkles, ChevronRight } from "lucide-react";
+import { ArrowRight, TrendingUp, Users, GraduationCap, DollarSign, Briefcase } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import ProgramAreaCard from "@/components/ProgramAreaCard";
 
 // Animated counter component for KPIs
 function AnimatedNumber({ value, prefix = "", suffix = "", decimals = 0 }: { value: number; prefix?: string; suffix?: string; decimals?: number }) {
@@ -64,9 +64,9 @@ export default function Home() {
     mission: "/Coastline Campus.jpg",
     cta: "/Scholarship Recipients .jpg",
     programs: {
-      it: "/Aeron Z.jpg",
-      business: "/Scott at Scholarship family.jpg",
-      healthcare: "/Michelle and Anna.jpg",
+      it: { src: "/Aeron Z.jpg", position: "object-[center_22%]" },
+      business: { src: "/Scott and Guest.jpg", position: "object-[center_28%]" },
+      healthcare: { src: "/Michelle and Anna.jpg", position: "object-[center_20%]" },
     }
   };
 
@@ -78,11 +78,10 @@ export default function Home() {
       <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-[#0A1628]">
         {/* Background Photo with premium overlay */}
         <div className="absolute inset-0">
-          <motion.div
-            className="absolute inset-0 bg-cover bg-[position:60%_28%] md:bg-center"
-            style={{
-              backgroundImage: `url('${homeImages.hero}')`
-            }}
+          <motion.img
+            src={homeImages.hero}
+            alt="Foundation leadership speaking at Coastline event"
+            className="absolute inset-0 w-full h-full object-cover object-[center_24%]"
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
@@ -277,7 +276,7 @@ export default function Home() {
                 <img
                   src={homeImages.mission}
                   alt="Coastline College campus"
-                  className="w-full h-[480px] object-cover"
+                  className="w-full h-[480px] object-cover object-[center_42%]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent" />
               </div>
@@ -460,48 +459,32 @@ export default function Home() {
                 title: "IT & Cybersecurity",
                 desc: "Preparing talent for the booming digital economy with programs in Cybersecurity, Computer Networking, and Software Development.",
                 stat: "33% Job Growth",
-                image: homeImages.programs.it
+                image: homeImages.programs.it.src,
+                imagePosition: homeImages.programs.it.position,
               },
               {
                 title: "Business & Finance",
                 desc: "Serving the Professional and Business Services sector with programs in management, marketing, and finance.",
                 stat: "44% Economic Impact",
-                image: homeImages.programs.business
+                image: homeImages.programs.business.src,
+                imagePosition: homeImages.programs.business.position,
               },
               {
                 title: "Healthcare & Biotech",
                 desc: "Aligning with the largest industry in Orange County through health sciences, allied health, and life sciences programs.",
                 stat: "~195k Regional Jobs",
-                image: homeImages.programs.healthcare
+                image: homeImages.programs.healthcare.src,
+                imagePosition: homeImages.programs.healthcare.position,
               }
             ].map((program, idx) => (
-              <motion.div
-                key={idx}
-                className="group rounded-2xl overflow-hidden bg-white border border-slate-100/80 shadow-sm hover:shadow-xl transition-all duration-500 card-hover"
-                variants={cardVariant}
-              >
-                <div className="h-52 overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent z-10" />
-                  <img
-                    src={program.image}
-                    alt={program.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute bottom-4 left-4 z-20">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/[0.12] backdrop-blur-xl border border-white/[0.15] text-white text-xs font-medium">
-                      {program.stat}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-700 transition-colors duration-300">{program.title}</h3>
-                  <p className="text-sm text-slate-400 leading-relaxed mb-4">{program.desc}</p>
-                  <Link href="/programs">
-                    <span className="text-blue-600 text-sm font-semibold flex items-center cursor-pointer group/link">
-                      Learn more <ChevronRight size={14} className="ml-0.5 group-hover/link:translate-x-1 transition-transform" />
-                    </span>
-                  </Link>
-                </div>
+              <motion.div key={idx} variants={cardVariant}>
+                <ProgramAreaCard
+                  title={program.title}
+                  desc={program.desc}
+                  stat={program.stat}
+                  image={program.image}
+                  imagePosition={program.imagePosition}
+                />
               </motion.div>
             ))}
           </motion.div>
@@ -525,7 +508,7 @@ export default function Home() {
       <section className="py-24 bg-gradient-to-br from-blue-700 via-blue-800 to-[#0A1628] text-white relative overflow-hidden">
         {/* Background photo */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-[0.14] mix-blend-overlay"
+          className="absolute inset-0 bg-cover bg-center opacity-[0.07] mix-blend-overlay"
           style={{
             backgroundImage: `url('${homeImages.cta}')`
           }}
