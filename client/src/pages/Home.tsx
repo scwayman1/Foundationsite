@@ -79,7 +79,7 @@ export default function Home() {
         {/* Background Photo with premium overlay */}
         <div className="absolute inset-0">
           <motion.div
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-[position:60%_28%] md:bg-center"
             style={{
               backgroundImage: `url('${homeImages.hero}')`
             }}
@@ -525,7 +525,7 @@ export default function Home() {
       <section className="py-24 bg-gradient-to-br from-blue-700 via-blue-800 to-[#0A1628] text-white relative overflow-hidden">
         {/* Background photo */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-[0.07] mix-blend-overlay"
+          className="absolute inset-0 bg-cover bg-center opacity-[0.14] mix-blend-overlay"
           style={{
             backgroundImage: `url('${homeImages.cta}')`
           }}

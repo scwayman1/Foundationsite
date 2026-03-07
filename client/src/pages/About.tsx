@@ -30,7 +30,7 @@ export default function About() {
     <div className="flex flex-col min-h-screen">
       {/* ── Hero Section ── */}
       <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/coastline-award-1.jpg')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-[url('/Scott Podium2.jpg')] bg-cover bg-[position:58%_30%] md:bg-center" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/70 via-[#0A1628]/50 to-[#0A1628]/75" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/40 to-transparent" />
         <div className="absolute inset-0 dot-grid opacity-[0.04]" />
@@ -81,8 +81,8 @@ export default function About() {
             <motion.div className="relative" variants={fadeInUp}>
               <div className="absolute -top-4 -left-4 w-full h-full border-2 border-blue-100/60 rounded-2xl z-0" />
               <img
-                src="/coastline-award-2.jpg"
-                alt="Coastline College student success"
+                src="/Scott at Scholarship family.jpg"
+                alt="Coastline College scholarship celebration with students"
                 className="relative z-10 rounded-2xl shadow-2xl shadow-slate-900/10 w-full object-cover h-[500px]"
               />
               <motion.div
