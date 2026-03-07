@@ -71,7 +71,7 @@ export default function GetInvolved() {
     <div className="flex flex-col min-h-screen">
       {/* ── Hero Section ── */}
       <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/coastline-community.jpg')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-[url('/Scholarship Recipients .jpg')] bg-cover bg-[position:55%_35%] md:bg-center" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/70 via-[#0A1628]/50 to-[#0A1628]/75" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/40 to-transparent" />
         <div className="absolute inset-0 dot-grid opacity-[0.04]" />
