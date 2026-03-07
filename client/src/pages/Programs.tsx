@@ -42,7 +42,7 @@ export default function Programs() {
       statDetail: "Contribution to Orange County's service economy",
       icon: <Building2 className="w-5 h-5" />,
       gradient: "from-teal-400 to-teal-500",
-      photo: "/Scott Speaking.jpg"
+      photo: "/Justine and Ruby.jpg"
     },
     {
       title: "Healthcare & Biotech",
@@ -78,7 +78,7 @@ export default function Programs() {
       statDetail: "Proximity to major ports and international markets",
       icon: <Globe className="w-5 h-5" />,
       gradient: "from-violet-400 to-purple-500",
-      photo: "/Scott at Scholarship family.jpg"
+      photo: "/Coastline Campus.jpg"
     }
   ];
 
