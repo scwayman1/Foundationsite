@@ -3,8 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, TrendingUp, TrendingDown, Users, GraduationCap, DollarSign, Briefcase, Target, Sparkles, ChevronRight } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
-import { useRef, useEffect, useState, useMemo } from "react";
-import { useCoastlinePhotos } from "@/contexts/PhotoContext";
+import { useRef, useEffect, useState } from "react";
 
 // Animated counter component for KPIs
 function AnimatedNumber({ value, prefix = "", suffix = "", decimals = 0 }: { value: number; prefix?: string; suffix?: string; decimals?: number }) {
@@ -58,31 +57,18 @@ const cardVariant = {
 
 export default function Home() {
   const [, setLocation] = useLocation();
-  const { getHeroPhoto, getRandomPhoto, getCardPhotos, isReady } = useCoastlinePhotos();
 
-  const heroPhoto = useMemo(
-    () => getHeroPhoto() || getRandomPhoto(),
-    [getHeroPhoto, getRandomPhoto]
-  );
-
-  const missionPhoto = useMemo(
-    () => getRandomPhoto(),
-    [getRandomPhoto]
-  );
-
-  const ctaPhoto = useMemo(
-    () => getHeroPhoto() || getRandomPhoto(),
-    [getHeroPhoto, getRandomPhoto]
-  );
-
-  const programPhotos = useMemo(() => {
-    const cardPhotos = getCardPhotos("", 3);
-    return {
-      it: cardPhotos[0] || null,
-      business: cardPhotos[1] || null,
-      healthcare: cardPhotos[2] || null,
-    };
-  }, [getCardPhotos]);
+  // Curated static image map for visual continuity + section relevance
+  const homeImages = {
+    hero: "/Scott Speaking.jpg",
+    mission: "/Coastline Campus.jpg",
+    cta: "/Scholarship Recipients .jpg",
+    programs: {
+      it: "/Aeron Z.jpg",
+      business: "/Scott at Scholarship family.jpg",
+      healthcare: "/Michelle and Anna.jpg",
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -95,7 +81,7 @@ export default function Home() {
           <motion.div
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: `url('${heroPhoto?.fullUrl || "/coastline-speaker-close.jpg"}')`
+              backgroundImage: `url('${homeImages.hero}')`
             }}
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
@@ -289,7 +275,7 @@ export default function Home() {
             <motion.div className="relative" variants={fadeInUp}>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-slate-900/10">
                 <img
-                  src={missionPhoto?.fullUrl || "/Coastline Campus.jpg"}
+                  src={homeImages.mission}
                   alt="Coastline College campus"
                   className="w-full h-[480px] object-cover"
                 />
@@ -474,19 +460,19 @@ export default function Home() {
                 title: "IT & Cybersecurity",
                 desc: "Preparing talent for the booming digital economy with programs in Cybersecurity, Computer Networking, and Software Development.",
                 stat: "33% Job Growth",
-                image: programPhotos.it?.fullUrl || "/coastline-classroom.jpg"
+                image: homeImages.programs.it
               },
               {
                 title: "Business & Finance",
                 desc: "Serving the Professional and Business Services sector with programs in management, marketing, and finance.",
                 stat: "44% Economic Impact",
-                image: programPhotos.business?.fullUrl || "/coastline-community.jpg"
+                image: homeImages.programs.business
               },
               {
                 title: "Healthcare & Biotech",
                 desc: "Aligning with the largest industry in Orange County through health sciences, allied health, and life sciences programs.",
                 stat: "~195k Regional Jobs",
-                image: programPhotos.healthcare?.fullUrl || "/coastline-speaker-close.jpg"
+                image: homeImages.programs.healthcare
               }
             ].map((program, idx) => (
               <motion.div
@@ -541,7 +527,7 @@ export default function Home() {
         <div
           className="absolute inset-0 bg-cover bg-center opacity-[0.07] mix-blend-overlay"
           style={{
-            backgroundImage: `url('${ctaPhoto?.fullUrl || "/coastline-speaker-wide.jpg"}')`
+            backgroundImage: `url('${homeImages.cta}')`
           }}
         />
         {/* Ambient orbs */}

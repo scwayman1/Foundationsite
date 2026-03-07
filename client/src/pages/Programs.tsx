@@ -2,8 +2,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp, Users, Briefcase, GraduationCap, ChevronRight, Building2, Cpu, HeartPulse, Wrench, Leaf, Globe } from "lucide-react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { useMemo } from "react";
-import { useCoastlinePhotos } from "@/contexts/PhotoContext";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -27,12 +25,6 @@ const cardVariant = {
 };
 
 export default function Programs() {
-  const { getCardPhotos } = useCoastlinePhotos();
-
-  const programPhotos = useMemo(() => {
-    return getCardPhotos("", 6);
-  }, [getCardPhotos]);
-
   const programs = [
     {
       title: "IT & Cybersecurity",
@@ -41,7 +33,7 @@ export default function Programs() {
       statDetail: "Projected growth in cybersecurity roles by 2032",
       icon: <Cpu className="w-5 h-5" />,
       gradient: "from-blue-500 to-blue-600",
-      photo: programPhotos[0]?.fullUrl || "/coastline-classroom.jpg"
+      photo: "/Aeron Z.jpg"
     },
     {
       title: "Business & Finance",
@@ -50,7 +42,7 @@ export default function Programs() {
       statDetail: "Contribution to Orange County's service economy",
       icon: <Building2 className="w-5 h-5" />,
       gradient: "from-teal-400 to-teal-500",
-      photo: programPhotos[1]?.fullUrl || "/coastline-community.jpg"
+      photo: "/Scott Speaking.jpg"
     },
     {
       title: "Healthcare & Biotech",
@@ -59,7 +51,7 @@ export default function Programs() {
       statDetail: "Healthcare sector employment in Orange County",
       icon: <HeartPulse className="w-5 h-5" />,
       gradient: "from-rose-400 to-rose-500",
-      photo: programPhotos[2]?.fullUrl || "/coastline-speaker-close.jpg"
+      photo: "/Michelle and Anna.jpg"
     },
     {
       title: "Advanced Manufacturing",
@@ -68,7 +60,7 @@ export default function Programs() {
       statDetail: "Critical workforce pipeline for regional manufacturers",
       icon: <Wrench className="w-5 h-5" />,
       gradient: "from-amber-400 to-orange-500",
-      photo: programPhotos[3]?.fullUrl || "/coastline-classroom.jpg"
+      photo: "/Coastline Campus.jpg"
     },
     {
       title: "Sustainability & Green Tech",
@@ -77,7 +69,7 @@ export default function Programs() {
       statDetail: "Growing demand for sustainability professionals",
       icon: <Leaf className="w-5 h-5" />,
       gradient: "from-emerald-400 to-emerald-500",
-      photo: programPhotos[4]?.fullUrl || "/coastline-community.jpg"
+      photo: "/Justine and Ruby.jpg"
     },
     {
       title: "Global Trade & Logistics",
@@ -86,7 +78,7 @@ export default function Programs() {
       statDetail: "Proximity to major ports and international markets",
       icon: <Globe className="w-5 h-5" />,
       gradient: "from-violet-400 to-purple-500",
-      photo: programPhotos[5]?.fullUrl || "/coastline-speaker-close.jpg"
+      photo: "/Scott at Scholarship family.jpg"
     }
   ];
 
