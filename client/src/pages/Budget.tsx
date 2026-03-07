@@ -29,7 +29,7 @@ export default function Budget() {
       {/* ── Hero Section ── */}
       <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
         <img
-          src="/coastline-speaker-wide.jpg"
+          src="https://live.staticflickr.com/65535/55132925085_ac73f849ef_m.jpg"
           alt="Foundation presentation focused on fiscal stewardship and accountability"
           className="absolute inset-0 w-full h-full object-cover object-[center_26%]"
         />

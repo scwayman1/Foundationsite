@@ -71,7 +71,7 @@ export default function GetInvolved() {
       {/* ── Hero Section ── */}
       <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
         <img
-          src="/coastline-community.jpg"
+          src="https://live.staticflickr.com/65535/55132728278_ec0f57613e_m.jpg"
           alt="Coastline community members and supporters participating in outreach"
           className="absolute inset-0 w-full h-full object-cover object-[center_34%]"
         />

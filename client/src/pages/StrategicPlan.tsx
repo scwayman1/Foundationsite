@@ -28,7 +28,7 @@ export default function StrategicPlan() {
       {/* ── Hero Section ── */}
       <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
         <img
-          src="/coastline-award-3.jpg"
+          src="https://live.staticflickr.com/65535/55132925700_dd5c0ebca2_m.jpg"
           alt="Foundation recognition event representing strategic goals and outcomes"
           className="absolute inset-0 w-full h-full object-cover object-[center_24%]"
         />

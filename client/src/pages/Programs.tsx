@@ -34,8 +34,8 @@ export default function Programs() {
       statDetail: "Projected growth in cybersecurity roles by 2032",
       icon: <Cpu className="w-5 h-5" />,
       gradient: "from-blue-500 to-blue-600",
-      photo: "/Aeron Z.jpg",
-      imagePosition: "object-[center_22%]"
+      photo: "https://live.staticflickr.com/65535/55132925275_6d73dc7714_m.jpg",
+      imagePosition: "object-[center_52%]"
     },
     {
       title: "Business & Finance",
@@ -44,8 +44,8 @@ export default function Programs() {
       statDetail: "Contribution to Orange County's service economy",
       icon: <Building2 className="w-5 h-5" />,
       gradient: "from-teal-400 to-teal-500",
-      photo: "/Scott and Guest.jpg",
-      imagePosition: "object-[center_28%]"
+      photo: "https://live.staticflickr.com/65535/55132728808_3b11a1be93_m.jpg",
+      imagePosition: "object-[center_52%]"
     },
     {
       title: "Healthcare & Biotech",
@@ -54,8 +54,8 @@ export default function Programs() {
       statDetail: "Healthcare sector employment in Orange County",
       icon: <HeartPulse className="w-5 h-5" />,
       gradient: "from-rose-400 to-rose-500",
-      photo: "/Michelle and Anna.jpg",
-      imagePosition: "object-[center_20%]"
+      photo: "https://live.staticflickr.com/65535/55132728358_7ed07827eb_m.jpg",
+      imagePosition: "object-[center_50%]"
     },
     {
       title: "Advanced Manufacturing",
@@ -64,8 +64,8 @@ export default function Programs() {
       statDetail: "Critical workforce pipeline for regional manufacturers",
       icon: <Wrench className="w-5 h-5" />,
       gradient: "from-amber-400 to-orange-500",
-      photo: "/coastline-classroom.jpg",
-      imagePosition: "object-[center_36%]"
+      photo: "https://live.staticflickr.com/65535/55132542926_ecc5d7f748_m.jpg",
+      imagePosition: "object-[center_45%]"
     },
     {
       title: "Sustainability & Green Tech",
@@ -74,8 +74,8 @@ export default function Programs() {
       statDetail: "Growing demand for sustainability professionals",
       icon: <Leaf className="w-5 h-5" />,
       gradient: "from-emerald-400 to-emerald-500",
-      photo: "/coastline-community.jpg",
-      imagePosition: "object-[center_38%]"
+      photo: "https://live.staticflickr.com/65535/55131647727_d129e81009_m.jpg",
+      imagePosition: "object-[center_44%]"
     },
     {
       title: "Global Trade & Logistics",
@@ -84,8 +84,8 @@ export default function Programs() {
       statDetail: "Proximity to major ports and international markets",
       icon: <Globe className="w-5 h-5" />,
       gradient: "from-violet-400 to-purple-500",
-      photo: "/Coastline Campus.jpg",
-      imagePosition: "object-[center_44%]"
+      photo: "https://live.staticflickr.com/65535/55132542916_5bea4ab40c_m.jpg",
+      imagePosition: "object-[center_50%]"
     }
   ];
 
@@ -94,7 +94,7 @@ export default function Programs() {
       {/* ── Hero Section ── */}
       <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
         <img
-          src="/coastline-classroom.jpg"
+          src="https://live.staticflickr.com/65535/55132728888_31a4fe065c_m.jpg"
           alt="Students in classroom and workforce training environment"
           className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
         />

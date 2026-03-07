@@ -61,12 +61,12 @@ export default function Home() {
   // Curated static image map for visual continuity + section relevance
   const homeImages = {
     hero: "/Scott Speaking.jpg",
-    mission: "/Coastline Campus.jpg",
-    cta: "/Scholarship Recipients .jpg",
+    mission: "https://live.staticflickr.com/65535/55132777014_5dbe308887_m.jpg",
+    cta: "https://live.staticflickr.com/65535/55132542601_0fc9925c80_m.jpg",
     programs: {
-      it: { src: "/Aeron Z.jpg", position: "object-[center_22%]" },
-      business: { src: "/Scott and Guest.jpg", position: "object-[center_28%]" },
-      healthcare: { src: "/Michelle and Anna.jpg", position: "object-[center_20%]" },
+      it: { src: "https://live.staticflickr.com/65535/55132925275_6d73dc7714_m.jpg", position: "object-[center_52%]" },
+      business: { src: "https://live.staticflickr.com/65535/55132728808_3b11a1be93_m.jpg", position: "object-[center_52%]" },
+      healthcare: { src: "https://live.staticflickr.com/65535/55132728358_7ed07827eb_m.jpg", position: "object-[center_50%]" },
     }
   };
 

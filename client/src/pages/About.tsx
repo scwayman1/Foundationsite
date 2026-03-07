@@ -31,7 +31,7 @@ export default function About() {
       {/* ── Hero Section ── */}
       <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
         <img
-          src="/coastline-award-1.jpg"
+          src="https://live.staticflickr.com/65535/55132728888_31a4fe065c_m.jpg"
           alt="Scholarship honoree at Coastline recognition event"
           className="absolute inset-0 w-full h-full object-cover object-[center_20%]"
         />
@@ -85,7 +85,7 @@ export default function About() {
             <motion.div className="relative" variants={fadeInUp}>
               <div className="absolute -top-4 -left-4 w-full h-full border-2 border-blue-100/60 rounded-2xl z-0" />
               <img
-                src="/coastline-award-2.jpg"
+                src="https://live.staticflickr.com/65535/55132777014_5dbe308887_m.jpg"
                 alt="Coastline College student success"
                 className="relative z-10 rounded-2xl shadow-2xl shadow-slate-900/10 w-full object-cover object-[center_25%] h-[500px]"
               />
