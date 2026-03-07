@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Heart, Handshake, Users, Mail, Phone, MapPin, ArrowRight, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
-import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
@@ -71,7 +70,11 @@ export default function GetInvolved() {
     <div className="flex flex-col min-h-screen">
       {/* ── Hero Section ── */}
       <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/coastline-community.jpg')] bg-cover bg-center" />
+        <img
+          src="/coastline-community.jpg"
+          alt="Coastline community members and supporters participating in outreach"
+          className="absolute inset-0 w-full h-full object-cover object-[center_34%]"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/70 via-[#0A1628]/50 to-[#0A1628]/75" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/40 to-transparent" />
         <div className="absolute inset-0 dot-grid opacity-[0.04]" />

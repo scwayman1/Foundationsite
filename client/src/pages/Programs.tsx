@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, TrendingUp, Users, Briefcase, GraduationCap, ChevronRight, Building2, Cpu, HeartPulse, Wrench, Leaf, Globe } from "lucide-react";
+import { ArrowRight, TrendingUp, Users, Briefcase, Building2, Cpu, HeartPulse, Wrench, Leaf, Globe } from "lucide-react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
+import ProgramAreaCard from "@/components/ProgramAreaCard";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -33,7 +34,8 @@ export default function Programs() {
       statDetail: "Projected growth in cybersecurity roles by 2032",
       icon: <Cpu className="w-5 h-5" />,
       gradient: "from-blue-500 to-blue-600",
-      photo: "/Aeron Z.jpg"
+      photo: "/Aeron Z.jpg",
+      imagePosition: "object-[center_22%]"
     },
     {
       title: "Business & Finance",
@@ -42,7 +44,8 @@ export default function Programs() {
       statDetail: "Contribution to Orange County's service economy",
       icon: <Building2 className="w-5 h-5" />,
       gradient: "from-teal-400 to-teal-500",
-      photo: "/Justine and Ruby.jpg"
+      photo: "/Scott and Guest.jpg",
+      imagePosition: "object-[center_28%]"
     },
     {
       title: "Healthcare & Biotech",
@@ -51,7 +54,8 @@ export default function Programs() {
       statDetail: "Healthcare sector employment in Orange County",
       icon: <HeartPulse className="w-5 h-5" />,
       gradient: "from-rose-400 to-rose-500",
-      photo: "/Michelle and Anna.jpg"
+      photo: "/Michelle and Anna.jpg",
+      imagePosition: "object-[center_20%]"
     },
     {
       title: "Advanced Manufacturing",
@@ -60,7 +64,8 @@ export default function Programs() {
       statDetail: "Critical workforce pipeline for regional manufacturers",
       icon: <Wrench className="w-5 h-5" />,
       gradient: "from-amber-400 to-orange-500",
-      photo: "/Coastline Campus.jpg"
+      photo: "/coastline-classroom.jpg",
+      imagePosition: "object-[center_36%]"
     },
     {
       title: "Sustainability & Green Tech",
@@ -69,7 +74,8 @@ export default function Programs() {
       statDetail: "Growing demand for sustainability professionals",
       icon: <Leaf className="w-5 h-5" />,
       gradient: "from-emerald-400 to-emerald-500",
-      photo: "/Justine and Ruby.jpg"
+      photo: "/coastline-community.jpg",
+      imagePosition: "object-[center_38%]"
     },
     {
       title: "Global Trade & Logistics",
@@ -78,7 +84,8 @@ export default function Programs() {
       statDetail: "Proximity to major ports and international markets",
       icon: <Globe className="w-5 h-5" />,
       gradient: "from-violet-400 to-purple-500",
-      photo: "/Coastline Campus.jpg"
+      photo: "/Coastline Campus.jpg",
+      imagePosition: "object-[center_44%]"
     }
   ];
 
@@ -86,7 +93,11 @@ export default function Programs() {
     <div className="flex flex-col min-h-screen">
       {/* ── Hero Section ── */}
       <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/coastline-classroom.jpg')] bg-cover bg-center" />
+        <img
+          src="/coastline-classroom.jpg"
+          alt="Students in classroom and workforce training environment"
+          className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/70 via-[#0A1628]/50 to-[#0A1628]/75" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/40 to-transparent" />
         <div className="absolute inset-0 dot-grid opacity-[0.04]" />
@@ -187,34 +198,17 @@ export default function Programs() {
             variants={staggerContainer}
           >
             {programs.map((program, idx) => (
-              <motion.div
-                key={idx}
-                className="group rounded-2xl overflow-hidden bg-white border border-slate-100/80 shadow-sm hover:shadow-xl transition-all duration-500 card-hover"
-                variants={cardVariant}
-              >
-                <div className="h-48 overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent z-10" />
-                  <img
-                    src={program.photo}
-                    alt={program.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute bottom-4 left-4 z-20">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/[0.12] backdrop-blur-xl border border-white/[0.15] text-white text-xs font-medium">
-                      {program.stat}
-                    </span>
-                  </div>
-                  <div className="absolute top-4 right-4 z-20">
-                    <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${program.gradient} flex items-center justify-center text-white shadow-lg`}>
-                      {program.icon}
-                    </div>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-700 transition-colors duration-300">{program.title}</h3>
-                  <p className="text-sm text-slate-400 leading-relaxed mb-2">{program.desc}</p>
-                  <p className="text-xs text-slate-300 italic">{program.statDetail}</p>
-                </div>
+              <motion.div key={idx} variants={cardVariant}>
+                <ProgramAreaCard
+                  title={program.title}
+                  desc={program.desc}
+                  stat={program.stat}
+                  image={program.photo}
+                  imagePosition={program.imagePosition}
+                  statDetail={program.statDetail}
+                  icon={program.icon}
+                  gradient={program.gradient}
+                />
               </motion.div>
             ))}
           </motion.div>
