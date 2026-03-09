@@ -1,0 +1,302 @@
+# ============================================================
+# Coastline College Alumni Association — Agent Fleet Config
+# OpenClaw Multi-Agent Orchestration
+# ============================================================
+# This file defines the agent fleet topology, communication
+# patterns, trigger architecture, and operational parameters
+# for the Coastline College Alumni Association agent system.
+# ============================================================
+
+fleet:
+  name: coastline-alumni-association
+  version: "1.0.0"
+  institution: Coastline College
+  foundation: Coastline College Foundation
+  crm: GradRoots
+  framework: OpenClaw
+  description: >
+    An 11-agent fleet designed to power alumni engagement,
+    workforce development, philanthropy cultivation, and
+    community impact for Coastline College. Built for the
+    unique realities of community college alumni: diverse
+    pathways, distributed geography, workforce-first value,
+    military-connected populations, and nonlinear journeys.
+
+# ============================================================
+# Agent Registry
+# ============================================================
+agents:
+  - id: mission-control
+    name: Alumni Mission Control Agent
+    file: 09-agents/00-alumni-mission-control.md
+    role: orchestrator
+    tier: 1
+    description: Central orchestrator, priority router, and human-in-the-loop coordinator.
+    dependencies: [all-agents]
+
+  - id: identity
+    name: Alumni Identity Agent
+    file: 09-agents/01-alumni-identity-agent.md
+    role: data-steward
+    tier: 2
+    description: Profile creation, enrichment, deduplication, and record health management.
+    dependencies: []
+
+  - id: intelligence
+    name: Alumni Intelligence Agent
+    file: 09-agents/02-alumni-intelligence-agent.md
+    role: scoring-engine
+    tier: 2
+    description: Scoring, ranking, and next-best-action inference across all alumni.
+    dependencies: [identity]
+
+  - id: network-graph
+    name: Alumni Network Graph Agent
+    file: 09-agents/03-alumni-network-graph-agent.md
+    role: relationship-mapper
+    tier: 2
+    description: Relationship mapping, cluster detection, and warm introduction identification.
+    dependencies: [identity, intelligence]
+
+  - id: storytelling
+    name: Alumni Storytelling and Content Agent
+    file: 09-agents/04-alumni-storytelling-and-content-agent.md
+    role: content-engine
+    tier: 3
+    description: Content creation, personalization, and campaign messaging.
+    dependencies: [identity, intelligence]
+
+  - id: engagement
+    name: Alumni Engagement Agent
+    file: 09-agents/05-alumni-engagement-agent.md
+    role: outreach-executor
+    tier: 3
+    description: Communication delivery, outreach sequencing, and response tracking.
+    dependencies: [identity, intelligence, storytelling]
+
+  - id: opportunity
+    name: Alumni Opportunity Agent
+    file: 09-agents/06-alumni-opportunity-agent.md
+    role: matchmaker
+    tier: 3
+    description: Institutional opportunity identification and alumni-opportunity matching.
+    dependencies: [identity, intelligence, network-graph]
+
+  - id: event-engine
+    name: Alumni Event Engine Agent
+    file: 09-agents/07-alumni-event-engine-agent.md
+    role: event-orchestrator
+    tier: 3
+    description: Event concept generation, targeting, communication, and post-event analysis.
+    dependencies: [identity, intelligence, network-graph, storytelling]
+
+  - id: giving
+    name: Alumni Giving Agent
+    file: 09-agents/08-alumni-giving-agent.md
+    role: philanthropy-engine
+    tier: 3
+    description: Donor identification, cultivation, solicitation, and stewardship.
+    dependencies: [identity, intelligence, storytelling]
+
+  - id: feedback
+    name: Alumni Feedback and Learning Agent
+    file: 09-agents/09-alumni-feedback-and-learning-agent.md
+    role: learning-engine
+    tier: 2
+    description: Outcome tracking, performance analysis, and system-wide optimization.
+    dependencies: [all-agents]
+
+  - id: career-pathways
+    name: Career and Employer Pathways Agent
+    file: 09-agents/10-career-and-employer-pathways-agent.md
+    role: workforce-engine
+    tier: 3
+    description: Employer leverage detection, workforce pipeline development, and partnership cultivation.
+    dependencies: [identity, intelligence, network-graph]
+
+# ============================================================
+# Communication Topology
+# ============================================================
+communication:
+  pattern: hub-and-spoke-with-direct-handoffs
+  hub: mission-control
+  messaging_layer: openclaw
+  direct_handoffs:
+    - from: identity
+      to: intelligence
+      trigger: enrichment_complete
+      description: After enrichment, trigger rescore.
+    - from: intelligence
+      to: engagement
+      trigger: high_score_detected
+      description: High-priority alumni routed to outreach.
+    - from: intelligence
+      to: giving
+      trigger: philanthropy_ready
+      description: Alumni above giving threshold routed to cultivation.
+    - from: intelligence
+      to: career-pathways
+      trigger: employer_leverage_detected
+      description: Alumni with employer leverage routed to workforce pipeline.
+    - from: identity
+      to: network-graph
+      trigger: profile_updated
+      description: Updated profiles trigger relationship graph refresh.
+    - from: event-engine
+      to: storytelling
+      trigger: event_content_needed
+      description: Event concepts trigger content creation.
+    - from: feedback
+      to: all-agents
+      trigger: optimization_recommendation
+      description: Feedback insights distributed to all agents.
+
+# ============================================================
+# Tier Architecture
+# ============================================================
+tiers:
+  tier_1:
+    name: Orchestration
+    agents: [mission-control]
+    description: Central coordination and human-in-the-loop management.
+  tier_2:
+    name: Foundation
+    agents: [identity, intelligence, network-graph, feedback]
+    description: Data, scoring, relationships, and learning. These agents must be operational before Tier 3 agents can function.
+  tier_3:
+    name: Activation
+    agents: [storytelling, engagement, opportunity, event-engine, giving, career-pathways]
+    description: Content, outreach, events, giving, and workforce. These agents consume Tier 2 outputs.
+
+# ============================================================
+# Proactive Loop Schedule
+# ============================================================
+schedules:
+  daily:
+    - agent: identity
+      loop: stale_field_refresh
+      description: Top 50 stale records queued for enrichment.
+    - agent: mission-control
+      loop: priority_queue_review
+      description: Review and route all pending high-priority items.
+    - agent: engagement
+      loop: outreach_queue_processing
+      description: Process pending outreach communications.
+
+  weekly:
+    - agent: identity
+      loop: alumni_rediscovery
+      description: Scan for incomplete or aging records.
+    - agent: identity
+      loop: duplicate_detection
+      description: Run deduplication across full database.
+    - agent: intelligence
+      loop: full_rescore
+      description: Rescore all active alumni profiles.
+    - agent: network-graph
+      loop: cluster_refresh
+      description: Re-run cluster detection algorithms.
+    - agent: network-graph
+      loop: warm_introduction_scan
+      description: Identify high-value introduction opportunities.
+    - agent: storytelling
+      loop: story_discovery
+      description: Scan for potential alumni spotlight candidates.
+    - agent: career-pathways
+      loop: internship_pipeline
+      description: Review and update internship pipeline.
+    - agent: feedback
+      loop: performance_review
+      description: Analyze weekly engagement and outcome metrics.
+
+  monthly:
+    - agent: identity
+      loop: milestone_signal_refresh
+      description: Scan public sources for career milestones.
+    - agent: identity
+      loop: regional_cluster_enrichment
+      description: Focus enrichment on a specific region.
+    - agent: network-graph
+      loop: employer_ecosystem_update
+      description: Refresh employer-level network views.
+    - agent: storytelling
+      loop: segment_messaging_refresh
+      description: Refresh segment messaging playbook.
+    - agent: event-engine
+      loop: event_concept_generation
+      description: Generate event concepts for upcoming quarter.
+    - agent: career-pathways
+      loop: employer_network_expansion
+      description: Identify employers with growing alumni concentration.
+    - agent: opportunity
+      loop: opportunity_gap_analysis
+      description: Identify unmatched institutional needs.
+
+  quarterly:
+    - agent: identity
+      loop: military_connected_enrichment
+      description: Specialized enrichment for military-connected alumni.
+    - agent: identity
+      loop: transfer_pathway_update
+      description: Refresh transfer destination and outcome data.
+    - agent: network-graph
+      loop: regional_density_analysis
+      description: Analyze network density by region.
+    - agent: career-pathways
+      loop: employer_reactivation
+      description: Review dormant employer relationships.
+    - agent: giving
+      loop: donor_pipeline_review
+      description: Review full donor cultivation pipeline.
+    - agent: feedback
+      loop: system_optimization_report
+      description: Comprehensive system performance and optimization report.
+
+  annual:
+    - agent: identity
+      loop: full_database_health_audit
+      description: Comprehensive health audit of entire alumni database.
+    - agent: network-graph
+      loop: network_health_report
+      description: Annual network growth and health report.
+    - agent: career-pathways
+      loop: workforce_ecosystem_review
+      description: Full regional workforce ecosystem review.
+    - agent: opportunity
+      loop: opportunity_strategy_review
+      description: Annual review of opportunity portfolio effectiveness.
+
+# ============================================================
+# Human-in-the-Loop Thresholds
+# ============================================================
+human_review:
+  always_required:
+    - Major gift solicitation (any ask above $5,000)
+    - Board nomination or cultivation outreach
+    - External employer partnership outreach
+    - Public-facing content publication
+    - Record merges with confidence below 85%
+  recommended:
+    - First-time outreach to high-profile alumni
+    - Reactivation strategies for high-value dormant alumni
+    - Event concepts for new formats or regions
+    - Sponsorship or corporate partnership proposals
+  automated_with_audit:
+    - Routine enrichment cycles
+    - Score recalculations
+    - Standard communication sequences
+    - Event invitation delivery
+    - First-gift stewardship acknowledgments
+
+# ============================================================
+# Governance Parameters
+# ============================================================
+governance:
+  communication_frequency_cap: 3_per_month
+  email_suppression_after_bounces: 2
+  stale_inference_expiration_months: 18
+  duplicate_merge_confidence_threshold: 0.85
+  sensitive_outreach_human_approval: true
+  data_retention_policy: institutional_standard
+  compliance_frameworks: [FERPA, CCPA]
+  opt_out_processing_sla: 24_hours
