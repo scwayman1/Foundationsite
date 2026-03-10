@@ -1,0 +1,161 @@
+{
+  "$schema": "https://docs.openclaw.ai/schemas/config.json",
+  "version": "1.0.0",
+  "description": "Coastline College Alumni Association — 11-Agent Fleet Configuration",
+  "agents": {
+    "defaults": {
+      "model": "claude-sonnet-4-20250514",
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 150000
+    },
+    "list": [
+      {
+        "id": "mission-control",
+        "default": true,
+        "workspace": "~/.openclaw/workspace-mission-control",
+        "agentDir": "~/.openclaw/agents/mission-control/agent",
+        "description": "Central orchestrator and strategic router for the entire alumni agent fleet",
+        "tier": 1,
+        "model": "claude-sonnet-4-20250514"
+      },
+      {
+        "id": "identity",
+        "workspace": "~/.openclaw/workspace-identity",
+        "agentDir": "~/.openclaw/agents/identity/agent",
+        "description": "Profile enrichment, deduplication, and data quality for alumni records",
+        "tier": 2
+      },
+      {
+        "id": "intelligence",
+        "workspace": "~/.openclaw/workspace-intelligence",
+        "agentDir": "~/.openclaw/agents/intelligence/agent",
+        "description": "Scoring, ranking, and next-best-action recommendations for alumni engagement",
+        "tier": 2
+      },
+      {
+        "id": "network-graph",
+        "workspace": "~/.openclaw/workspace-network-graph",
+        "agentDir": "~/.openclaw/agents/network-graph/agent",
+        "description": "Relationship mapping, cluster detection, and warm introduction pathways",
+        "tier": 2
+      },
+      {
+        "id": "storytelling",
+        "workspace": "~/.openclaw/workspace-storytelling",
+        "agentDir": "~/.openclaw/agents/storytelling/agent",
+        "description": "Content creation, campaign messaging, and segment-aware tone management",
+        "tier": 3
+      },
+      {
+        "id": "engagement",
+        "workspace": "~/.openclaw/workspace-engagement",
+        "agentDir": "~/.openclaw/agents/engagement/agent",
+        "description": "Outreach delivery, sequencing, and response tracking across all channels",
+        "tier": 3
+      },
+      {
+        "id": "opportunity",
+        "workspace": "~/.openclaw/workspace-opportunity",
+        "agentDir": "~/.openclaw/agents/opportunity/agent",
+        "description": "Institutional need matching, board pipeline development, and ask framing",
+        "tier": 3
+      },
+      {
+        "id": "event-engine",
+        "workspace": "~/.openclaw/workspace-event-engine",
+        "agentDir": "~/.openclaw/agents/event-engine/agent",
+        "description": "Event concept generation, targeting, logistics, and post-event analysis",
+        "tier": 3
+      },
+      {
+        "id": "giving",
+        "workspace": "~/.openclaw/workspace-giving",
+        "agentDir": "~/.openclaw/agents/giving/agent",
+        "description": "Donor cultivation, solicitation strategy, and stewardship lifecycle management",
+        "tier": 3
+      },
+      {
+        "id": "feedback",
+        "workspace": "~/.openclaw/workspace-feedback",
+        "agentDir": "~/.openclaw/agents/feedback/agent",
+        "description": "Outcome tracking, system optimization, and continuous learning across the fleet",
+        "tier": 4
+      },
+      {
+        "id": "career-pathways",
+        "workspace": "~/.openclaw/workspace-career-pathways",
+        "agentDir": "~/.openclaw/agents/career-pathways/agent",
+        "description": "Employer leverage, workforce pipeline development, and career partnership management",
+        "tier": 3
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "agentId": "mission-control",
+      "match": { "channel": "whatsapp", "peer": { "kind": "direct" } },
+      "comment": "Default DM routing goes to Mission Control for triage"
+    },
+    {
+      "agentId": "mission-control",
+      "match": { "channel": "discord", "accountId": "default" },
+      "comment": "Discord default channel routes to Mission Control"
+    }
+  ],
+  "fleet": {
+    "name": "Coastline College Alumni Association Agent Fleet",
+    "institution": "Coastline College",
+    "foundation": "Coastline College Foundation",
+    "crm": "GradRoots",
+    "tiers": {
+      "1": {
+        "name": "Orchestration",
+        "description": "Central command and routing layer",
+        "agents": ["mission-control"]
+      },
+      "2": {
+        "name": "Intelligence",
+        "description": "Data enrichment, scoring, and relationship mapping",
+        "agents": ["identity", "intelligence", "network-graph"]
+      },
+      "3": {
+        "name": "Execution",
+        "description": "Content creation, outreach, events, giving, and partnerships",
+        "agents": ["storytelling", "engagement", "opportunity", "event-engine", "giving", "career-pathways"]
+      },
+      "4": {
+        "name": "Learning",
+        "description": "Outcome tracking and continuous system optimization",
+        "agents": ["feedback"]
+      }
+    },
+    "communication": {
+      "topology": "hub-and-spoke",
+      "hub": "mission-control",
+      "protocol": "All inter-agent communication routes through Mission Control unless explicitly configured otherwise"
+    },
+    "governance": {
+      "humanApprovalRequired": [
+        "Outreach to donors with lifetime giving > $10,000",
+        "Communications to board members or VIP alumni",
+        "Any public-facing content or social media posts",
+        "Changes to scoring model weights",
+        "Deletion or merge of alumni records"
+      ],
+      "communicationFrequencyCap": {
+        "maxPerAlumnusPerWeek": 2,
+        "maxPerAlumnusPerMonth": 6,
+        "cooldownAfterMajorAsk": "30 days"
+      },
+      "dataConfidenceThreshold": 0.7,
+      "optOutEnforcement": "immediate and universal"
+    },
+    "proactiveLoops": {
+      "daily": ["mission-control.orchestration", "identity.data-hygiene", "intelligence.signal-scan"],
+      "weekly": ["mission-control.pipeline-balancing", "engagement.sequence-review", "network-graph.cluster-refresh"],
+      "monthly": ["mission-control.goal-calibration", "feedback.performance-review", "giving.pipeline-review"],
+      "quarterly": ["mission-control.strategic-review", "feedback.model-audit", "career-pathways.employer-review"],
+      "annual": ["feedback.full-system-audit", "intelligence.scoring-model-rebuild"]
+    }
+  }
+}

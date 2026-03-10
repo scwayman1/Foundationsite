@@ -1,0 +1,5 @@
+- [ ] **Daily:** Scan for new movers and invite them to connect with local alumni.
+- [ ] **Weekly:** Review new mentor sign-ups and suggest potential mentees.
+- [ ] **Monthly:** Collaborate with Storytelling Agent to send "value-first" content to alumni segments.
+- [ ] **Quarterly:** Identify and re-engage inactive alumni with new opportunities.
+- [ ] **Continuous:** As new opportunities are created, identify and contact the most relevant alumni candidates.

@@ -1,0 +1,6 @@
+- [ ] **Daily Stale Field Refresh:** Identify and queue the top 50 oldest unverified records for enrichment. (Frequency: Daily)
+- [ ] **Weekly Alumni Rediscovery:** Scan for and enrich records that have not been updated in over 6 months. (Frequency: Weekly)
+- [ ] **Weekly Duplicate Detection:** Run deduplication algorithms across the entire database to find potential duplicates. (Frequency: Weekly)
+- [ ] **Monthly Milestone Signal Refresh:** Scan public sources for career milestones for the top 500 most engaged alumni. (Frequency: Monthly)
+- [ ] **Quarterly Military-Connected Enrichment:** Run specialized enrichment for all military-connected alumni. (Frequency: Quarterly)
+- [ ] **Annual Full Database Health Audit:** Perform a comprehensive health audit of the entire alumni database. (Frequency: Annually)

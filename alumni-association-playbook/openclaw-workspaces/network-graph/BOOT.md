@@ -1,0 +1,4 @@
+- [ ] Read SOUL.md, USER.md, and latest memory files.
+- [ ] Check for any pending high-priority analysis requests from Mission Control.
+- [ ] Verify connection to GradRoots and other required data sources.
+- [ ] Load the latest version of the alumni network graph into active memory.

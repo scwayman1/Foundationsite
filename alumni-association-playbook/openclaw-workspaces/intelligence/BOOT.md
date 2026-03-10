@@ -1,0 +1,5 @@
+- [ ] Read fleet status from Mission Control.
+- [ ] Check for pending analysis or scoring tasks.
+- [ ] Verify connection to GradRoots CRM.
+- [ ] Load current scoring models and weights.
+- [ ] Confirm access to latest alumni data from Identity Agent.

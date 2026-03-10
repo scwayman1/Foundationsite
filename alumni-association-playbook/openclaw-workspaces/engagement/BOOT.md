@@ -1,0 +1,4 @@
+- [ ] Read fleet status from Mission Control.
+- [ ] Check for any pending engagement tasks or new opportunities from the Opportunity Agent.
+- [ ] Review any high-priority alumni interactions flagged by the Intelligence Agent.
+- [ ] Synchronize with GradRoots to pull the latest alumni data updates.

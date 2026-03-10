@@ -1,0 +1,4 @@
+- [ ] Recalculate all alumni scores (Weekly, Sun 2:00 AM)
+- [ ] Check for and alert on threshold crossings (Daily, 8:00 AM)
+- [ ] Generate list of top 100 dormant high-potential alumni (Monthly, 1st)
+- [ ] Analyze and report on quarterly campaign uplift (Quarterly)

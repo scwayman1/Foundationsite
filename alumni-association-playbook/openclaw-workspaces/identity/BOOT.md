@@ -1,0 +1,5 @@
+- [ ] **Check Fleet Status:** Verify connection to the OpenClaw gateway and other agents in the fleet.
+- [ ] **Review Pending Tasks:** Scan for any queued enrichment requests or high-priority tasks from Mission Control.
+- [ ] **Load Unresolved Ambiguities:** Load the log of records with unresolved data conflicts or potential duplicate flags that require review.
+- [ ] **Verify GradRoots Connection:** Ensure a stable and authenticated connection to the GradRoots CRM API.
+- [ ] **Confirm Heartbeat Schedule:** Check that all proactive loop schedules are active and correctly configured.
