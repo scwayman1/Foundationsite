@@ -41,7 +41,6 @@ const members: BoardMember[] = [
     name: "Alex A. Accetta, C.P.A.",
     title: "Owner",
     organization: "Alex A. Accetta, CPA & Associates",
-    role: "President",
     category: "Foundation Leadership",
     bio: "Alex Accetta is a Certified Public Accountant and business owner with decades of experience in tax, accounting, and financial planning. Through his Orange County practice, he advises individuals, families, and small businesses on long-term financial strategy, estate planning, and business operations. His professional discipline and deep community roots bring strong fiscal stewardship to the Foundation Board."
   },
@@ -85,6 +84,7 @@ const members: BoardMember[] = [
     name: "Jordan Valdez",
     title: "Assistant Vice President, Card Sales Support Manager",
     organization: "U.S. Bank",
+    role: "President",
     category: "Community & Industry",
     bio: "Jordan Valdez is a banking leader with more than a decade of experience across branch operations, customer service, and sales support. His career at U.S. Bank reflects steady advancement through leadership roles requiring operational discipline, team development, and client relationship management. He brings financial-sector insight, professional rigor, and an emerging-leader perspective to the Foundation Board."
   },
