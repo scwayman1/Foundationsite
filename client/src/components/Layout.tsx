@@ -39,14 +39,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         className={cn(
           "sticky top-0 z-50 w-full transition-all duration-500 ease-out",
           isScrolled
-            ? "bg-white/85 backdrop-blur-2xl border-b border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]"
-            : "bg-transparent border-b border-transparent"
+            ? "bg-white/95 backdrop-blur-xl border-b border-sky-100 shadow-[0_1px_2px_rgba(6,38,58,0.05),0_10px_30px_rgba(6,38,58,0.06)]"
+            : "bg-white/88 backdrop-blur-lg border-b border-white/70"
         )}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <div className="container flex h-[72px] items-center justify-between">
+        <div className="container flex h-[78px] items-center justify-between gap-6">
           {/* Logo */}
           <Link href="/">
             <motion.a
@@ -60,14 +60,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 className="w-10 h-10 object-contain flex-shrink-0"
               />
               <div className="flex flex-col">
-                <span className="font-heading font-bold text-[15px] leading-tight text-slate-900 tracking-tight">Coastline College</span>
-                <span className="text-[11px] font-semibold text-slate-400 tracking-[0.08em] uppercase">Foundation</span>
+                <span className="font-heading font-bold text-[15px] leading-tight text-[#08324a] tracking-tight">Coastline College</span>
+                <span className="text-[11px] font-semibold text-[#0b6fa4] tracking-[0.08em] uppercase">Foundation</span>
               </div>
             </motion.a>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-0.5">
+          <nav className="hidden lg:flex items-center gap-1 rounded-full border border-sky-100 bg-[#f8fcfe] px-2 py-1 shadow-sm">
             {navItems.map((item, index) => (
               <motion.div
                 key={item.path}
@@ -78,16 +78,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link href={item.path}>
                   <a
                     className={cn(
-                      "relative px-3.5 py-2 text-[13px] font-medium rounded-lg transition-all duration-300",
+                      "relative px-4 py-2.5 text-[13px] font-semibold rounded-full transition-all duration-300",
                       location === item.path
-                        ? "text-blue-700 bg-blue-50/80"
-                        : "text-slate-500 hover:text-slate-900 hover:bg-slate-50/80"
+                        ? "text-[#005f86] bg-white shadow-sm"
+                        : "text-slate-600 hover:text-[#005f86] hover:bg-white/80"
                     )}
                   >
                     {item.name}
                     {location === item.path && (
                       <motion.span
-                        className="absolute bottom-0.5 left-3 right-3 h-[2px] bg-gradient-to-r from-blue-500 to-teal-500 rounded-full"
+                        className="absolute bottom-1 left-4 right-4 h-[2px] bg-gradient-to-r from-[#0096d6] to-[#41c4ff] rounded-full"
                         layoutId="nav-indicator"
                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
@@ -175,12 +175,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* ── Premium Footer ── */}
-      <footer className="relative bg-[#0A1628] text-slate-300 overflow-hidden">
-        {/* Subtle background texture */}
-        <div className="absolute inset-0 root-pattern opacity-40" />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/[0.03] rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-teal-500/[0.03] rounded-full blur-[100px]" />
-
+      <footer className="relative bg-[#06263a] text-slate-300 overflow-hidden border-t border-[#0b3d59]">
         <div className="container relative z-10 pt-16 pb-8">
           {/* Top Section */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-white/[0.06]">
@@ -196,8 +191,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <span className="font-heading font-bold text-white text-sm tracking-tight">Coastline College Foundation</span>
                 </div>
               </div>
-              <p className="text-slate-400 text-sm leading-relaxed max-w-sm mb-6">
-                Supporting students through scholarships, endowments, and innovative financial programs that expand Coastline's capacity to meet student and community needs.
+              <p className="text-slate-300/85 text-sm leading-7 max-w-sm mb-6">
+                Supporting Coastline students through scholarships, strategic philanthropy, and partnerships that expand access, opportunity, and long-term community impact.
               </p>
               <div className="flex items-center gap-3">
                 <a
@@ -213,7 +208,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             {/* Quick Links */}
             <div className="md:col-span-3">
-              <h3 className="text-xs font-semibold text-white uppercase tracking-[0.1em] mb-5">Quick Links</h3>
+              <h3 className="text-xs font-semibold text-white uppercase tracking-[0.1em] mb-5">Explore</h3>
               <ul className="space-y-3">
                 {[
                   { name: "About Us", path: "/about" },
@@ -237,7 +232,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             {/* Contact */}
             <div className="md:col-span-4">
-              <h3 className="text-xs font-semibold text-white uppercase tracking-[0.1em] mb-5">Contact</h3>
+              <h3 className="text-xs font-semibold text-white uppercase tracking-[0.1em] mb-5">Contact the Foundation</h3>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center text-slate-400">
