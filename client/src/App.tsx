@@ -12,7 +12,7 @@ import StrategicPlan from "./pages/StrategicPlan";
 import Programs from "./pages/Programs";
 import Budget from "./pages/Budget";
 import GetInvolved from "./pages/GetInvolved";
-import Dashboard from "./pages/Dashboard";
+import Board from "./pages/Board";
 
 function Router() {
   return (
@@ -24,7 +24,7 @@ function Router() {
         <Route path="/programs" component={Programs} />
         <Route path="/budget" component={Budget} />
         <Route path="/get-involved" component={GetInvolved} />
-        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/board" component={Board} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
