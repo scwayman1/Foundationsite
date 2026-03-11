@@ -154,9 +154,9 @@ export default function Home() {
                 size="lg"
                 variant="outline"
                 className="border-white/[0.12] bg-white/[0.04] hover:bg-white/[0.08] text-white backdrop-blur-xl transition-all duration-300 hover:border-white/[0.2] px-7 py-6 text-[15px] font-semibold rounded-xl"
-                onClick={() => setLocation("/dashboard")}
+                onClick={() => setLocation("/board")}
               >
-                Board Dashboard
+                Meet Our Board
               </Button>
             </motion.div>
           </motion.div>

@@ -282,9 +282,9 @@ export default function About() {
                 <p className="text-sm text-slate-500 mb-6 leading-relaxed">
                   The Foundation Board provides strategic direction, fiduciary oversight, and fundraising leadership. Members represent diverse industries including finance, technology, healthcare, and public service.
                 </p>
-                <Link href="/dashboard">
+                <Link href="/board">
                   <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-xl shadow-lg shadow-slate-900/10 font-semibold btn-premium">
-                    Access Board Dashboard
+                    Meet Our Board
                     <ArrowRight size={15} className="ml-2" />
                   </Button>
                 </Link>
