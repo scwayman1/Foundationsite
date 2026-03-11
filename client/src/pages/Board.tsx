@@ -38,11 +38,33 @@ type BoardMember = {
 
 const members: BoardMember[] = [
   {
+    name: "Adam Carrillo",
+    title: "CEO",
+    organization: "Partake Collective",
+    category: "Community & Industry",
+    bio: "Adam Carrillo is the CEO of Partake Collective, where he leads business growth at the intersection of food innovation, commercial real estate, and entrepreneurship. His background spans economic development, marketing, and small-business expansion, with experience supporting scalable ventures across Southern California. He contributes an entrepreneurial lens to the Foundation's work in workforce alignment, industry partnerships, and community impact."
+  },
+  {
     name: "Alex A. Accetta, C.P.A.",
     title: "Owner",
     organization: "Alex A. Accetta, CPA & Associates",
+    role: "Vice President",
     category: "Foundation Leadership",
     bio: "Alex Accetta is a Certified Public Accountant and business owner with decades of experience in tax, accounting, and financial planning. Through his Orange County practice, he advises individuals, families, and small businesses on long-term financial strategy, estate planning, and business operations. His professional discipline and deep community roots bring strong fiscal stewardship to the Foundation Board."
+  },
+  {
+    name: "Ashly Williams",
+    title: "Vice President of People and Culture",
+    organization: "Pacific Rim Capital",
+    category: "Community & Industry",
+    bio: "Ashly Williams is Vice President of People and Culture at Pacific Rim Capital, where she leads organizational development, employee experience, and people strategy in support of business growth. With two decades of leadership experience, primarily in financial services, she is known for strengthening workplace culture, advancing inclusion, and aligning talent strategy with organizational performance. She brings to the Foundation Board deep expertise in leadership development, engagement, and mission-driven culture building."
+  },
+  {
+    name: "Camille Howarth",
+    title: "Real Estate Agent",
+    organization: "Surterre Properties",
+    category: "Community & Industry",
+    bio: "Camille Howarth is an Orange County real estate professional with extensive experience in residential sales, marketing, negotiation, and client advising. Raised in the real estate industry, she brings a multigenerational understanding of relationship-building, local community engagement, and service. Her perspective strengthens the Foundation's connection to philanthropy, stewardship, and long-term community partnerships."
   },
   {
     name: "Christine Nguyen, M.B.A.",
@@ -60,25 +82,19 @@ const members: BoardMember[] = [
     bio: "Dennis Cole is a seasoned educational leader whose career includes service as a teacher, principal, district administrator, and county-level executive. His work has centered on partnerships, student support, and innovative initiatives that expand opportunity for vulnerable and underserved learners. He brings to the Foundation Board a strong regional perspective on collaboration, access, and student success across Orange County."
   },
   {
-    name: "Adam Carrillo",
-    title: "CEO",
-    organization: "Partake Collective",
+    name: "Dominique Anne Abadines",
+    title: "Member Service Representative V",
+    organization: "Navy Federal Credit Union",
     category: "Community & Industry",
-    bio: "Adam Carrillo is the CEO of Partake Collective, where he leads business growth at the intersection of food innovation, commercial real estate, and entrepreneurship. His background spans economic development, marketing, and small-business expansion, with experience supporting scalable ventures across Southern California. He contributes an entrepreneurial lens to the Foundation's work in workforce alignment, industry partnerships, and community impact."
+    bio: "Dominique Anne Abadines is a Member Service Representative V at Navy Federal Credit Union, where her work combines member support, financial education, team mentorship, and community outreach. She has led high-impact financial education presentations, supported onboarding and professional development for colleagues, and helped organize service initiatives ranging from blood drives to care-kit campaigns and grant-supported community programs. She brings to the Foundation Board a strong commitment to financial wellness, volunteer leadership, and community-centered impact."
   },
   {
-    name: "Camille Howarth",
-    title: "Real Estate Agent",
-    organization: "Surterre Properties",
+    name: "Jacob Williams, M.B.A.",
+    title: "President & Founder",
+    organization: "JWINS (Jacob Williams Insurance Services)",
+    role: "Secretary",
     category: "Community & Industry",
-    bio: "Camille Howarth is an Orange County real estate professional with extensive experience in residential sales, marketing, negotiation, and client advising. Raised in the real estate industry, she brings a multigenerational understanding of relationship-building, local community engagement, and service. Her perspective strengthens the Foundation's connection to philanthropy, stewardship, and long-term community partnerships."
-  },
-  {
-    name: "Vincent Rodriguez, Ed.D.",
-    title: "President",
-    organization: "Coastline College",
-    category: "College Leadership",
-    bio: "Dr. Vincent Rodriguez serves as President of Coastline College and is recognized for his leadership in educational access, equity, and student-centered innovation. He champions the role of community colleges as pathways to opportunity for diverse learners and working adults. His leadership helps align the Foundation's efforts with Coastline's institutional mission, student outcomes, and broader community impact."
+    bio: "Jacob Williams is a financial advisor and founder of JWINS, where he focuses on employee benefits, risk management, and strategic planning for businesses and individuals. His background includes experience with retirement planning, insurance strategy, and executive benefits, informed by both large-firm and entrepreneurial environments. He adds financial planning expertise and a disciplined advisory perspective to the Foundation Board."
   },
   {
     name: "Jordan Valdez",
@@ -89,20 +105,6 @@ const members: BoardMember[] = [
     bio: "Jordan Valdez is a banking leader with more than a decade of experience across branch operations, customer service, and sales support. His career at U.S. Bank reflects steady advancement through leadership roles requiring operational discipline, team development, and client relationship management. He brings financial-sector insight, professional rigor, and an emerging-leader perspective to the Foundation Board."
   },
   {
-    name: "Scott Wayman",
-    title: "Director, Foundation & Community Relations",
-    organization: "Coastline College",
-    category: "Foundation Leadership",
-    bio: "Scott Wayman leads Foundation and Community Relations at Coastline College, where he advances partnerships, philanthropic strategy, and institutional engagement in support of students. His background includes executive leadership across mission-driven, education-focused, and high-growth organizations, with experience in strategy, operations, and stakeholder development. He brings a builder's mindset to the Foundation's work in growth, visibility, and long-term impact."
-  },
-  {
-    name: "Jacob Williams, M.B.A.",
-    title: "President & Founder",
-    organization: "JWINS (Jacob Williams Insurance Services)",
-    category: "Community & Industry",
-    bio: "Jacob Williams is a financial advisor and founder of JWINS, where he focuses on employee benefits, risk management, and strategic planning for businesses and individuals. His background includes experience with retirement planning, insurance strategy, and executive benefits, informed by both large-firm and entrepreneurial environments. He adds financial planning expertise and a disciplined advisory perspective to the Foundation Board."
-  },
-  {
     name: "Phu Nguyen",
     title: "Trustee Liaison",
     organization: "Coast Community College District Board of Trustees",
@@ -110,11 +112,18 @@ const members: BoardMember[] = [
     bio: "Phu Nguyen brings a distinguished record of public service, educational governance, and community leadership to his role as Trustee Liaison. His experience includes school district governance, civic leadership within Southern California's Vietnamese community, and oversight of major public infrastructure investments. His perspective strengthens the Foundation's connection to public accountability, educational equity, and the broader communities Coastline serves."
   },
   {
-    name: "Dominique Anne Abadines",
-    title: "Member Service Representative V",
-    organization: "Navy Federal Credit Union",
-    category: "Community & Industry",
-    bio: "Dominique Anne Abadines is a Member Service Representative V at Navy Federal Credit Union, where her work combines member support, financial education, team mentorship, and community outreach. She has led high-impact financial education presentations, supported onboarding and professional development for colleagues, and helped organize service initiatives ranging from blood drives to care-kit campaigns and grant-supported community programs. She brings to the Foundation Board a strong commitment to financial wellness, volunteer leadership, and community-centered impact."
+    name: "Scott Wayman",
+    title: "Director, Foundation & Community Relations",
+    organization: "Coastline College",
+    category: "Foundation Leadership",
+    bio: "Scott Wayman leads Foundation and Community Relations at Coastline College, where he advances partnerships, philanthropic strategy, and institutional engagement in support of students. His background includes executive leadership across mission-driven, education-focused, and high-growth organizations, with experience in strategy, operations, and stakeholder development. He brings a builder's mindset to the Foundation's work in growth, visibility, and long-term impact."
+  },
+  {
+    name: "Vincent Rodriguez, Ed.D.",
+    title: "President",
+    organization: "Coastline College",
+    category: "College Leadership",
+    bio: "Dr. Vincent Rodriguez serves as President of Coastline College and is recognized for his leadership in educational access, equity, and student-centered innovation. He champions the role of community colleges as pathways to opportunity for diverse learners and working adults. His leadership helps align the Foundation's efforts with Coastline's institutional mission, student outcomes, and broader community impact."
   }
 ];
 
