@@ -82,6 +82,13 @@ const members: BoardMember[] = [
     bio: "Dennis Cole is a seasoned educational leader whose career includes service as a teacher, principal, district administrator, and county-level executive. His work has centered on partnerships, student support, and innovative initiatives that expand opportunity for vulnerable and underserved learners. He brings to the Foundation Board a strong regional perspective on collaboration, access, and student success across Orange County."
   },
   {
+    name: "Derek Banyard, M.D., M.S., M.B.A.",
+    title: "Founder & CEO",
+    organization: "Sayenza Biosciences",
+    category: "Community & Industry",
+    bio: "Dr. Derek Banyard is the Founder and CEO of Sayenza Biosciences, where he leads innovation in medical technology for aesthetic and regenerative medicine. A distinguished surgeon-scientist, he is widely recognized for his expertise in adipose tissue biology, supported by major research grants, patents, and an extensive body of publications. He brings to the Foundation Board a unique combination of scientific leadership, entrepreneurial vision, and commitment to expanding opportunity in healthcare and community impact."
+  },
+  {
     name: "Dominique Anne Abadines",
     title: "Member Service Representative V",
     organization: "Navy Federal Credit Union",
