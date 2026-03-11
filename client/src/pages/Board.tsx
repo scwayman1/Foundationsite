@@ -187,7 +187,7 @@ export default function Board() {
             variants={staggerContainer}
           >
             {[
-              { label: "Board Members", value: "10", icon: <Users className="w-5 h-5" /> },
+              { label: "Board Members", value: "13", icon: <Users className="w-5 h-5" /> },
               { label: "Industries Represented", value: "6+", icon: <Briefcase className="w-5 h-5" /> },
               { label: "Foundation Since", value: "1985", icon: <Landmark className="w-5 h-5" /> },
               { label: "Shared Focus", value: "Student Success", icon: <GraduationCap className="w-5 h-5" /> }
