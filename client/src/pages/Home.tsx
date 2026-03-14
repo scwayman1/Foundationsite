@@ -5,6 +5,7 @@ import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import ProgramAreaCard from "@/components/ProgramAreaCard";
 import { featuredPost } from "@/data/news";
+import { featuredEvent } from "@/data/events";
 
 // Animated counter component for KPIs
 function AnimatedNumber({ value, prefix = "", suffix = "", decimals = 0 }: { value: number; prefix?: string; suffix?: string; decimals?: number }) {
@@ -547,6 +548,79 @@ export default function Home() {
                     </Link>
                   </div>
                 </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          EVENTS SECTION — Engagement surface
+         ═══════════════════════════════════════════════════════════ */}
+      <section className="py-24 bg-[#f2f9fc] relative overflow-hidden border-t border-sky-100">
+        <div className="container relative z-10">
+          <motion.div
+            className="grid grid-cols-1 lg:grid-cols-[1fr_0.96fr] gap-8 items-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeInUp}>
+              <div className="overflow-hidden rounded-[28px] border border-sky-100 bg-white shadow-[0_20px_42px_rgba(6,38,58,0.08)]">
+                <div className="relative h-72 md:h-80 overflow-hidden">
+                  <img src={featuredEvent.featuredImage} alt={featuredEvent.featuredAlt} className="h-full w-full object-cover object-center" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#06263a]/65 via-transparent to-transparent" />
+                  <div className="absolute top-5 left-5 inline-flex items-center rounded-full bg-white/12 backdrop-blur-md border border-white/15 px-3 py-1 text-[11px] font-semibold tracking-[0.1em] uppercase text-white">
+                    {featuredEvent.status}
+                  </div>
+                </div>
+                <div className="p-7 md:p-8">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4] mb-3">Featured event</p>
+                  <h3 className="text-2xl font-heading font-bold text-[#08324a] leading-tight mb-3">{featuredEvent.title}</h3>
+                  <p className="text-slate-600 leading-7 mb-5">{featuredEvent.excerpt}</p>
+                  <div className="flex items-center justify-between gap-4 flex-wrap">
+                    <span className="text-sm text-slate-500">{featuredEvent.dateLabel} • {featuredEvent.location}</span>
+                    <Link href={`/events/${featuredEvent.slug}`}>
+                      <a className="inline-flex items-center gap-2 text-sm font-semibold text-[#0b6fa4] hover:text-[#08324a] transition-colors">
+                        View event <ArrowRight size={14} />
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div className="space-y-6" variants={fadeInUp}>
+              <div>
+                <span className="text-[11px] font-semibold text-[#0b6fa4] uppercase tracking-[0.12em] mb-3 block">Events</span>
+                <h2 className="text-3xl md:text-4xl font-heading font-bold text-[#08324a] leading-tight mb-4 max-w-xl">
+                  A visible calendar for stewardship, recognition, and community connection.
+                </h2>
+                <p className="text-slate-600 text-[16px] leading-8 max-w-xl">
+                  Events give the Foundation another living surface for donor engagement. They make the work visible, create reasons to return to the site, and give partners and supporters clear moments to participate.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
+                {[
+                  ["Upcoming Events", "Clear visibility into what is ahead and how to engage."],
+                  ["Past Highlights", "A record of activity, stewardship, and momentum."],
+                  ["Donor Touchpoints", "Natural invitations into support, attendance, and partnership."],
+                  ["Recap Content", "Events can feed the broader News & Impact flywheel."],
+                ].map(([title, copy]) => (
+                  <div key={title} className="rounded-2xl border border-sky-100 bg-white p-5">
+                    <p className="font-semibold text-[#08324a] mb-1.5">{title}</p>
+                    <p className="text-sm leading-relaxed text-slate-500">{copy}</p>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <Link href="/events">
+                  <Button className="bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl px-7 py-6 text-[15px] font-semibold btn-premium">
+                    Explore Events
+                    <ArrowRight size={16} className="ml-2" />
+                  </Button>
+                </Link>
               </div>
             </motion.div>
           </motion.div>
