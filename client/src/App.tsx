@@ -15,8 +15,6 @@ import GetInvolved from "./pages/GetInvolved";
 import Board from "./pages/Board";
 import NewsImpact from "./pages/NewsImpact";
 import NewsPost from "./pages/NewsPost";
-import Events from "./pages/Events";
-import EventPost from "./pages/EventPost";
 
 function Router() {
   return (
@@ -31,8 +29,6 @@ function Router() {
         <Route path="/board" component={Board} />
         <Route path="/news" component={NewsImpact} />
         <Route path="/news/:slug" component={NewsPost} />
-        <Route path="/events" component={Events} />
-        <Route path="/events/:slug" component={EventPost} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
