@@ -540,7 +540,7 @@ export default function Home() {
                   <h3 className="text-2xl font-heading font-bold text-[#08324a] leading-tight mb-3">{featuredPost.title}</h3>
                   <p className="text-slate-600 leading-7 mb-5">{featuredPost.excerpt}</p>
                   <div className="flex items-center justify-between gap-4 flex-wrap">
-                    <span className="text-sm text-slate-500 inline-flex items-center gap-2"><CalendarDays size={14} className="text-[#0b6fa4]" /> {featuredPost.publishedAt} • {featuredPost.readTime}</span>
+                    <span className="text-sm text-slate-500">{featuredPost.publishedAt} • {featuredPost.readTime}</span>
                     <Link href={`/news/${featuredPost.slug}`}>
                       <a className="inline-flex items-center gap-2 text-sm font-semibold text-[#0b6fa4] hover:text-[#08324a] transition-colors">
                         Read story <ArrowRight size={14} />
@@ -572,7 +572,7 @@ export default function Home() {
                   <img src={featuredEvent.featuredImage} alt={featuredEvent.featuredAlt} className="h-full w-full object-cover object-center" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#06263a]/65 via-transparent to-transparent" />
                   <div className="absolute top-5 left-5 inline-flex items-center rounded-full bg-white/12 backdrop-blur-md border border-white/15 px-3 py-1 text-[11px] font-semibold tracking-[0.1em] uppercase text-white">
-                    Featured event · {featuredEvent.status}
+                    {featuredEvent.status}
                   </div>
                 </div>
                 <div className="p-7 md:p-8">
@@ -580,7 +580,7 @@ export default function Home() {
                   <h3 className="text-2xl font-heading font-bold text-[#08324a] leading-tight mb-3">{featuredEvent.title}</h3>
                   <p className="text-slate-600 leading-7 mb-5">{featuredEvent.excerpt}</p>
                   <div className="flex items-center justify-between gap-4 flex-wrap">
-                    <span className="text-sm text-slate-500 inline-flex items-center gap-2"><CalendarDays size={14} className="text-[#0b6fa4]" /> {featuredEvent.dateLabel}</span>
+                    <span className="text-sm text-slate-500">{featuredEvent.dateLabel} • {featuredEvent.location}</span>
                     <Link href={`/events/${featuredEvent.slug}`}>
                       <a className="inline-flex items-center gap-2 text-sm font-semibold text-[#0b6fa4] hover:text-[#08324a] transition-colors">
                         View event <ArrowRight size={14} />
