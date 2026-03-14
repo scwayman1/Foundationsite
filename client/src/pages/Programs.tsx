@@ -44,8 +44,8 @@ export default function Programs() {
       statDetail: "Contribution to Orange County's service economy",
       icon: <Building2 className="w-5 h-5" />,
       gradient: "from-teal-400 to-teal-500",
-      photo: "/Scott and Guest.jpg",
-      imagePosition: "object-[center_28%]"
+      photo: "/Meribeth and Student.jpg",
+      imagePosition: "object-[center_35%]"
     },
     {
       title: "Healthcare & Biotech",
@@ -65,7 +65,7 @@ export default function Programs() {
       icon: <Wrench className="w-5 h-5" />,
       gradient: "from-amber-400 to-orange-500",
       photo: "/coastline-classroom.jpg",
-      imagePosition: "object-[center_36%]"
+      imagePosition: "object-[center_30%]"
     },
     {
       title: "Sustainability & Green Tech",
@@ -74,8 +74,8 @@ export default function Programs() {
       statDetail: "Growing demand for sustainability professionals",
       icon: <Leaf className="w-5 h-5" />,
       gradient: "from-emerald-400 to-emerald-500",
-      photo: "/coastline-community.jpg",
-      imagePosition: "object-[center_38%]"
+      photo: "/Tom and Student.jpg",
+      imagePosition: "object-[center_42%]"
     },
     {
       title: "Global Trade & Logistics",
@@ -84,8 +84,8 @@ export default function Programs() {
       statDetail: "Proximity to major ports and international markets",
       icon: <Globe className="w-5 h-5" />,
       gradient: "from-violet-400 to-purple-500",
-      photo: "/Coastline Campus.jpg",
-      imagePosition: "object-[center_44%]"
+      photo: "/Scott Speaking.jpg",
+      imagePosition: "object-[center_30%]"
     }
   ];
 
