@@ -8,7 +8,8 @@ import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime()];
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: mode == "staging" ? "/Foundationsite/" : "/",
   plugins,
   resolve: {
     alias: {
@@ -41,4 +42,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));
