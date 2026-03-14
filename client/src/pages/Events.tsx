@@ -32,8 +32,10 @@ export default function Events() {
           alt="Coastline Foundation event"
           className="absolute inset-0 h-full w-full object-cover object-[center_32%]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,38,58,0.88)_0%,rgba(6,38,58,0.7)_42%,rgba(6,38,58,0.35)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,38,58,0.88)_0%,rgba(6,38,58,0.72)_38%,rgba(6,38,58,0.38)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,38,58,0.18)_0%,rgba(6,38,58,0.04)_40%,rgba(6,38,58,0.46)_100%)]" />
         <div className="absolute inset-0 dot-grid opacity-[0.04]" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#f7fbfe] to-transparent" />
 
         <motion.div className="container relative z-10" initial="hidden" animate="visible" variants={staggerContainer}>
           <motion.div className="max-w-3xl" variants={fadeInUp}>
@@ -111,8 +113,8 @@ export default function Events() {
                   <h3 className="text-xl font-heading font-bold text-[#08324a] leading-tight mb-3">{event.title}</h3>
                   <p className="text-slate-600 leading-7 text-sm mb-5">{event.excerpt}</p>
                   <div className="space-y-2 text-xs text-slate-500 mb-5">
-                    <div>{event.dateLabel}</div>
-                    <div>{event.location}</div>
+                    <div className="inline-flex items-center gap-2"><CalendarDays size={13} className="text-[#0b6fa4]" /> {event.dateLabel}</div>
+                    <div className="inline-flex items-center gap-2"><MapPin size={13} className="text-[#0b6fa4]" /> {event.location}</div>
                   </div>
                   <Link href={`/events/${event.slug}`}>
                     <a className="inline-flex items-center gap-2 text-sm font-semibold text-[#0b6fa4] hover:text-[#08324a] transition-colors">View details <ArrowRight size={14} /></a>
