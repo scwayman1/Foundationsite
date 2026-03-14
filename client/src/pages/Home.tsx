@@ -4,6 +4,7 @@ import { Link, useLocation } from "wouter";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import ProgramAreaCard from "@/components/ProgramAreaCard";
+import { featuredPost } from "@/data/news";
 
 // Animated counter component for KPIs
 function AnimatedNumber({ value, prefix = "", suffix = "", decimals = 0 }: { value: number; prefix?: string; suffix?: string; decimals?: number }) {
@@ -80,26 +81,26 @@ export default function Home() {
           <motion.img
             src={homeImages.hero}
             alt="Coastline students and scholarship recipients"
-            className="absolute inset-0 w-full h-full object-cover object-[center_38%]"
-            initial={{ scale: 1.06 }}
+            className="absolute inset-0 w-full h-full object-cover object-[center_58%] md:object-[center_62%]"
+            initial={{ scale: 1.04 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
+            transition={{ duration: 1.0, ease: "easeOut" }}
           />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,38,58,0.9)_0%,rgba(6,38,58,0.76)_38%,rgba(6,38,58,0.34)_72%,rgba(6,38,58,0.18)_100%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,150,214,0.12)_0%,rgba(6,38,58,0)_40%,rgba(6,38,58,0.5)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,38,58,0.82)_0%,rgba(6,38,58,0.7)_28%,rgba(6,38,58,0.28)_58%,rgba(6,38,58,0.08)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,38,58,0.18)_0%,rgba(6,38,58,0.03)_38%,rgba(6,38,58,0.42)_100%)]" />
         </div>
 
-        <div className="absolute inset-0 dot-grid opacity-[0.05]" />
-        <div className="absolute top-20 left-0 h-px w-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+        <div className="absolute inset-0 dot-grid opacity-[0.035]" />
+        <div className="absolute top-20 left-0 h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         <div className="container relative z-10 py-20 lg:py-28">
           <motion.div
-            className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.2fr)_360px] gap-10 items-end"
+            className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_320px] gap-8 items-end"
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
           >
-            <div className="max-w-3xl space-y-7">
+            <div className="max-w-3xl space-y-7 lg:pr-10">
               <motion.div
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-md"
                 variants={fadeInUp}
@@ -147,8 +148,8 @@ export default function Home() {
             </div>
 
             <motion.div className="hidden lg:block" variants={fadeInUp}>
-              <div className="rounded-3xl border border-white/15 bg-white/10 backdrop-blur-xl p-6 shadow-2xl shadow-black/15">
-                <p className="text-[11px] font-semibold tracking-[0.14em] uppercase text-[#9adfff] mb-4">Focused impact</p>
+              <div className="rounded-3xl border border-white/12 bg-white/8 backdrop-blur-md p-5 shadow-xl shadow-black/10 max-w-[320px] ml-auto">
+                <p className="text-[11px] font-semibold tracking-[0.14em] uppercase text-[#b9ebff] mb-4">Focused impact</p>
                 <div className="space-y-4">
                   {[
                     ["Scholarships", "Direct support that helps students stay enrolled and complete."],
@@ -471,6 +472,83 @@ export default function Home() {
             <Link href="/programs">
               <Button variant="outline" className="w-full rounded-xl">View All Programs</Button>
             </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          NEWS & IMPACT SECTION — Content flywheel surface
+         ═══════════════════════════════════════════════════════════ */}
+      <section className="py-24 bg-white relative overflow-hidden border-t border-sky-100">
+        <div className="container relative z-10">
+          <motion.div
+            className="grid grid-cols-1 lg:grid-cols-[0.92fr_1.08fr] gap-8 items-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer}
+          >
+            <motion.div className="space-y-6" variants={fadeInUp}>
+              <div>
+                <span className="text-[11px] font-semibold text-[#0b6fa4] uppercase tracking-[0.12em] mb-3 block">News & Impact</span>
+                <h2 className="text-3xl md:text-4xl font-heading font-bold text-[#08324a] leading-tight mb-4 max-w-xl">
+                  A publishing surface built for donor trust, search visibility, and momentum.
+                </h2>
+                <p className="text-slate-600 text-[16px] leading-8 max-w-xl">
+                  Coastline’s content stream should do more than fill space. It should tell student-centered stories, explain the Foundation’s impact, and create strong entry points for donors, partners, and community supporters.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
+                {[
+                  ["Stories", "Student-centered proof that philanthropy changes real outcomes."],
+                  ["Giving Insights", "Pages that answer donor questions and support search intent."],
+                  ["Foundation Updates", "Institutional credibility, activity, and visible momentum."],
+                  ["Conversion Paths", "Clear next steps into giving, engagement, and partnership."],
+                ].map(([title, copy]) => (
+                  <div key={title} className="rounded-2xl border border-sky-100 bg-[#f8fcfe] p-5">
+                    <p className="font-semibold text-[#08324a] mb-1.5">{title}</p>
+                    <p className="text-sm leading-relaxed text-slate-500">{copy}</p>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <Link href="/news">
+                  <Button className="bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl px-7 py-6 text-[15px] font-semibold btn-premium">
+                    Explore News & Impact
+                    <ArrowRight size={16} className="ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+
+            <motion.div variants={fadeInUp}>
+              <div className="overflow-hidden rounded-[28px] border border-sky-100 bg-white shadow-[0_20px_42px_rgba(6,38,58,0.08)]">
+                <div className="relative h-72 md:h-80 overflow-hidden">
+                  <img
+                    src={featuredPost.featuredImage}
+                    alt={featuredPost.featuredAlt}
+                    className="h-full w-full object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#06263a]/65 via-transparent to-transparent" />
+                  <div className="absolute top-5 left-5 inline-flex items-center rounded-full bg-white/12 backdrop-blur-md border border-white/15 px-3 py-1 text-[11px] font-semibold tracking-[0.1em] uppercase text-white">
+                    Featured story
+                  </div>
+                </div>
+                <div className="p-7 md:p-8">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4] mb-3">{featuredPost.category}</p>
+                  <h3 className="text-2xl font-heading font-bold text-[#08324a] leading-tight mb-3">{featuredPost.title}</h3>
+                  <p className="text-slate-600 leading-7 mb-5">{featuredPost.excerpt}</p>
+                  <div className="flex items-center justify-between gap-4 flex-wrap">
+                    <span className="text-sm text-slate-500">{featuredPost.publishedAt} • {featuredPost.readTime}</span>
+                    <Link href={`/news/${featuredPost.slug}`}>
+                      <a className="inline-flex items-center gap-2 text-sm font-semibold text-[#0b6fa4] hover:text-[#08324a] transition-colors">
+                        Read story <ArrowRight size={14} />
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>

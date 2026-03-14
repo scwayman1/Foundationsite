@@ -13,6 +13,8 @@ import Programs from "./pages/Programs";
 import Budget from "./pages/Budget";
 import GetInvolved from "./pages/GetInvolved";
 import Board from "./pages/Board";
+import NewsImpact from "./pages/NewsImpact";
+import NewsPost from "./pages/NewsPost";
 
 function Router() {
   return (
@@ -25,6 +27,8 @@ function Router() {
         <Route path="/budget" component={Budget} />
         <Route path="/get-involved" component={GetInvolved} />
         <Route path="/board" component={Board} />
+        <Route path="/news" component={NewsImpact} />
+        <Route path="/news/:slug" component={NewsPost} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>

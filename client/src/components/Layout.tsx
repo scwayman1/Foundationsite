@@ -29,6 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "Programs", path: "/programs" },
     { name: "Budget", path: "/budget" },
     { name: "Get Involved", path: "/get-involved" },
+    { name: "News & Impact", path: "/news" },
     { name: "Meet Our Board", path: "/board" },
   ];
 
@@ -216,6 +217,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   { name: "Programs", path: "/programs" },
                   { name: "Budget & Finance", path: "/budget" },
                   { name: "Get Involved", path: "/get-involved" },
+                  { name: "News & Impact", path: "/news" },
                   { name: "Meet Our Board", path: "/board" },
                 ].map((link) => (
                   <li key={link.path}>
