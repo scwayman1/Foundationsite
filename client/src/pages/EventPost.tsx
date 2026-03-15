@@ -1,4 +1,4 @@
-import { ArrowLeft, CalendarDays, Clock3, MapPin, ArrowRight } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock3, MapPin, ArrowRight, Sparkles } from "lucide-react";
 import { Link, useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { foundationEvents } from "@/data/events";
@@ -17,62 +17,87 @@ export default function EventPost() {
     return (
       <div className="min-h-[60vh] flex items-center justify-center bg-[#f7fbfe] px-6">
         <div className="max-w-xl text-center">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4] mb-3">Events</p>
-          <h1 className="text-3xl font-heading font-bold text-[#08324a] mb-4">Event not found</h1>
-          <p className="text-slate-600 leading-7 mb-6">This event may have moved, been renamed, or not been published yet.</p>
-          <Link href="/events"><Button className="bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl">Back to Events</Button></Link>
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Events</p>
+          <h1 className="mb-4 text-3xl font-heading font-bold text-[#08324a]">Event not found</h1>
+          <p className="mb-6 leading-7 text-slate-600">This event may have moved, been renamed, or not been published yet.</p>
+          <Link href="/events"><Button className="rounded-xl bg-[#0096d6] text-white hover:bg-[#0284bc]">Back to Events</Button></Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-[#f7fbfe] min-h-screen">
-      <section className="relative overflow-hidden bg-white border-b border-sky-100">
-        <div className="container py-16 md:py-20">
+    <div className="min-h-screen bg-[#f7fbfe]">
+      <section className="relative overflow-hidden bg-[#06263a] text-white">
+        <img src={event.featuredImage} alt={event.featuredAlt} className="absolute inset-0 h-full w-full object-cover object-center opacity-30 mix-blend-screen" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(6,38,58,0.97)_0%,rgba(7,53,82,0.9)_48%,rgba(10,33,52,0.95)_100%)]" />
+        <div className="absolute inset-0 dot-grid opacity-[0.05]" />
+        <div className="container relative z-10 py-18 md:py-22">
           <Link href="/events">
-            <a className="inline-flex items-center gap-2 text-sm font-semibold text-[#0b6fa4] hover:text-[#08324a] transition-colors mb-8"><ArrowLeft size={14} /> Back to Events</a>
+            <a className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-slate-200/90 transition-colors hover:text-white"><ArrowLeft size={14} /> Back to Events</a>
           </Link>
           <div className="max-w-4xl">
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              <span className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] ${statusClass(event.status)}`}>{event.status}</span>
+            <div className="mb-4 flex flex-wrap items-center gap-3">
+              <span className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] ${statusClass(event.status)} bg-white/92`}>{event.status}</span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-white/85 backdrop-blur-md"><Sparkles size={12} className="text-[#8fddff]" /> Foundation Event</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-[#08324a] leading-[1.05] mb-5">{event.title}</h1>
-            <p className="text-lg text-slate-600 leading-8 mb-6 max-w-3xl">{event.excerpt}</p>
-            <div className="space-y-3 text-sm text-slate-500">
-              <div className="inline-flex items-center gap-2"><CalendarDays size={14} /> {event.dateLabel}</div>
-              <div className="inline-flex items-center gap-2"><Clock3 size={14} /> {event.timeLabel}</div>
-              <div className="inline-flex items-center gap-2"><MapPin size={14} /> {event.location}</div>
+            <h1 className="mb-5 text-4xl font-heading font-bold leading-[1.02] md:text-6xl">{event.title}</h1>
+            <p className="mb-8 max-w-3xl text-lg leading-8 text-slate-200/92 md:text-xl">{event.excerpt}</p>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="rounded-[22px] border border-white/10 bg-white/8 p-5 backdrop-blur-md">
+                <div className="mb-3 inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-[#8fddff]"><CalendarDays size={16} /></div>
+                <p className="mb-1 text-[11px] uppercase tracking-[0.12em] text-slate-300">Date</p>
+                <p className="font-semibold text-white">{event.dateLabel}</p>
+              </div>
+              <div className="rounded-[22px] border border-white/10 bg-white/8 p-5 backdrop-blur-md">
+                <div className="mb-3 inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-[#8fddff]"><Clock3 size={16} /></div>
+                <p className="mb-1 text-[11px] uppercase tracking-[0.12em] text-slate-300">Time</p>
+                <p className="font-semibold text-white">{event.timeLabel}</p>
+              </div>
+              <div className="rounded-[22px] border border-white/10 bg-white/8 p-5 backdrop-blur-md">
+                <div className="mb-3 inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-[#8fddff]"><MapPin size={16} /></div>
+                <p className="mb-1 text-[11px] uppercase tracking-[0.12em] text-slate-300">Location</p>
+                <p className="font-semibold text-white">{event.location}</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-10 md:py-12">
+      <section className="relative -mt-12 z-20 pb-24">
         <div className="container">
-          <div className="overflow-hidden rounded-[28px] border border-sky-100 bg-white shadow-[0_18px_34px_rgba(6,38,58,0.06)]">
-            <img src={event.featuredImage} alt={event.featuredAlt} className="h-[360px] md:h-[460px] w-full object-cover object-center" />
-          </div>
-        </div>
-      </section>
-
-      <section className="pb-24">
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-10 items-start">
-            <article className="rounded-[28px] border border-sky-100 bg-white px-7 py-8 md:px-10 md:py-12 shadow-sm">
-              <div className="prose prose-slate max-w-none prose-p:text-slate-600 prose-p:leading-8 prose-p:text-[16px] prose-headings:text-[#08324a]">
-                {event.body.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_340px] items-start">
+            <article className="overflow-hidden rounded-[30px] border border-sky-100 bg-white shadow-[0_20px_48px_rgba(6,38,58,0.08)]">
+              <div className="relative h-[320px] overflow-hidden md:h-[420px]">
+                <img src={event.featuredImage} alt={event.featuredAlt} className="h-full w-full object-cover object-center" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#06263a]/55 via-transparent to-transparent" />
+              </div>
+              <div className="px-7 py-8 md:px-10 md:py-12">
+                <div className="prose prose-slate max-w-none prose-p:text-[16px] prose-p:leading-8 prose-p:text-slate-600 prose-headings:text-[#08324a]">
+                  {event.body.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
               </div>
             </article>
-            <aside className="rounded-[24px] border border-sky-100 bg-[#eaf6fb] p-6 md:p-7 shadow-sm lg:sticky lg:top-24">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4] mb-3">Next step</p>
-              <h2 className="text-2xl font-heading font-bold text-[#08324a] leading-tight mb-3">Stay connected to Foundation activity</h2>
-              <p className="text-slate-600 leading-7 text-sm mb-6">Events give Coastline another durable surface for stewardship, participation, and follow-through beyond a one-time announcement.</p>
+
+            <aside className="rounded-[28px] border border-sky-100 bg-white p-6 md:p-7 shadow-[0_16px_34px_rgba(6,38,58,0.06)] lg:sticky lg:top-24">
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Attend this event</p>
+              <h2 className="mb-3 text-2xl font-heading font-bold leading-tight text-[#08324a]">A cleaner invitation and registration path</h2>
+              <p className="mb-6 text-sm leading-7 text-slate-600">
+                The site should frame the event clearly, then hand off registration or payment cleanly through the primary event system.
+              </p>
               <Link href={event.ctaHref}>
-                <Button className="w-full bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl font-semibold btn-premium">{event.ctaLabel} <ArrowRight size={15} className="ml-2" /></Button>
+                <Button className="mb-4 w-full rounded-xl bg-[#0096d6] font-semibold text-white btn-premium hover:bg-[#0284bc]">
+                  {event.ctaLabel} <ArrowRight size={15} className="ml-2" />
+                </Button>
               </Link>
+              <div className="rounded-[20px] border border-sky-100 bg-[#f7fbfe] p-5 text-sm text-slate-600">
+                <p className="mb-2 font-semibold text-[#08324a]">Event setup principle</p>
+                <p className="leading-7">
+                  Coastline events should feel warm, polished, and easy to act on — with media, narrative context, and one obvious next step.
+                </p>
+              </div>
             </aside>
           </div>
         </div>

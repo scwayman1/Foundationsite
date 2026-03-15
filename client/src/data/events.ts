@@ -17,22 +17,23 @@ export interface FoundationEvent {
 
 export const foundationEvents: FoundationEvent[] = [
   {
-    slug: "scholarship-recognition-reception",
-    title: "Scholarship Recognition Reception",
-    status: "Upcoming",
-    dateLabel: "April 24, 2026",
-    timeLabel: "5:30 PM – 7:30 PM",
-    location: "Coastline College, Fountain Valley",
+    slug: "coastline-college-scholarship-ceremony-2026",
+    title: "Coastline College Scholarship Ceremony 2026",
+    status: "Registration Open",
+    dateLabel: "Friday, April 17, 2026",
+    timeLabel: "5:00 PM – 7:00 PM",
+    location: "Coastline College Fountain Valley Student Center",
     excerpt:
-      "An evening recognizing scholarship recipients, donors, and the shared commitment that helps Coastline students move forward with confidence.",
+      "A banquet-style evening celebrating student achievement, donor generosity, and the connection between scholarship support and student success.",
     featuredImage: "/Scholarship Recipients .jpg",
     featuredAlt: "Coastline scholarship recipients at a recognition event",
-    ctaLabel: "Contact the Foundation",
-    ctaHref: "/get-involved",
+    ctaLabel: "Register on GradRoots",
+    ctaHref: "https://www.gradroots.com/event/3AxxZRGdSbNgGZqZOKAAyFGl2C0",
     body: [
-      "The Scholarship Recognition Reception brings together students, donors, and Foundation supporters to recognize the impact of scholarship support at Coastline College.",
-      "The event is designed to celebrate student achievement while also making visible the direct connection between generosity and opportunity. It creates a meaningful space for donors and community partners to see how support translates into progress, persistence, and long-term mobility.",
-      "For the Foundation, events like this are not simply ceremonial. They are a chance to strengthen relationships, reinforce mission, and deepen shared commitment to student success.",
+      "Join us for this year’s Coastline College Scholarship Ceremony, a special evening celebrating student achievement, generosity, and the life-changing power of philanthropy.",
+      "Held at the Coastline College Fountain Valley Student Center, this year’s event marks an exciting first: a banquet-style gathering designed to bring scholarship recipients and donors together at the same tables for a more personal and meaningful shared experience.",
+      "Guests will enjoy an evening of recognition, connection, and celebration as we honor the remarkable students whose lives are being shaped by scholarship support and the generous donors who make those opportunities possible.",
+      "This new format is intended to do more than recognize achievement. It is designed to create real moments of connection between the people investing in education and the students carrying that investment forward.",
     ],
   },
   {
