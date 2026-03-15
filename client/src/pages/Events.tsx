@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { foundationEvents } from "@/data/events";
+import { photosByRole } from "@/data/photos";
+import PhotoAcknowledgment from "@/components/PhotoAcknowledgment";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -25,6 +27,12 @@ function statusClass(status: string) {
 
 const featuredEvent = foundationEvents[0];
 const remainingEvents = foundationEvents.slice(1);
+const eventGalleryPhotos = photosByRole("event-gallery");
+const eventHeroPhotos = photosByRole("event-hero");
+const eventFeaturePhotos = photosByRole("event-feature");
+const eventCardPhotos = photosByRole("event-card");
+const featuredPhoto = eventHeroPhotos[0] ?? eventFeaturePhotos[0] ?? eventGalleryPhotos[0];
+const featuredPanelPhoto = eventFeaturePhotos[0] ?? featuredPhoto;
 
 export default function Events() {
   return (
@@ -32,9 +40,10 @@ export default function Events() {
       <section className="relative overflow-hidden bg-[#06263a] text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(143,221,255,0.18),transparent_34%),radial-gradient(circle_at_85%_15%,rgba(255,255,255,0.14),transparent_26%)]" />
         <img
-          src="/Scholarship Recipients .jpg"
-          alt="Coastline Foundation event setting"
-          className="absolute inset-0 h-full w-full object-cover object-[center_35%] opacity-30 mix-blend-screen"
+          src={featuredPhoto?.src}
+          alt={featuredPhoto?.alt || "Coastline Foundation event setting"}
+          className="absolute inset-0 h-full w-full object-cover opacity-30 mix-blend-screen"
+          style={{ objectPosition: featuredPhoto?.objectPosition || "center 35%" }}
         />
         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(6,38,58,0.97)_0%,rgba(7,53,82,0.9)_48%,rgba(10,33,52,0.95)_100%)]" />
         <div className="absolute inset-0 dot-grid opacity-[0.06]" />
@@ -48,10 +57,10 @@ export default function Events() {
                 <span className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/90">Foundation Events</span>
               </div>
               <h1 className="mb-6 text-4xl font-heading font-bold leading-[1.02] md:text-6xl">
-                A more ceremonial home for Coastline’s gatherings, milestones, and community connection.
+                Gatherings that bring Coastline’s mission to life.
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-slate-200/92 md:text-xl">
-                This page should feel less like a calendar utility and more like an invitation — a place where scholarship celebrations, donor gatherings, and Foundation moments carry emotional and institutional weight.
+                From scholarship celebrations to community gatherings, these events create visible moments of connection between students, supporters, and the Coastline community.
               </p>
             </motion.div>
 
@@ -89,12 +98,20 @@ export default function Events() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]">
               <div className="relative min-h-[340px] overflow-hidden lg:min-h-full">
-                <img src={featuredEvent.featuredImage} alt={featuredEvent.featuredAlt} className="absolute inset-0 h-full w-full object-cover object-center" />
+                <img
+                  src={featuredPanelPhoto?.src || featuredEvent.featuredImage}
+                  alt={featuredPanelPhoto?.alt || featuredEvent.featuredAlt}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  style={{ objectPosition: featuredPanelPhoto?.objectPosition || "center" }}
+                />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,38,58,0.12)_0%,rgba(6,38,58,0.0)_38%,rgba(6,38,58,0.72)_100%)]" />
                 <div className="absolute left-6 top-6 inline-flex items-center rounded-full border border-white/18 bg-white/12 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-white backdrop-blur-md">
                   Featured invitation
                 </div>
-                <div className="absolute bottom-6 left-6 right-6 rounded-[24px] border border-white/12 bg-[#06263a]/48 p-5 backdrop-blur-xl">
+                <div className="absolute bottom-6 left-6 right-6 flex justify-start">
+                  <PhotoAcknowledgment caption={featuredPanelPhoto?.caption} />
+                </div>
+                <div className="absolute bottom-20 left-6 right-6 rounded-[24px] border border-white/12 bg-[#06263a]/48 p-5 backdrop-blur-xl">
                   <span className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] ${statusClass(featuredEvent.status)} bg-white/92`}>{featuredEvent.status}</span>
                   <p className="mt-4 text-lg font-heading font-bold text-white">{featuredEvent.title}</p>
                 </div>
@@ -102,9 +119,9 @@ export default function Events() {
 
               <div className="p-8 md:p-10 lg:p-12">
                 <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Lead event</p>
-                <h2 className="mb-4 text-3xl font-heading font-bold leading-tight text-[#08324a] md:text-4xl">An event page that feels like a real invitation.</h2>
+                <h2 className="mb-4 text-3xl font-heading font-bold leading-tight text-[#08324a] md:text-4xl">A more welcoming way to gather the Coastline community</h2>
                 <p className="mb-8 max-w-2xl text-[16px] leading-8 text-slate-600">
-                  The strongest Foundation events are not just dates on a list. They are moments of recognition, stewardship, and connection. The featured block should make that obvious.
+                  Coastline’s events should feel personal, well-hosted, and meaningful — not just listed. The featured invitation gives supporters, students, and guests a clear sense of what the moment is and why it matters.
                 </p>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-8">
@@ -157,16 +174,26 @@ export default function Events() {
               <h2 className="text-3xl font-heading font-bold text-[#08324a] md:text-4xl">Upcoming gatherings and recent Foundation activity</h2>
             </motion.div>
             <motion.p variants={fadeInUp} className="max-w-xl text-slate-600 leading-7">
-              These cards should feel more like editorial invitations than utility widgets — clear, useful, and tied to the broader Coastline story.
+              Each event should feel like a genuine invitation into Coastline’s community — clear, useful, and grounded in real moments of connection.
             </motion.p>
           </motion.div>
 
           <motion.div className="grid grid-cols-1 gap-6 xl:grid-cols-2" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-40px" }} variants={staggerContainer}>
-            {remainingEvents.map((event) => (
+            {remainingEvents.map((event, index) => {
+              const galleryPhoto = eventCardPhotos[index % eventCardPhotos.length] ?? eventGalleryPhotos[(index + 1) % eventGalleryPhotos.length];
+              return (
               <motion.article key={event.slug} variants={fadeInUp} className="group grid overflow-hidden rounded-[26px] border border-sky-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(6,38,58,0.08)] md:grid-cols-[220px_1fr]">
                 <div className="relative min-h-[220px] overflow-hidden">
-                  <img src={event.featuredImage} alt={event.featuredAlt} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                  <img
+                    src={galleryPhoto?.src || event.featuredImage}
+                    alt={galleryPhoto?.alt || event.featuredAlt}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    style={{ objectPosition: galleryPhoto?.objectPosition || "center" }}
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#06263a]/42 via-transparent to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <PhotoAcknowledgment caption={galleryPhoto?.caption} className="bg-[#06263a]/64 text-white/90" />
+                  </div>
                 </div>
                 <div className="p-6 md:p-7">
                   <div className="mb-3 flex items-center gap-3 flex-wrap">
@@ -186,7 +213,7 @@ export default function Events() {
                   </Link>
                 </div>
               </motion.article>
-            ))}
+            );})}
           </motion.div>
         </div>
       </section>
