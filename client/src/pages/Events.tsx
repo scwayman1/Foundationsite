@@ -154,11 +154,11 @@ export default function Events() {
                       View Event <ArrowRight size={15} className="ml-2" />
                     </Button>
                   </Link>
-                  <Link href={featuredEvent.ctaHref}>
+                  <a href={featuredEvent.ctaHref} target="_blank" rel="noreferrer">
                     <Button variant="outline" className="rounded-xl border-sky-200 px-6 py-5 font-semibold text-[#08324a] hover:bg-sky-50">
                       {featuredEvent.ctaLabel}
                     </Button>
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

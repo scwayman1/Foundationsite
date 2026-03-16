@@ -104,11 +104,11 @@ export default function EventPost() {
               <p className="mb-6 text-sm leading-7 text-slate-600">
                 Coastline events should feel warm, polished, and easy to join — with a clear invitation, a strong sense of purpose, and one obvious next step.
               </p>
-              <Link href={event.ctaHref}>
+              <a href={event.ctaHref} target="_blank" rel="noreferrer">
                 <Button className="mb-4 w-full rounded-xl bg-[#0096d6] font-semibold text-white btn-premium hover:bg-[#0284bc]">
                   {event.ctaLabel} <ArrowRight size={15} className="ml-2" />
                 </Button>
-              </Link>
+              </a>
               <div className="rounded-[20px] border border-sky-100 bg-[#f7fbfe] p-5 text-sm text-slate-600">
                 <p className="mb-2 font-semibold text-[#08324a]">Event setup principle</p>
                 <p className="leading-7">
