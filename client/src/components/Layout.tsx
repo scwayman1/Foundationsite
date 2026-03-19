@@ -35,7 +35,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-background font-sans">
+    <>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+      <div className="min-h-screen flex flex-col bg-background font-sans">
       {/* ── Premium Navigation ── */}
       <motion.header
         className={cn(
@@ -102,8 +104,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* Mobile Menu Button */}
           <motion.button
+            type="button"
             className="lg:hidden p-2.5 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100/80 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
             whileTap={{ scale: 0.95 }}
           >
             <AnimatePresence mode="wait">
@@ -136,6 +142,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
+              id="mobile-navigation"
               className="lg:hidden border-t border-slate-100/80 bg-white/95 backdrop-blur-2xl"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
@@ -172,7 +179,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </motion.header>
 
       {/* ── Main Content ── */}
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {children}
       </main>
 
@@ -267,21 +274,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* Bottom Bar */}
           <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-300">
               &copy; {new Date().getFullYear()} Coastline College Foundation. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <a href="https://www.coastline.edu" target="_blank" rel="noopener noreferrer" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+              <a href="https://www.coastline.edu" target="_blank" rel="noopener noreferrer" className="text-xs text-slate-300 hover:text-white transition-colors">
                 Coastline College
               </a>
-              <span className="text-slate-700">|</span>
-              <a href="https://www.cccd.edu" target="_blank" rel="noopener noreferrer" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+              <span className="text-slate-500">|</span>
+              <a href="https://www.cccd.edu" target="_blank" rel="noopener noreferrer" className="text-xs text-slate-300 hover:text-white transition-colors">
                 Coast Community College District
               </a>
             </div>
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
+
   );
 }

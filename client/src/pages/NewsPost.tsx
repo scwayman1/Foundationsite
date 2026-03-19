@@ -14,9 +14,9 @@ export default function NewsPost() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4] mb-3">News & Impact</p>
           <h1 className="text-3xl font-heading font-bold text-[#08324a] mb-4">Story not found</h1>
           <p className="text-slate-600 leading-7 mb-6">This article may have moved, been renamed, or not been published yet.</p>
-          <Link href="/news">
-            <Button className="bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl">Back to News & Impact</Button>
-          </Link>
+          <Button asChild className="bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl">
+            <Link href="/news">Back to News & Impact</Link>
+          </Button>
         </div>
       </div>
     );
@@ -71,11 +71,11 @@ export default function NewsPost() {
               <p className="text-slate-600 leading-7 text-sm mb-6">
                 This publishing surface is designed to support donor trust, search visibility, and clear next actions across the Foundation’s outreach system.
               </p>
-              <Link href={post.ctaHref}>
-                <Button className="w-full bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl font-semibold btn-premium">
+              <Button asChild className="w-full bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl font-semibold btn-premium">
+                <Link href={post.ctaHref}>
                   {post.ctaLabel} <ArrowRight size={15} className="ml-2" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </aside>
           </div>
         </div>

@@ -26,7 +26,9 @@ export default function EventPost() {
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Events</p>
           <h1 className="mb-4 text-3xl font-heading font-bold text-[#08324a]">Event not found</h1>
           <p className="mb-6 leading-7 text-slate-600">This event may have moved, been renamed, or not been published yet.</p>
-          <Link href="/events"><Button className="rounded-xl bg-[#0096d6] text-white hover:bg-[#0284bc]">Back to Events</Button></Link>
+          <Button asChild className="rounded-xl bg-[#0096d6] text-white hover:bg-[#0284bc]">
+            <Link href="/events">Back to Events</Link>
+          </Button>
         </div>
       </div>
     );
@@ -104,11 +106,11 @@ export default function EventPost() {
               <p className="mb-6 text-sm leading-7 text-slate-600">
                 Coastline events should feel warm, polished, and easy to join — with a clear invitation, a strong sense of purpose, and one obvious next step.
               </p>
-              <a href={event.ctaHref} target="_blank" rel="noreferrer">
-                <Button className="mb-4 w-full rounded-xl bg-[#0096d6] font-semibold text-white btn-premium hover:bg-[#0284bc]">
+              <Button asChild className="mb-4 w-full rounded-xl bg-[#0096d6] font-semibold text-white btn-premium hover:bg-[#0284bc]">
+                <a href={event.ctaHref} target="_blank" rel="noreferrer">
                   {event.ctaLabel} <ArrowRight size={15} className="ml-2" />
-                </Button>
-              </a>
+                </a>
+              </Button>
               <div className="rounded-[20px] border border-sky-100 bg-[#f7fbfe] p-5 text-sm text-slate-600">
                 <p className="mb-2 font-semibold text-[#08324a]">Event setup principle</p>
                 <p className="leading-7">

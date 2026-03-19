@@ -98,16 +98,16 @@ export default function NewsImpact() {
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-4">
-                  <Link href={`/news/${featuredPost.slug}`}>
-                    <Button className="bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl px-6 py-5 font-semibold btn-premium">
+                  <Button asChild className="bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl px-6 py-5 font-semibold btn-premium">
+                    <Link href={`/news/${featuredPost.slug}`}>
                       Read Featured Story <ArrowRight size={15} className="ml-2" />
-                    </Button>
-                  </Link>
-                  <Link href={featuredPost.ctaHref}>
-                    <Button variant="outline" className="rounded-xl px-6 py-5 font-semibold border-sky-200 text-[#08324a] hover:bg-sky-50">
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" className="rounded-xl px-6 py-5 font-semibold border-sky-200 text-[#08324a] hover:bg-sky-50">
+                    <Link href={featuredPost.ctaHref}>
                       {featuredPost.ctaLabel}
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
               </div>
             </div>

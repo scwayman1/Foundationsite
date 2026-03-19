@@ -275,12 +275,12 @@ export default function Home() {
                 ))}
               </div>
               <div className="pt-2">
-                <Link href="/about">
-                  <Button variant="ghost" className="text-[#0b6fa4] hover:text-[#08324a] hover:bg-sky-50 font-semibold px-0 group">
+                <Button asChild variant="ghost" className="text-[#0b6fa4] hover:text-[#08324a] hover:bg-sky-50 font-semibold px-0 group">
+                  <Link href="/about">
                     Learn More About the Foundation
                     <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             </motion.div>
 
@@ -413,11 +413,11 @@ export default function Home() {
               <p className="text-slate-500 mt-2 max-w-xl">Targeted initiatives that connect Coastline students to regional opportunity, workforce needs, and high-value learning pathways.</p>
             </motion.div>
             <motion.div variants={fadeInUp}>
-              <Link href="/programs">
-                <Button variant="ghost" className="hidden md:flex text-blue-600 hover:text-blue-700 hover:bg-blue-50/80 font-semibold group">
+              <Button asChild variant="ghost" className="hidden md:flex text-blue-600 hover:text-blue-700 hover:bg-blue-50/80 font-semibold group">
+                <Link href="/programs">
                   View All Programs <ArrowRight size={15} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </motion.div>
           </motion.div>
 
@@ -469,9 +469,9 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Link href="/programs">
-              <Button variant="outline" className="w-full rounded-xl">View All Programs</Button>
-            </Link>
+            <Button asChild variant="outline" className="w-full rounded-xl">
+              <Link href="/programs">View All Programs</Link>
+            </Button>
           </motion.div>
         </div>
       </section>
@@ -512,12 +512,12 @@ export default function Home() {
                 ))}
               </div>
               <div>
-                <Link href="/news">
-                  <Button className="bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl px-7 py-6 text-[15px] font-semibold btn-premium">
+                <Button asChild className="bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl px-7 py-6 text-[15px] font-semibold btn-premium">
+                  <Link href="/news">
                     Explore News & Impact
                     <ArrowRight size={16} className="ml-2" />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             </motion.div>
 
@@ -592,16 +592,16 @@ export default function Home() {
             className="flex flex-col sm:flex-row justify-center gap-4"
             variants={fadeInUp}
           >
-            <Link href="/get-involved">
-              <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 font-semibold shadow-xl shadow-blue-950/20 px-8 py-6 rounded-xl text-[15px] btn-premium">
+            <Button asChild size="lg" className="bg-white text-blue-900 hover:bg-blue-50 font-semibold shadow-xl shadow-blue-950/20 px-8 py-6 rounded-xl text-[15px] btn-premium">
+              <Link href="/get-involved">
                 Get Involved
-              </Button>
-            </Link>
-            <Link href="/about">
-              <Button size="lg" variant="outline" className="border-white/[0.15] text-white hover:bg-white/[0.08] hover:border-white/[0.25] px-8 py-6 rounded-xl text-[15px] font-semibold">
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-white/[0.15] text-white hover:bg-white/[0.08] hover:border-white/[0.25] px-8 py-6 rounded-xl text-[15px] font-semibold">
+              <Link href="/about">
                 Learn More
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </motion.div>
         </motion.div>
       </section>

@@ -149,16 +149,16 @@ export default function Events() {
                 </div>
 
                 <div className="flex flex-wrap gap-4">
-                  <Link href={`/events/${featuredEvent.slug}`}>
-                    <Button className="rounded-xl bg-[#0096d6] px-6 py-5 font-semibold text-white btn-premium hover:bg-[#0284bc]">
+                  <Button asChild className="rounded-xl bg-[#0096d6] px-6 py-5 font-semibold text-white btn-premium hover:bg-[#0284bc]">
+                    <Link href={`/events/${featuredEvent.slug}`}>
                       View Event <ArrowRight size={15} className="ml-2" />
-                    </Button>
-                  </Link>
-                  <a href={featuredEvent.ctaHref} target="_blank" rel="noreferrer">
-                    <Button variant="outline" className="rounded-xl border-sky-200 px-6 py-5 font-semibold text-[#08324a] hover:bg-sky-50">
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" className="rounded-xl border-sky-200 px-6 py-5 font-semibold text-[#08324a] hover:bg-sky-50">
+                    <a href={featuredEvent.ctaHref} target="_blank" rel="noreferrer">
                       {featuredEvent.ctaLabel}
-                    </Button>
-                  </a>
+                    </a>
+                  </Button>
                 </div>
               </div>
             </div>

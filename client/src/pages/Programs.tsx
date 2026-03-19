@@ -235,16 +235,16 @@ export default function Programs() {
             Your investment in our programs directly impacts student success and workforce readiness in Orange County.
           </motion.p>
           <motion.div className="flex flex-col sm:flex-row justify-center gap-4" variants={fadeInUp}>
-            <Link href="/get-involved">
-              <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 font-semibold shadow-xl shadow-blue-950/20 px-8 py-6 rounded-xl text-[15px] btn-premium">
+            <Button asChild size="lg" className="bg-white text-blue-900 hover:bg-blue-50 font-semibold shadow-xl shadow-blue-950/20 px-8 py-6 rounded-xl text-[15px] btn-premium">
+              <Link href="/get-involved">
                 Get Involved <ArrowRight size={16} className="ml-2" />
-              </Button>
-            </Link>
-            <Link href="/budget">
-              <Button size="lg" variant="outline" className="border-white/[0.15] text-white hover:bg-white/[0.08] hover:border-white/[0.25] px-8 py-6 rounded-xl text-[15px] font-semibold">
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-white/[0.15] text-white hover:bg-white/[0.08] hover:border-white/[0.25] px-8 py-6 rounded-xl text-[15px] font-semibold">
+              <Link href="/budget">
                 View Budget
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </motion.div>
         </motion.div>
       </section>
