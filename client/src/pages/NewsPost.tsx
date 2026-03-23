@@ -49,7 +49,20 @@ export default function NewsPost() {
       <section className="py-10 md:py-12">
         <div className="container">
           <div className="overflow-hidden rounded-[28px] border border-sky-100 bg-white shadow-[0_18px_34px_rgba(6,38,58,0.06)]">
-            <img src={post.featuredImage} alt={post.featuredAlt} className="h-[360px] md:h-[460px] w-full object-cover object-center" />
+            {post.embedUrl ? (
+              <div className="aspect-video w-full bg-slate-950">
+                <iframe
+                  src={post.embedUrl}
+                  title={post.title}
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            ) : (
+              <img src={post.featuredImage} alt={post.featuredAlt} className="h-[360px] md:h-[460px] w-full object-cover object-center" />
+            )}
           </div>
         </div>
       </section>

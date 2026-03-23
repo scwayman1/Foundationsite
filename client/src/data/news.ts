@@ -13,10 +13,32 @@ export interface NewsPost {
   featured: boolean;
   ctaLabel: string;
   ctaHref: string;
+  embedUrl?: string;
   body: string[];
 }
 
 export const newsPosts: NewsPost[] = [
+  {
+    slug: "tawny-burgess-academic-success-video",
+    title: "Coastline Alumni Tawny Burgess Reveals Her Secret to Academic Success",
+    category: "Student Stories",
+    excerpt:
+      "This featured video spotlights Coastline alumna Tawny Burgess and the habits, support, and persistence that shaped her academic success story.",
+    author: "Coastline College",
+    publishedAt: "2026-03-23",
+    readTime: "2 min watch",
+    featuredImage: "https://i.ytimg.com/vi/NFYUkcPllog/maxresdefault.jpg",
+    featuredAlt: "Video thumbnail for Coastline Alumni Tawny Burgess Reveals Her Secret to Academic Success",
+    featured: true,
+    ctaLabel: "Watch on YouTube",
+    ctaHref: "https://youtu.be/NFYUkcPllog?si=GusoOaSBb_koEwUy",
+    embedUrl: "https://www.youtube.com/embed/NFYUkcPllog",
+    body: [
+      "This video belongs on the Foundation's News & Impact surface because it does what strong advancement content should do: it makes student success visible, personal, and credible.",
+      "Tawny Burgess’s story helps translate Coastline’s value into a human narrative. It gives prospective donors, partners, and community members a concrete example of how persistence, institutional support, and educational opportunity can change a student’s trajectory.",
+      "Featuring the video here also strengthens the Foundation site as a publishing surface, not just a static brochure. It gives us a richer mix of formats — written stories, updates, and now video — that can support trust, engagement, and future giving intent.",
+    ],
+  },
   {
     slug: "why-community-college-giving-matters-in-orange-county",
     title: "Why Community College Giving Matters in Orange County",
@@ -28,7 +50,7 @@ export const newsPosts: NewsPost[] = [
     readTime: "4 min read",
     featuredImage: "/coastline-community.jpg",
     featuredAlt: "Coastline College community gathering",
-    featured: true,
+    featured: false,
     ctaLabel: "Support Student Opportunity",
     ctaHref: "/get-involved",
     body: [
