@@ -469,3 +469,43 @@
   background-size: 200% 200%;
   animation: gradient-shift 8s ease infinite;
 }
+
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 1000;
+  transform: translateY(-200%);
+  background: #06263A;
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 2px solid #8FDDFF;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #0b6fa4;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(143, 221, 255, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
