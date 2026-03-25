@@ -19,6 +19,29 @@ export interface NewsPost {
 
 export const newsPosts: NewsPost[] = [
   {
+    slug: "what-smart-local-giving-looks-like-at-coastline",
+    title: "What Smart Local Giving Looks Like at Coastline",
+    category: "Giving Insights",
+    excerpt:
+      "The strongest philanthropic investments are not abstract. They reduce friction, expand opportunity, and help students keep moving toward degrees, certificates, and economic mobility.",
+    author: "Coastline College Foundation",
+    publishedAt: "2026-03-25",
+    readTime: "4 min read",
+    featuredImage: "/coastline-community.jpg",
+    featuredAlt: "Coastline College community gathering and student success environment",
+    featured: true,
+    ctaLabel: "Support Student Opportunity",
+    ctaHref: "/get-involved",
+    body: [
+      "The best giving is rarely about optics. It is about removing the obstacles that slow talented people down and making it easier for them to keep building momentum. At Coastline, that means seeing students clearly: many are balancing work, family responsibilities, financial pressure, and the ordinary uncertainty that comes with trying to improve your life while still living it.",
+      "That is why practical support matters so much. A scholarship can close a gap that would otherwise force a student to reduce units, delay completion, or step away entirely. A program enhancement can help faculty deliver stronger learning experiences tied to the realities students will face after graduation. A targeted investment in student support can be the difference between a setback and a finish line.",
+      "For donors, this creates a compelling opportunity. Community college philanthropy is not a vague act of goodwill. It can produce visible, local, and durable results. It helps students persist. It helps programs respond faster. It helps institutions serve their communities with greater precision and flexibility than public funding alone often allows.",
+      "At Coastline, that is the lens we want to keep sharpening. Smart local giving should strengthen real outcomes: completion, transfer, workforce readiness, and long-term mobility. It should help students move from pressure to possibility. It should support the kind of institutional responsiveness that lets a college act not just as a place of instruction, but as a platform for upward movement.",
+      "This is also why storytelling matters. Donors should be able to see the human stakes behind the work. They should understand not only that a gift matters, but how it matters — in classrooms, in student lives, in career pathways, and in the health of the broader community. The more clearly that connection is made, the more trust and momentum the Foundation can build over time.",
+      "As Coastline expands its outreach, our goal is straightforward: show the work honestly, show the impact clearly, and make it easy for people who care about educational opportunity to participate in something concrete. The strongest advancement strategy is not built on pressure. It is built on clarity, credibility, and proof that local investment can change trajectories.",
+    ],
+  },
+  {
     slug: "tawny-burgess-academic-success-video",
     title: "Coastline Alumni Tawny Burgess Reveals Her Secret to Academic Success",
     category: "Student Stories",
@@ -29,7 +52,7 @@ export const newsPosts: NewsPost[] = [
     readTime: "2 min watch",
     featuredImage: "https://i.ytimg.com/vi/NFYUkcPllog/maxresdefault.jpg",
     featuredAlt: "Video thumbnail for Coastline Alumni Tawny Burgess Reveals Her Secret to Academic Success",
-    featured: true,
+    featured: false,
     ctaLabel: "Watch on YouTube",
     ctaHref: "https://youtu.be/NFYUkcPllog?si=GusoOaSBb_koEwUy",
     embedUrl: "https://www.youtube.com/embed/NFYUkcPllog",
