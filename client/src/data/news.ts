@@ -19,6 +19,53 @@ export interface NewsPost {
 
 export const newsPosts: NewsPost[] = [
   {
+    slug: "the-real-me-james-storlie",
+    title: "The Spirit of Creativity: James Storlie’s Story and The Real Me",
+    category: "Student Stories",
+    excerpt:
+      "James Storlie’s song The Real Me is more than a performance. It is a statement of identity, dignity, and the kind of creativity that becomes possible when students are supported and seen clearly.",
+    author: "Coastline College Foundation",
+    publishedAt: "2026-03-28",
+    readTime: "4 min read",
+    featuredImage: "https://i.ytimg.com/vi/zLz0osN2G58/hqdefault.jpg",
+    featuredAlt: "Video thumbnail for The Real Me by James Storlie",
+    featured: true,
+    ctaLabel: "Support Student Opportunity",
+    ctaHref: "/get-involved",
+    embedUrl: "https://www.youtube.com/embed/zLz0osN2G58",
+    body: [
+      "Some stories do not need embellishment. They simply need to be heard. James Storlie’s The Real Me belongs in that category. It is personal, direct, and deeply human — the kind of student expression that makes a college community feel real rather than abstract.",
+      "What makes the piece powerful is not only the music itself, but what it represents. Creativity here is not ornamental. It is a form of voice, confidence, and self-definition. Through the work of Coastline’s disability-support and student-centered programs, students are not asked to fit into a narrow idea of success. They are given room to develop skills, express who they are, and be recognized for the substance of what they bring.",
+      "That matters because stories about access and inclusion can sometimes become too generic. James’s story resists that. It reminds us that support is not only about accommodation in the narrow sense. It is also about making it possible for students to participate fully, contribute meaningfully, and create something that reflects their own perspective and identity.",
+      "The Real Me also captures something important about Coastline’s educational environment: when students are valued, creativity often becomes visible. Confidence grows. Talent surfaces. Community deepens. What might otherwise remain private becomes something that can move and encourage other people.",
+      "For the Foundation, this is exactly the kind of story worth elevating. It shows that student success is not just measured in transcripts and completions, important as those are. It is also measured in voice, belonging, resilience, and the ability to claim one’s place with clarity and pride.",
+      "James Storlie’s story is worth honoring because it reflects the spirit of a college that believes students should be supported not only as learners, but as whole people. The result is not just a moving performance. It is a visible reminder of what educational opportunity can make possible when creativity, support, and dignity meet.",
+    ],
+  },
+  {
+    slug: "coastline-song-community-voice",
+    title: "When a College Finds Its Voice: Why the Coastline Song Matters",
+    category: "Community Impact",
+    excerpt:
+      "The Coastline Song works because it feels collective. It captures the energy of a college community finding shared expression through creativity, participation, and pride.",
+    author: "Coastline College Foundation",
+    publishedAt: "2026-03-29",
+    readTime: "3 min read",
+    featuredImage: "https://i.ytimg.com/vi/MdFXsRBXZ2s/hqdefault.jpg",
+    featuredAlt: "Video thumbnail for Coastline Song music video",
+    featured: false,
+    ctaLabel: "Watch on YouTube",
+    ctaHref: "https://www.youtube.com/watch?v=MdFXsRBXZ2s",
+    embedUrl: "https://www.youtube.com/embed/MdFXsRBXZ2s",
+    body: [
+      "Institutional culture is easy to describe badly. It is much harder to make it felt. That is why the Coastline Song stands out. Instead of relying on slogans, it gives the community a shared creative expression that feels human, memorable, and participatory.",
+      "There is real value in that. Colleges are strengthened not only by programs and outcomes, but by the sense that students, faculty, staff, and supporters are part of something recognizably alive. Music has a way of doing that quickly. It turns identity into experience.",
+      "For Coastline, this kind of creative work helps show that student life and institutional spirit are not side notes. They are part of the environment that helps people persist, belong, and contribute. A healthy college community does not just inform students. It invites them in.",
+      "That also makes this the right kind of story for the Foundation to surface. Donors and community partners should be able to see that Coastline is not simply operating programs. It is cultivating a culture. The Coastline Song is one small but vivid example of that culture becoming visible.",
+      "In practical terms, stories like this help expand the emotional range of the Foundation’s communications. Not every post should sound like an appeal or a report. Some should remind people what community, creativity, and shared identity actually look like when a college is doing its work well.",
+    ],
+  },
+  {
     slug: "what-smart-local-giving-looks-like-at-coastline",
     title: "What Smart Local Giving Looks Like at Coastline",
     category: "Giving Insights",
@@ -29,7 +76,7 @@ export const newsPosts: NewsPost[] = [
     readTime: "4 min read",
     featuredImage: "/coastline-community.jpg",
     featuredAlt: "Coastline College community gathering and student success environment",
-    featured: true,
+    featured: false,
     ctaLabel: "Support Student Opportunity",
     ctaHref: "/get-involved",
     body: [
