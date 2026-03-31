@@ -477,7 +477,7 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          NEWS & IMPACT SECTION — Content flywheel surface
+          NEWS & IMPACT SECTION
          ═══════════════════════════════════════════════════════════ */}
       <section className="py-24 bg-white relative overflow-hidden border-t border-sky-100">
         <div className="container relative z-10">

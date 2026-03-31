@@ -82,7 +82,7 @@ export default function NewsPost() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4] mb-3">Next step</p>
               <h2 className="text-2xl font-heading font-bold text-[#08324a] leading-tight mb-3">Turn attention into action</h2>
               <p className="text-slate-600 leading-7 text-sm mb-6">
-                This publishing surface is designed to support donor trust, search visibility, and clear next actions across the Foundation’s outreach system.
+                Learn more about the students, programs, and partnerships that help Coastline create opportunity across the community.
               </p>
               <Button asChild className="w-full bg-[#0096d6] hover:bg-[#0284bc] text-white rounded-xl font-semibold btn-premium">
                 <Link href={post.ctaHref}>
