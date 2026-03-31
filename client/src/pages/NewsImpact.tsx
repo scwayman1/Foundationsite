@@ -43,10 +43,10 @@ export default function NewsImpact() {
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-heading font-bold leading-[1.05] mb-6">
-              Stories, updates, and donor-facing insight that strengthen Coastline’s reach.
+              Stories of student success, community impact, and the people who help Coastline move forward.
             </h1>
             <p className="max-w-2xl text-lg md:text-xl text-slate-200/90 leading-relaxed">
-              This is the Foundation’s publishing surface for student stories, giving insight, campaign updates, and institutional proof — built to support trust, search visibility, and donor conversion.
+              Explore student stories, Foundation updates, and community partnerships that show how support for Coastline creates opportunity, momentum, and lasting local impact.
             </p>
           </motion.div>
         </motion.div>
@@ -125,11 +125,11 @@ export default function NewsImpact() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4] mb-3">Publishing system</p>
-              <h2 className="text-3xl md:text-4xl font-heading font-bold text-[#08324a]">Built for trust, search, and donor momentum</h2>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4] mb-3">News & Impact</p>
+              <h2 className="text-3xl md:text-4xl font-heading font-bold text-[#08324a]">A closer look at Coastline’s students, programs, and community support</h2>
             </motion.div>
             <motion.p variants={fadeInUp} className="max-w-xl text-slate-600 leading-7">
-              The goal is not to maintain a generic blog. It is to compound visibility and credibility with stories and pages that support giving intent, demonstrate impact, and strengthen conversion pathways.
+              This section highlights the stories, updates, and partnerships that help show what support for Coastline makes possible for students and the wider community.
             </motion.p>
           </motion.div>
 
