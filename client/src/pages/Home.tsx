@@ -500,10 +500,10 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
                 {[
-                  ["Stories", "Student-centered proof that philanthropy changes real outcomes."],
-                  ["Giving Insights", "Pages that answer donor questions and support search intent."],
-                  ["Foundation Updates", "Institutional credibility, activity, and visible momentum."],
-                  ["Conversion Paths", "Clear next steps into giving, engagement, and partnership."],
+                  ["Student Stories", "Personal stories that reflect persistence, talent, and opportunity."],
+                  ["Community Impact", "Examples of how support for Coastline strengthens students and the wider community."],
+                  ["Foundation Updates", "Important news about scholarships, partnerships, and Foundation activity."],
+                  ["Ways to Engage", "Clear paths for donors, partners, and supporters to stay connected and get involved."],
                 ].map(([title, copy]) => (
                   <div key={title} className="rounded-2xl border border-sky-100 bg-[#f8fcfe] p-5">
                     <p className="font-semibold text-[#08324a] mb-1.5">{title}</p>

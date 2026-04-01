@@ -104,9 +104,9 @@ export const newsPosts: NewsPost[] = [
     ctaHref: "https://youtu.be/NFYUkcPllog?si=GusoOaSBb_koEwUy",
     embedUrl: "https://www.youtube.com/embed/NFYUkcPllog",
     body: [
-      "This video belongs on the Foundation's News & Impact surface because it does what strong advancement content should do: it makes student success visible, personal, and credible.",
+      "This video belongs in News & Impact because it makes student success visible, personal, and credible.",
       "Tawny Burgess’s story helps translate Coastline’s value into a human narrative. It gives prospective donors, partners, and community members a concrete example of how persistence, institutional support, and educational opportunity can change a student’s trajectory.",
-      "Featuring the video here also strengthens the Foundation site as a publishing surface, not just a static brochure. It gives us a richer mix of formats — written stories, updates, and now video — that can support trust, engagement, and future giving intent.",
+      "It also adds another way for people to connect with Coastline through a format that feels immediate, human, and memorable.",
     ],
   },
   {
