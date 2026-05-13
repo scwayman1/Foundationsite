@@ -66,7 +66,8 @@ export default function NewsImpact() {
                 <img
                   src={featuredPost.featuredImage}
                   alt={featuredPost.featuredAlt}
-                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  style={{ objectPosition: featuredPost.imagePosition ?? "center" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#06263a]/80 via-[#06263a]/15 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
@@ -151,6 +152,7 @@ export default function NewsImpact() {
                     src={post.featuredImage}
                     alt={post.featuredAlt}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    style={{ objectPosition: post.imagePosition ?? "center" }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#06263a]/45 via-transparent to-transparent" />
                 </div>

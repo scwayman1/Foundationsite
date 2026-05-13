@@ -14,10 +14,60 @@ export interface NewsPost {
   ctaLabel: string;
   ctaHref: string;
   embedUrl?: string;
+  imagePosition?: string;
+  galleryImages?: Array<{
+    src: string;
+    alt: string;
+    caption?: string;
+  }>;
   body: string[];
 }
 
 export const newsPosts: NewsPost[] = [
+  {
+    slug: "first-scholarship-banquet-fountain-valley",
+    title: "A New Tradition Begins: Coastline College Foundation Hosts First Scholarship Banquet at Fountain Valley",
+    category: "Foundation News",
+    excerpt:
+      "Departing from the Foundation’s traditional scholarship ceremony format, Coastline College Foundation welcomed students, families, donors, faculty, staff, and community supporters to its first-ever Scholarship Banquet — and awarded more than $200,000 in scholarships during a memorable evening at the Fountain Valley location.",
+    author: "Coastline College Foundation",
+    publishedAt: "2026-05-13",
+    readTime: "3 min read",
+    featuredImage: "/Scholarship Recipients .jpg",
+    featuredAlt: "Coastline scholarship banquet celebration at the Fountain Valley location",
+    featured: false,
+    ctaLabel: "Support Student Opportunity",
+    ctaHref: "/get-involved",
+    imagePosition: "center 38%",
+    galleryImages: [
+      {
+        src: "/Scholarship Recipients .jpg",
+        alt: "Scholarship recipients celebrated at the Coastline College Foundation banquet",
+        caption: "Scholarship recipients were recognized during the Foundation’s first banquet-style celebration.",
+      },
+      {
+        src: "/Michelle and Anna.jpg",
+        alt: "Guests celebrating together at the Coastline scholarship banquet",
+        caption: "The banquet format created more room for conversation, connection, and shared pride.",
+      },
+      {
+        src: "/Justine and Ruby.jpg",
+        alt: "Community members at the Coastline College Foundation scholarship banquet",
+        caption: "Students, families, faculty, staff, donors, and supporters came together in Fountain Valley for the evening.",
+      },
+    ],
+    body: [
+      "The Coastline College Foundation marked an exciting new chapter this spring with its first-ever Scholarship Banquet, a fresh approach to celebrating student achievement and donor generosity.",
+      "In past years, scholarship recognition has typically taken the form of a ceremony. This year, the Foundation departed from that format and created a more expansive evening of celebration — one that brought students, families, supporters, faculty, and staff together in a setting designed for connection as well as recognition.",
+      "The event also marked another important milestone: it was the first time the Foundation held this celebration at Coastline’s Fountain Valley location.",
+      "The result was a great night for the Coastline community.",
+      "More than a celebration of achievement, the banquet highlighted the life-changing impact of student support. During the evening, the Coastline College Foundation awarded more than $200,000 in scholarships, helping students continue their education and move forward toward their goals.",
+      "The banquet atmosphere created room for something especially meaningful: not just recognition, but shared pride. Throughout the evening, the Foundation celebrated the hard work, perseverance, and promise of Coastline students while also honoring the donors and supporters whose generosity helps make these opportunities possible.",
+      "Hosting the event in Fountain Valley added to the significance of the night. As a first for both format and location, the banquet felt like the beginning of a new tradition — one rooted in community, gratitude, and student success.",
+      "The Coastline College Foundation is grateful to everyone who helped make the evening possible and to all who continue to invest in students through scholarship support.",
+      "As the Foundation looks ahead, this first Scholarship Banquet stands as a reminder of what is possible when a community comes together to celebrate achievement and expand opportunity.",
+    ],
+  },
   {
     slug: "the-real-me-james-storlie",
     title: "The Spirit of Creativity: James Storlie’s Story and The Real Me",
@@ -158,11 +208,12 @@ export const newsPosts: NewsPost[] = [
     author: "Coastline College Foundation",
     publishedAt: "2026-03-13",
     readTime: "3 min read",
-    featuredImage: "/Scott at Scholarship family.jpg",
-    featuredAlt: "Coastline College Foundation scholarship and donor recognition moment",
+    featuredImage: "/Scott Podium.jpg",
+    featuredAlt: "Scott Wayman speaking at a Coastline College Foundation event",
     featured: false,
     ctaLabel: "Get Involved",
     ctaHref: "/get-involved",
+    imagePosition: "center 22%",
     body: [
       "The Coastline College Foundation is grateful to recognize a generous $200,000 gift from Howmet Aerospace and the Howmet Aerospace Foundation in support of Coastline College students and programs.",
       "This meaningful investment reflects the important role that education and workforce preparation play in strengthening both individual opportunity and the broader community. It also underscores the value of partnership between industry and public higher education.",

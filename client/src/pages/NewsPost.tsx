@@ -61,7 +61,12 @@ export default function NewsPost() {
                 />
               </div>
             ) : (
-              <img src={post.featuredImage} alt={post.featuredAlt} className="h-[360px] md:h-[460px] w-full object-cover object-center" />
+              <img
+                src={post.featuredImage}
+                alt={post.featuredAlt}
+                className="h-[360px] md:h-[460px] w-full object-cover"
+                style={{ objectPosition: post.imagePosition ?? "center" }}
+              />
             )}
           </div>
         </div>
@@ -76,6 +81,19 @@ export default function NewsPost() {
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
+
+              {post.galleryImages?.length ? (
+                <div className="mt-10 border-t border-sky-100 pt-8">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    {post.galleryImages.map((image) => (
+                      <figure key={image.src} className="overflow-hidden rounded-[20px] border border-sky-100 bg-[#f7fbfe]">
+                        <img src={image.src} alt={image.alt} className="h-56 w-full object-cover" />
+                        {image.caption ? <figcaption className="px-4 py-3 text-sm leading-6 text-slate-600">{image.caption}</figcaption> : null}
+                      </figure>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
             </article>
 
             <aside className="rounded-[24px] border border-sky-100 bg-[#eaf6fb] p-6 md:p-7 shadow-sm lg:sticky lg:top-24">
