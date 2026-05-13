@@ -38,7 +38,7 @@ export const newsPosts: NewsPost[] = [
     featured: false,
     ctaLabel: "Support Student Opportunity",
     ctaHref: "/get-involved",
-    imagePosition: "center 42%",
+    imagePosition: "center 18%",
     galleryImages: [
       {
         src: "https://live.staticflickr.com/65535/55213380237_74c1d7141e_b.jpg",
