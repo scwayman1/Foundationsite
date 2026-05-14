@@ -14,6 +14,10 @@ export interface FoundationEvent {
   ctaHref: string;
   body: string[];
   useGenericPhotos?: boolean;
+  galleryImages?: Array<{
+    src: string;
+    alt: string;
+  }>;
   resources?: Array<{
     label: string;
     href: string;
@@ -43,6 +47,32 @@ export const foundationEvents: FoundationEvent[] = [
       "If you cannot join in person, the ceremony will stream live on YouTube beginning at 5:30 PM. Guests attending on campus can also return here after the event for photos and program materials.",
     ],
     useGenericPhotos: false,
+    galleryImages: [
+      {
+        src: "/commencement-gallery-1.jpg",
+        alt: "Coastline graduate posing with family members at commencement",
+      },
+      {
+        src: "/commencement-gallery-2.jpg",
+        alt: "Happy Coastline graduate holding diploma cover at commencement",
+      },
+      {
+        src: "/commencement-gallery-3.jpg",
+        alt: "Graduate celebrating with family member and diploma cover at Coastline commencement",
+      },
+      {
+        src: "/commencement-gallery-4.jpg",
+        alt: "Coastline graduate and family smiling together after the ceremony",
+      },
+      {
+        src: "/commencement-gallery-5.jpg",
+        alt: "Three Coastline graduates smiling together in caps and gowns",
+      },
+      {
+        src: "/commencement-gallery-6.jpg",
+        alt: "Smiling graduates walking in the commencement procession",
+      },
+    ],
     resources: [
       {
         label: "Parking map",

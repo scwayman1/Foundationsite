@@ -152,6 +152,25 @@ export default function EventPost() {
                   </div>
                 ) : null}
 
+                {event.galleryImages?.length ? (
+                  <div className="mt-10">
+                    <div className="mb-5 flex items-center gap-2 text-[#08324a]">
+                      <Sparkles size={18} className="text-[#0b6fa4]" />
+                      <h2 className="text-2xl font-heading font-bold">Commencement moments</h2>
+                    </div>
+                    <p className="mb-5 text-sm leading-7 text-slate-600">
+                      A look at the joy, pride, and family celebration that make Coastline commencement such a special evening.
+                    </p>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      {event.galleryImages.map((image) => (
+                        <div key={image.src} className="overflow-hidden rounded-[24px] border border-sky-100 bg-[#f7fbfe] shadow-sm">
+                          <img src={image.src} alt={image.alt} className="h-[240px] w-full object-cover" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
                 {event.etiquette?.length ? (
                   <div className="mt-10 rounded-[28px] border border-sky-100 bg-white p-6 md:p-7 shadow-sm">
                     <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Ceremony etiquette</p>
