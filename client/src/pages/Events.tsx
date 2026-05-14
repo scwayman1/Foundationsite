@@ -49,8 +49,8 @@ export default function Events() {
         <div className="absolute inset-0 dot-grid opacity-[0.06]" />
         <div className="absolute -bottom-24 right-[-10%] h-72 w-72 rounded-full bg-[#8fddff]/10 blur-3xl" />
 
-        <motion.div className="container relative z-10 py-24 md:py-32" initial="hidden" animate="visible" variants={staggerContainer}>
-          <motion.div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-end" variants={staggerContainer}>
+        <motion.div className="container relative z-10 py-24 md:py-28" initial="hidden" animate="visible" variants={staggerContainer}>
+          <motion.div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-end" variants={staggerContainer}>
             <motion.div className="max-w-3xl" variants={fadeInUp}>
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-md">
                 <Ticket size={14} className="text-[#8fddff]" />
@@ -62,10 +62,24 @@ export default function Events() {
               <p className="max-w-2xl text-lg leading-8 text-slate-200/92 md:text-xl">
                 From scholarship celebrations to community gatherings, these events create visible moments of connection between students, supporters, and the Coastline community.
               </p>
+
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Button asChild className="rounded-xl bg-[#0096d6] px-6 py-5 font-semibold text-white btn-premium hover:bg-[#0284bc]">
+                  <Link href={`/events/${featuredEvent.slug}`}>
+                    View featured event <ArrowRight size={15} className="ml-2" />
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="rounded-xl border-white/20 bg-white/5 px-6 py-5 font-semibold text-white hover:bg-white/10 hover:text-white">
+                  <a href={featuredEvent.ctaHref} target="_blank" rel="noreferrer">
+                    {featuredEvent.ctaLabel}
+                  </a>
+                </Button>
+              </div>
             </motion.div>
 
             <motion.div variants={fadeInUp}>
-              <div className="rounded-[28px] border border-white/12 bg-white/8 p-6 backdrop-blur-xl shadow-[0_18px_50px_rgba(3,16,28,0.28)]">
+              <Link href={`/events/${featuredEvent.slug}`}>
+                <a className="group block rounded-[30px] border border-white/12 bg-white/8 p-6 backdrop-blur-xl shadow-[0_18px_50px_rgba(3,16,28,0.28)] transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_26px_60px_rgba(3,16,28,0.34)]">
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/90">
                   <Sparkles size={12} className="text-[#8fddff]" /> Featured gathering
                 </div>
@@ -81,13 +95,17 @@ export default function Events() {
                     <p className="font-semibold text-white">{featuredEvent.timeLabel}</p>
                   </div>
                 </div>
-              </div>
+                <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#8fddff] transition-transform group-hover:translate-x-0.5">
+                  Open event page <ArrowRight size={14} />
+                </div>
+                </a>
+              </Link>
             </motion.div>
           </motion.div>
         </motion.div>
       </section>
 
-      <section className="relative -mt-12 z-20 pb-6">
+      <section className="relative z-20 -mt-4 pb-6 md:-mt-8">
         <div className="container">
           <motion.div
             className="overflow-hidden rounded-[30px] border border-sky-100 bg-white shadow-[0_24px_70px_rgba(6,38,58,0.10)]"
@@ -119,9 +137,9 @@ export default function Events() {
 
               <div className="p-8 md:p-10 lg:p-12">
                 <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Lead event</p>
-                <h2 className="mb-4 text-3xl font-heading font-bold leading-tight text-[#08324a] md:text-4xl">A more welcoming way to gather the Coastline community</h2>
+                <h2 className="mb-4 text-3xl font-heading font-bold leading-tight text-[#08324a] md:text-4xl">Our signature upcoming event, placed where it belongs</h2>
                 <p className="mb-8 max-w-2xl text-[16px] leading-8 text-slate-600">
-                  Coastline’s events should feel personal, well-hosted, and meaningful — not just listed. The featured invitation gives supporters, students, and guests a clear sense of what the moment is and why it matters.
+                  Coastline’s most important upcoming gathering should feel integrated with the page hero, not buried below it. This featured invitation gives supporters, students, and families a clear path into the event immediately.
                 </p>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-8">
