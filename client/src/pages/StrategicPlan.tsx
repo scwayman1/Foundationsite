@@ -26,43 +26,63 @@ export default function StrategicPlan() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* ── Hero Section ── */}
-      <section className="relative py-28 md:py-36 bg-[#0A1628] text-white overflow-hidden">
-        <img
-          src="/coastline-award-3.jpg"
-          alt="Foundation recognition event representing strategic goals and outcomes"
-          className="absolute inset-0 w-full h-full object-cover object-[center_24%]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1628]/70 via-[#0A1628]/50 to-[#0A1628]/75" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/40 to-transparent" />
-        <div className="absolute inset-0 dot-grid opacity-[0.04]" />
-        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-teal-500/[0.05] rounded-full blur-[120px]" />
+      <section className="relative overflow-hidden bg-[#0A1628] text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,212,191,0.14),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.16),transparent_32%)]" />
+        <div className="absolute inset-0 dot-grid opacity-[0.05]" />
 
         <motion.div
-          className="container relative z-10"
+          className="container relative z-10 py-20 md:py-24 lg:py-28"
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
         >
-          <div className="max-w-3xl">
-            <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] border border-white/[0.08] backdrop-blur-xl mb-6"
-              variants={fadeInUp}
-            >
-              <span className="text-[13px] font-medium text-blue-200/90 tracking-wide">2025-2028 Roadmap</span>
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14">
+            <div className="relative">
+              <div className="absolute -left-10 top-8 hidden h-40 w-40 rounded-full bg-teal-400/10 blur-3xl lg:block" />
+              <motion.div
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 backdrop-blur-xl mb-6"
+                variants={fadeInUp}
+              >
+                <span className="text-[13px] font-medium tracking-wide text-blue-200/90">2025-2028 Roadmap</span>
+              </motion.div>
+
+              <motion.h1
+                className="max-w-3xl text-4xl font-heading font-bold leading-[1.02] md:text-6xl"
+                variants={fadeInUp}
+              >
+                Strategic Plan:{" "}
+                <span className="gradient-text-hero">Goals & Objectives</span>
+              </motion.h1>
+
+              <motion.p
+                className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300/90 md:text-xl"
+                variants={fadeInUp}
+              >
+                A comprehensive framework for expanding philanthropic support, deepening stewardship, broadening community outreach, and strengthening the advancement capacity behind student success.
+              </motion.p>
+
+              <motion.div
+                className="mt-8 flex flex-wrap gap-3 text-sm text-slate-200/85"
+                variants={fadeInUp}
+              >
+                <span className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2">Philanthropic growth</span>
+                <span className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2">Donor stewardship</span>
+                <span className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2">Community visibility</span>
+              </motion.div>
+            </div>
+
+            <motion.div className="relative" variants={fadeInUp}>
+              <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-blue-400/20 via-transparent to-teal-300/20 blur-2xl" />
+              <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 shadow-[0_30px_80px_rgba(3,10,24,0.45)]">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/12 via-transparent to-[#0A1628]/40" />
+                <img
+                  src="/coastline-award-3.jpg"
+                  alt="Foundation recognition event representing strategic goals and outcomes"
+                  className="h-[360px] w-full object-cover object-[center_32%] sm:h-[420px] lg:h-[520px]"
+                />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0A1628]/36 via-transparent to-transparent" />
+              </div>
             </motion.div>
-            <motion.h1
-              className="text-4xl md:text-6xl font-heading font-bold mb-6 leading-[1.08]"
-              variants={fadeInUp}
-            >
-              Strategic Plan:{" "}
-              <span className="gradient-text-hero">Goals & Objectives</span>
-            </motion.h1>
-            <motion.p
-              className="text-lg md:text-xl text-slate-300/90 leading-relaxed max-w-2xl"
-              variants={fadeInUp}
-            >
-              A comprehensive framework designed to expand philanthropic support, broaden stewardship, increase community outreach, and strengthen our advancement team.
-            </motion.p>
           </div>
         </motion.div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" />
