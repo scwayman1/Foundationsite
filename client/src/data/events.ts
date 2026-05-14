@@ -70,7 +70,7 @@ export const foundationEvents: FoundationEvent[] = [
       },
       {
         src: "/commencement-gallery-6.jpg",
-        alt: "Smiling graduates walking in the commencement procession",
+        alt: "Coastline graduate waving on stage during commencement",
       },
     ],
     resources: [
