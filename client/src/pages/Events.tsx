@@ -31,8 +31,8 @@ const eventGalleryPhotos = photosByRole("event-gallery");
 const eventHeroPhotos = photosByRole("event-hero");
 const eventFeaturePhotos = photosByRole("event-feature");
 const eventCardPhotos = photosByRole("event-card");
-const featuredPhoto = eventHeroPhotos[0] ?? eventFeaturePhotos[0] ?? eventGalleryPhotos[0];
-const featuredPanelPhoto = eventFeaturePhotos[0] ?? featuredPhoto;
+const featuredPhoto = featuredEvent.useGenericPhotos === false ? undefined : eventHeroPhotos[0] ?? eventFeaturePhotos[0] ?? eventGalleryPhotos[0];
+const featuredPanelPhoto = featuredEvent.useGenericPhotos === false ? undefined : eventFeaturePhotos[0] ?? featuredPhoto;
 
 export default function Events() {
   return (
@@ -127,7 +127,7 @@ export default function Events() {
                   Featured invitation
                 </div>
                 <div className="absolute bottom-6 left-6 right-6 flex justify-start">
-                  <PhotoAcknowledgment caption={featuredPanelPhoto?.caption} />
+                  {featuredPanelPhoto?.caption ? <PhotoAcknowledgment caption={featuredPanelPhoto?.caption} /> : null}
                 </div>
                 <div className="absolute bottom-20 left-6 right-6 rounded-[24px] border border-white/12 bg-[#06263a]/48 p-5 backdrop-blur-xl">
                   <span className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] ${statusClass(featuredEvent.status)} bg-white/92`}>{featuredEvent.status}</span>

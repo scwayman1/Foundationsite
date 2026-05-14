@@ -3,7 +3,6 @@ import { Link, useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { foundationEvents } from "@/data/events";
 import { photosByRole } from "@/data/photos";
-import PhotoAcknowledgment from "@/components/PhotoAcknowledgment";
 
 function statusClass(status: string) {
   if (status === "Registration Open") return "bg-emerald-50 text-emerald-700 border-emerald-200";
@@ -16,8 +15,9 @@ export default function EventPost() {
   const event = foundationEvents.find((entry) => entry.slug === params?.slug);
   const eventHeroPhotos = photosByRole("event-hero");
   const eventDetailPhotos = photosByRole("event-detail");
-  const heroPhoto = eventHeroPhotos[0] ?? eventDetailPhotos[0];
-  const detailPhoto = eventDetailPhotos[0] ?? heroPhoto;
+  const useGenericPhotos = event?.useGenericPhotos !== false;
+  const heroPhoto = useGenericPhotos ? eventHeroPhotos[0] ?? eventDetailPhotos[0] : undefined;
+  const detailPhoto = useGenericPhotos ? eventDetailPhotos[0] ?? heroPhoto : undefined;
 
   if (!event) {
     return (
@@ -53,7 +53,6 @@ export default function EventPost() {
             <div className="mb-4 flex flex-wrap items-center gap-3">
               <span className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] ${statusClass(event.status)} bg-white/92`}>{event.status}</span>
               <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-white/85 backdrop-blur-md"><Sparkles size={12} className="text-[#8fddff]" /> Foundation Event</span>
-              <PhotoAcknowledgment caption={heroPhoto?.caption} className="border-white/12 bg-white/10 text-white/92" />
             </div>
             <h1 className="mb-5 text-4xl font-heading font-bold leading-[1.02] md:text-6xl">{event.title}</h1>
             <p className="mb-8 max-w-3xl text-lg leading-8 text-slate-200/92 md:text-xl">{event.excerpt}</p>
@@ -156,7 +155,8 @@ export default function EventPost() {
                 {event.etiquette?.length ? (
                   <div className="mt-10 rounded-[28px] border border-sky-100 bg-white p-6 md:p-7 shadow-sm">
                     <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Ceremony etiquette</p>
-                    <h2 className="mb-4 text-2xl font-heading font-bold text-[#08324a]">A stronger experience for every graduate and guest</h2>
+                    <h2 className="mb-4 text-2xl font-heading font-bold text-[#08324a]">Help us keep the ceremony joyful and respectful</h2>
+                    <p className="mb-5 text-sm leading-7 text-slate-600">A few simple expectations help every graduate and family enjoy the moment.</p>
                     <ul className="space-y-3">
                       {event.etiquette.map((item) => (
                         <li key={item} className="flex items-start gap-3 text-[15px] leading-7 text-slate-600">
@@ -172,9 +172,9 @@ export default function EventPost() {
 
             <aside className="rounded-[28px] border border-sky-100 bg-white p-6 md:p-7 shadow-[0_16px_34px_rgba(6,38,58,0.06)] lg:sticky lg:top-24">
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Attend this event</p>
-              <h2 className="mb-3 text-2xl font-heading font-bold leading-tight text-[#08324a]">A clearer invitation and registration path</h2>
+              <h2 className="mb-3 text-2xl font-heading font-bold leading-tight text-[#08324a]">Watch live or prepare for the evening</h2>
               <p className="mb-6 text-sm leading-7 text-slate-600">
-                Coastline events should feel warm, polished, and easy to join — with a clear invitation, a strong sense of purpose, and one obvious next step.
+                Use the key resources on this page to watch the livestream, review the program, plan arrival, and share the ceremony with family and friends.
               </p>
               <Button asChild className="mb-4 w-full rounded-xl bg-[#0096d6] font-semibold text-white btn-premium hover:bg-[#0284bc]">
                 <a href={event.ctaHref} target="_blank" rel="noreferrer">
@@ -182,9 +182,9 @@ export default function EventPost() {
                 </a>
               </Button>
               <div className="rounded-[20px] border border-sky-100 bg-[#f7fbfe] p-5 text-sm text-slate-600">
-                <p className="mb-2 font-semibold text-[#08324a]">Event setup principle</p>
+                <p className="mb-2 font-semibold text-[#08324a]">Questions?</p>
                 <p className="leading-7">
-                  Each event page should provide context, imagery, and one easy next action without forcing visitors through unnecessary steps.
+                  For ceremony questions, guests can contact Student Life at <a className="font-semibold text-[#0b6fa4] hover:underline" href="mailto:studentlife@coastline.edu">studentlife@coastline.edu</a>.
                 </p>
               </div>
             </aside>

@@ -13,6 +13,7 @@ export interface FoundationEvent {
   ctaLabel: string;
   ctaHref: string;
   body: string[];
+  useGenericPhotos?: boolean;
   resources?: Array<{
     label: string;
     href: string;
@@ -32,8 +33,8 @@ export const foundationEvents: FoundationEvent[] = [
     location: "Student Services Center, 11460 Warner Ave., Fountain Valley, CA 92708",
     excerpt:
       "A polished commencement guide for graduates, families, and supporters — with the livestream, parking map, ceremony program, etiquette guidance, and photo links all in one place.",
-    featuredImage: "/coastline-award-3.jpg",
-    featuredAlt: "Coastline College community celebration with graduates and supporters",
+    featuredImage: "/commencement-2025.jpg",
+    featuredAlt: "Coastline commencement graduate celebrating with family and supporters",
     ctaLabel: "Watch the YouTube livestream",
     ctaHref: "https://youtube.com/live/g1F8V0_QVZk?feature=share",
     body: [
@@ -41,6 +42,7 @@ export const foundationEvents: FoundationEvent[] = [
       "This event page brings together the key details guests typically need in the final days before commencement: where to park, how to follow the ceremony, what to expect from the program, and how to participate in a way that keeps the experience strong for every graduate and family in attendance.",
       "If you cannot join in person, the ceremony will stream live on YouTube beginning at 5:30 PM. Guests attending on campus can also return here after the event for photos and program materials.",
     ],
+    useGenericPhotos: false,
     resources: [
       {
         label: "Parking map",
