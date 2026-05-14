@@ -137,9 +137,9 @@ export default function Events() {
 
               <div className="p-8 md:p-10 lg:p-12">
                 <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Lead event</p>
-                <h2 className="mb-4 text-3xl font-heading font-bold leading-tight text-[#08324a] md:text-4xl">Our signature upcoming event, placed where it belongs</h2>
+                <h2 className="mb-4 text-3xl font-heading font-bold leading-tight text-[#08324a] md:text-4xl">Celebrate Coastline’s Class of 2026</h2>
                 <p className="mb-8 max-w-2xl text-[16px] leading-8 text-slate-600">
-                  Coastline’s most important upcoming gathering should feel integrated with the page hero, not buried below it. This featured invitation gives supporters, students, and families a clear path into the event immediately.
+                  Join graduates, families, faculty, and supporters for an evening that honors achievement, perseverance, and the Coastline community. Find the key ceremony details here and open the full commencement page for maps, livestream access, and event resources.
                 </p>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-8">
@@ -189,10 +189,10 @@ export default function Events() {
           <motion.div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
             <motion.div variants={fadeInUp}>
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Calendar of moments</p>
-              <h2 className="text-3xl font-heading font-bold text-[#08324a] md:text-4xl">Upcoming gatherings and recent Foundation activity</h2>
+              <h2 className="text-3xl font-heading font-bold text-[#08324a] md:text-4xl">Upcoming gatherings and recent events</h2>
             </motion.div>
             <motion.p variants={fadeInUp} className="max-w-xl text-slate-600 leading-7">
-              Each event should feel like a genuine invitation into Coastline’s community — clear, useful, and grounded in real moments of connection.
+              Explore the Foundation’s event calendar, from milestone celebrations to community gatherings that bring students, supporters, and partners together.
             </motion.p>
           </motion.div>
 
