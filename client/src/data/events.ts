@@ -62,7 +62,7 @@ export const foundationEvents: FoundationEvent[] = [
       },
       {
         src: "/commencement-gallery-4.jpg",
-        alt: "Coastline graduate and family smiling together after the ceremony",
+        alt: "Smiling Coastline graduate in the commencement procession flashing a peace sign",
       },
       {
         src: "/commencement-gallery-5.jpg",
