@@ -1,4 +1,4 @@
-import { ArrowLeft, CalendarDays, Clock3, MapPin, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock3, MapPin, ArrowRight, Sparkles, ExternalLink, Video, FileText, CarFront } from "lucide-react";
 import { Link, useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { foundationEvents } from "@/data/events";
@@ -97,6 +97,76 @@ export default function EventPost() {
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
+
+                {event.livestreamEmbed ? (
+                  <div className="mt-10 rounded-[28px] border border-sky-100 bg-[#f7fbfe] p-5 md:p-6">
+                    <div className="mb-4 flex items-center gap-2 text-[#08324a]">
+                      <Video size={18} className="text-[#0b6fa4]" />
+                      <h2 className="text-2xl font-heading font-bold">Livestream</h2>
+                    </div>
+                    <div className="overflow-hidden rounded-[22px] border border-sky-100 bg-white shadow-sm">
+                      <div className="aspect-video">
+                        <iframe
+                          className="h-full w-full"
+                          src={event.livestreamEmbed}
+                          title={`${event.title} livestream`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
+                {event.resources?.length ? (
+                  <div className="mt-10">
+                    <div className="mb-5 flex items-center gap-2 text-[#08324a]">
+                      <FileText size={18} className="text-[#0b6fa4]" />
+                      <h2 className="text-2xl font-heading font-bold">Planning resources</h2>
+                    </div>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      {event.resources.map((resource, index) => {
+                        const Icon = index === 0 ? CarFront : index === 3 ? Video : FileText;
+                        return (
+                          <a
+                            key={resource.href}
+                            href={resource.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group rounded-[24px] border border-sky-100 bg-[#f7fbfe] p-5 transition-all hover:-translate-y-0.5 hover:border-sky-200 hover:bg-white hover:shadow-[0_16px_30px_rgba(6,38,58,0.06)]"
+                          >
+                            <div className="mb-4 inline-flex size-10 items-center justify-center rounded-full bg-white text-[#0b6fa4] shadow-sm">
+                              <Icon size={18} />
+                            </div>
+                            <div className="flex items-start justify-between gap-4">
+                              <div>
+                                <h3 className="text-lg font-heading font-bold text-[#08324a]">{resource.label}</h3>
+                                <p className="mt-2 text-sm leading-7 text-slate-600">{resource.description}</p>
+                              </div>
+                              <ExternalLink size={16} className="mt-1 text-[#0b6fa4] transition-transform group-hover:translate-x-0.5" />
+                            </div>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : null}
+
+                {event.etiquette?.length ? (
+                  <div className="mt-10 rounded-[28px] border border-sky-100 bg-white p-6 md:p-7 shadow-sm">
+                    <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0b6fa4]">Ceremony etiquette</p>
+                    <h2 className="mb-4 text-2xl font-heading font-bold text-[#08324a]">A stronger experience for every graduate and guest</h2>
+                    <ul className="space-y-3">
+                      {event.etiquette.map((item) => (
+                        <li key={item} className="flex items-start gap-3 text-[15px] leading-7 text-slate-600">
+                          <span className="mt-2 size-2 rounded-full bg-[#0b6fa4]" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </div>
             </article>
 

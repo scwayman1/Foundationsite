@@ -13,9 +13,74 @@ export interface FoundationEvent {
   ctaLabel: string;
   ctaHref: string;
   body: string[];
+  resources?: Array<{
+    label: string;
+    href: string;
+    description: string;
+  }>;
+  etiquette?: string[];
+  livestreamEmbed?: string;
 }
 
 export const foundationEvents: FoundationEvent[] = [
+  {
+    slug: "coastline-college-commencement-2026",
+    title: "Coastline College Commencement 2026",
+    status: "Upcoming",
+    dateLabel: "Friday, June 5, 2026",
+    timeLabel: "6:00 PM – 8:00 PM PDT",
+    location: "Student Services Center, 11460 Warner Ave., Fountain Valley, CA 92708",
+    excerpt:
+      "A polished commencement guide for graduates, families, and supporters — with the livestream, parking map, ceremony program, etiquette guidance, and photo links all in one place.",
+    featuredImage: "/coastline-award-3.jpg",
+    featuredAlt: "Coastline College community celebration with graduates and supporters",
+    ctaLabel: "Watch the YouTube livestream",
+    ctaHref: "https://youtube.com/live/g1F8V0_QVZk?feature=share",
+    body: [
+      "Join Coastline College as we celebrate the Class of 2026 on Friday, June 5, from 6:00 to 8:00 PM at the Student Services Center in Fountain Valley. The evening is designed to honor the dedication, resilience, and achievement of Coastline’s graduates in a setting that feels joyful, welcoming, and worthy of the milestone.",
+      "This event page brings together the key details guests typically need in the final days before commencement: where to park, how to follow the ceremony, what to expect from the program, and how to participate in a way that keeps the experience strong for every graduate and family in attendance.",
+      "If you cannot join in person, the ceremony will stream live on YouTube beginning at 5:30 PM. Guests attending on campus can also return here after the event for photos and program materials.",
+    ],
+    resources: [
+      {
+        label: "Parking map",
+        href: "https://documents.coastline.edu/Student%20Life/Graduation/CommencementParkingMap-ADA.pdf",
+        description: "Download the ADA-accessible campus parking map before arrival.",
+      },
+      {
+        label: "2026 commencement program",
+        href: "https://documents.coastline.edu/Student%20Life/Graduation/2026CommencementProgram.pdf",
+        description: "View the official program, ceremony order, and graduate listings.",
+      },
+      {
+        label: "Ceremony etiquette guide",
+        href: "https://documents.coastline.edu/Student%20Life/Graduation/CommencementEtiquetteInfographic-ADA.pdf",
+        description: "Review the etiquette expectations that help keep the ceremony respectful and smooth.",
+      },
+      {
+        label: "YouTube livestream",
+        href: "https://youtube.com/live/g1F8V0_QVZk?feature=share",
+        description: "Watch live beginning at 5:30 PM on June 5 or share with family and friends.",
+      },
+      {
+        label: "Event photo album",
+        href: "https://www.flickr.com/photos/124026087@N04/albums/72177720333117709",
+        description: "Access ceremony photos after the event and download images from Flickr.",
+      },
+      {
+        label: "Grad gear shop",
+        href: "https://www.thecommencementgroup.com/coastlinecollege/",
+        description: "Shop Coastline Class of 2026 apparel, gifts, and graduation keepsakes.",
+      },
+    ],
+    etiquette: [
+      "Leave items that detract from the ceremony at home so the focus stays on graduates and families.",
+      "Graduates and special guests should remain for the full ceremony.",
+      "Guests are asked to stay seated throughout the program unless directed otherwise.",
+      "Please do not block aisles or passageways to greet graduates or take photos during the ceremony.",
+    ],
+    livestreamEmbed: "https://www.youtube.com/embed/g1F8V0_QVZk",
+  },
   {
     slug: "coastline-college-scholarship-ceremony-2026",
     title: "Coastline College Scholarship Ceremony 2026",
