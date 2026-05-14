@@ -123,7 +123,7 @@ const members: BoardMember[] = [
     title: "Director, Foundation & Community Relations",
     organization: "Coastline College",
     category: "Foundation Leadership",
-    bio: "Scott Wayman leads Foundation and Community Relations at Coastline College, where he advances partnerships, philanthropic strategy, and institutional engagement in support of students. His background includes executive leadership across mission-driven, education-focused, and high-growth organizations, with experience in strategy, operations, and stakeholder development. He brings a builder's mindset to the Foundation's work in growth, visibility, and long-term impact."
+    bio: "Scott Wayman leads Foundation and Community Relations at Coastline College, where he advances partnerships, philanthropic strategy, and institutional engagement in support of students. He is the inventor of Kangarootime, a platform that helped reshape the childcare industry, and has built AI toolchains for educators as well as products in healthcare and other mission-driven sectors. His work has been featured in For the Love of Buffalo and in national media, including The Information. He brings a thoughtful builder’s perspective to the Foundation’s work, grounded in practical innovation, long-term value, and meaningful outcomes for students and community partners."
   },
   {
     name: "Vincent Rodriguez, Ed.D.",
