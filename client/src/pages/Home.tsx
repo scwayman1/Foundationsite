@@ -140,10 +140,10 @@ export default function Home() {
                   size="lg"
                   variant="outline"
                   className="border-white/20 bg-white/6 hover:bg-white/10 text-white backdrop-blur-md px-7 py-6 text-[15px] font-semibold rounded-xl"
-                  onClick={() => setLocation("/50th-anniversary")}
+                  onClick={() => setLocation("/50-year")}
                 >
                   <Sparkles size={16} className="mr-2" />
-                  50th Anniversary
+                  50 Year
                 </Button>
               </motion.div>
             </div>

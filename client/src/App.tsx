@@ -18,6 +18,7 @@ import NewsPost from "./pages/NewsPost";
 import Events from "./pages/Events";
 import EventPost from "./pages/EventPost";
 import FiftiethAnniversary from "./pages/FiftiethAnniversary";
+import FiftyYear from "./pages/FiftyYear";
 
 function Router() {
   return (
@@ -29,6 +30,7 @@ function Router() {
         <Route path="/programs" component={Programs} />
         <Route path="/budget" component={Budget} />
         <Route path="/get-involved" component={GetInvolved} />
+        <Route path="/50-year" component={FiftyYear} />
         <Route path="/board" component={Board} />
         <Route path="/news" component={NewsImpact} />
         <Route path="/news/:slug" component={NewsPost} />

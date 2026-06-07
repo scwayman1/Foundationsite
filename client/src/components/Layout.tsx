@@ -24,7 +24,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { name: "Home", path: "/" },
-    { name: "50th", path: "/50th-anniversary" },
     { name: "About", path: "/about" },
     { name: "Strategic Plan", path: "/strategic-plan" },
     { name: "Programs", path: "/programs" },
@@ -33,6 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "News & Impact", path: "/news" },
     { name: "Events", path: "/events" },
     { name: "Meet Our Board", path: "/board" },
+    { name: "50 Year", path: "/50-year", featured: true },
   ];
 
   return (
@@ -51,7 +51,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <div className="container flex h-[78px] items-center justify-between gap-6">
+        <div className="container flex h-[78px] items-center justify-between gap-4">
           {/* Logo */}
           <Link href="/">
             <motion.a
@@ -72,7 +72,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1 rounded-full border border-sky-100 bg-[#f8fcfe] px-2 py-1 shadow-sm">
+          <nav className="hidden lg:flex items-center gap-0.5 rounded-full border border-sky-100 bg-[#f8fcfe] px-1.5 py-1 shadow-sm">
             {navItems.map((item, index) => (
               <motion.div
                 key={item.path}
@@ -83,16 +83,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link href={item.path}>
                   <a
                     className={cn(
-                      "relative px-4 py-2.5 text-[13px] font-semibold rounded-full transition-all duration-300",
+                      "relative whitespace-nowrap px-2.5 py-2.5 text-[11px] font-semibold rounded-full transition-all duration-300 xl:px-3 xl:text-[12px]",
                       location === item.path
-                        ? "text-[#005f86] bg-white shadow-sm"
+                        ? item.featured
+                          ? "text-[#08324a] bg-[#f7d47a] shadow-sm"
+                          : "text-[#005f86] bg-white shadow-sm"
+                        : item.featured
+                          ? "text-[#08324a] bg-[#f9e8b0] hover:bg-[#f7d47a] shadow-sm"
                         : "text-slate-600 hover:text-[#005f86] hover:bg-white/80"
                     )}
                   >
                     {item.name}
                     {location === item.path && (
                       <motion.span
-                        className="absolute bottom-1 left-4 right-4 h-[2px] bg-gradient-to-r from-[#0096d6] to-[#41c4ff] rounded-full"
+                        className={cn(
+                          "absolute bottom-1 left-4 right-4 h-[2px] rounded-full",
+                          item.featured ? "bg-[#08324a]" : "bg-gradient-to-r from-[#0096d6] to-[#41c4ff]"
+                        )}
                         layoutId="nav-indicator"
                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
@@ -163,7 +170,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         className={cn(
                           "px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 block",
                           location === item.path
-                            ? "text-blue-700 bg-blue-50/80 font-semibold"
+                            ? item.featured
+                              ? "text-[#08324a] bg-[#f9e8b0] font-semibold"
+                              : "text-blue-700 bg-blue-50/80 font-semibold"
+                            : item.featured
+                              ? "text-[#08324a] bg-[#fff8df] hover:bg-[#f9e8b0] font-semibold"
                             : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
                         )}
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -226,6 +237,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   { name: "Programs", path: "/programs" },
                   { name: "Budget & Finance", path: "/budget" },
                   { name: "Get Involved", path: "/get-involved" },
+                  { name: "50 Year", path: "/50-year" },
                   { name: "News & Impact", path: "/news" },
                   { name: "Events", path: "/events" },
                   { name: "Meet Our Board", path: "/board" },
