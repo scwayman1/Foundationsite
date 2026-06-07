@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, TrendingUp, Users, GraduationCap, DollarSign, Briefcase } from "lucide-react";
+import { ArrowRight, TrendingUp, Users, GraduationCap, DollarSign, Briefcase, Sparkles } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
@@ -140,9 +140,10 @@ export default function Home() {
                   size="lg"
                   variant="outline"
                   className="border-white/20 bg-white/6 hover:bg-white/10 text-white backdrop-blur-md px-7 py-6 text-[15px] font-semibold rounded-xl"
-                  onClick={() => setLocation("/strategic-plan")}
+                  onClick={() => setLocation("/50th-anniversary")}
                 >
-                  View Strategic Plan
+                  <Sparkles size={16} className="mr-2" />
+                  50th Anniversary
                 </Button>
               </motion.div>
             </div>

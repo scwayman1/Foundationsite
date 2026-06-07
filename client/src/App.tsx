@@ -17,6 +17,7 @@ import NewsImpact from "./pages/NewsImpact";
 import NewsPost from "./pages/NewsPost";
 import Events from "./pages/Events";
 import EventPost from "./pages/EventPost";
+import FiftiethAnniversary from "./pages/FiftiethAnniversary";
 
 function Router() {
   return (
@@ -32,6 +33,8 @@ function Router() {
         <Route path="/news" component={NewsImpact} />
         <Route path="/news/:slug" component={NewsPost} />
         <Route path="/events" component={Events} />
+        <Route path="/50th-anniversary" component={FiftiethAnniversary} />
+        <Route path="/50th" component={FiftiethAnniversary} />
         <Route path="/events/:slug" component={EventPost} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

@@ -24,6 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { name: "Home", path: "/" },
+    { name: "50th", path: "/50th-anniversary" },
     { name: "About", path: "/about" },
     { name: "Strategic Plan", path: "/strategic-plan" },
     { name: "Programs", path: "/programs" },
