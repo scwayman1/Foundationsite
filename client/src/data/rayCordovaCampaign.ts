@@ -27,7 +27,7 @@ export const rayCordovaCampaign = {
   seedFunding: 2600,
   remaining: 27400,
   designation: "Please designate your gift to the Ray Cordova Legacy Fund.",
-  donationBaseUrl: "https://26957.thankyou4caring.org/coastline-raymond-l-cordova-scholarship",
+  donationBaseUrl: "https://www.gradroots.com/donate/38nyco67m9KgFFoXpVSEsUcLMje?aceId=33ZBy4V6eosNZCkTL0c0tfRVKSG",
   contactEmail: "foundation@coastline.edu",
   contactPhone: "(714) 241-6154",
   contactAddress: "11460 Warner Avenue, Fountain Valley, CA 92708",
@@ -146,12 +146,17 @@ export function getRayCordovaVariant(slug?: string) {
 }
 
 export function buildRayCordovaDonationUrl(variant: RayCordovaCampaignVariant, sourceSlug?: string) {
-  const params = new URLSearchParams({
+  const url = new URL(rayCordovaCampaign.donationBaseUrl);
+  const params = {
     utm_source: "direct_mail",
     utm_medium: "letter",
     utm_campaign: "ray_cordova_legacy",
     utm_content: sourceSlug || variant.trackingContent,
+  };
+
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.set(key, value);
   });
 
-  return `${rayCordovaCampaign.donationBaseUrl}?${params.toString()}`;
+  return url.toString();
 }

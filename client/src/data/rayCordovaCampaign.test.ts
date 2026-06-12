@@ -49,6 +49,9 @@ describe("Ray Cordova campaign config", () => {
   it("adds tracking parameters to donation links", () => {
     const url = new URL(buildRayCordovaDonationUrl(getRayCordovaVariant("veterans-touch-2"), "veterans-touch-2"));
 
+    expect(url.origin).toBe("https://www.gradroots.com");
+    expect(url.pathname).toBe("/donate/38nyco67m9KgFFoXpVSEsUcLMje");
+    expect(url.searchParams.get("aceId")).toBe("33ZBy4V6eosNZCkTL0c0tfRVKSG");
     expect(url.searchParams.get("utm_source")).toBe("direct_mail");
     expect(url.searchParams.get("utm_medium")).toBe("letter");
     expect(url.searchParams.get("utm_campaign")).toBe("ray_cordova_legacy");
