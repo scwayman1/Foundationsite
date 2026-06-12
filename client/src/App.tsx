@@ -1,46 +1,54 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
+import { lazy, Suspense } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { PhotoProvider } from "./contexts/PhotoContext";
 import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import StrategicPlan from "./pages/StrategicPlan";
-import Programs from "./pages/Programs";
-import Budget from "./pages/Budget";
-import GetInvolved from "./pages/GetInvolved";
-import Board from "./pages/Board";
-import NewsImpact from "./pages/NewsImpact";
-import NewsPost from "./pages/NewsPost";
-import Events from "./pages/Events";
-import EventPost from "./pages/EventPost";
-import FiftiethAnniversary from "./pages/FiftiethAnniversary";
-import FiftyYear from "./pages/FiftyYear";
+
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const StrategicPlan = lazy(() => import("./pages/StrategicPlan"));
+const Programs = lazy(() => import("./pages/Programs"));
+const Budget = lazy(() => import("./pages/Budget"));
+const GetInvolved = lazy(() => import("./pages/GetInvolved"));
+const Board = lazy(() => import("./pages/Board"));
+const NewsImpact = lazy(() => import("./pages/NewsImpact"));
+const NewsPost = lazy(() => import("./pages/NewsPost"));
+const Events = lazy(() => import("./pages/Events"));
+const EventPost = lazy(() => import("./pages/EventPost"));
+const FiftiethAnniversary = lazy(() => import("./pages/FiftiethAnniversary"));
+const FiftyYear = lazy(() => import("./pages/FiftyYear"));
+const RayCordova = lazy(() => import("./pages/RayCordova"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 function Router() {
   return (
     <Layout>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/strategic-plan" component={StrategicPlan} />
-        <Route path="/programs" component={Programs} />
-        <Route path="/budget" component={Budget} />
-        <Route path="/get-involved" component={GetInvolved} />
-        <Route path="/50-year" component={FiftyYear} />
-        <Route path="/board" component={Board} />
-        <Route path="/news" component={NewsImpact} />
-        <Route path="/news/:slug" component={NewsPost} />
-        <Route path="/events" component={Events} />
-        <Route path="/50th-anniversary" component={FiftiethAnniversary} />
-        <Route path="/50th" component={FiftiethAnniversary} />
-        <Route path="/events/:slug" component={EventPost} />
-        <Route path="/404" component={NotFound} />
-        <Route component={NotFound} />
-      </Switch>
+      <Suspense fallback={null}>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/about" component={About} />
+          <Route path="/strategic-plan" component={StrategicPlan} />
+          <Route path="/programs" component={Programs} />
+          <Route path="/budget" component={Budget} />
+          <Route path="/get-involved" component={GetInvolved} />
+          <Route path="/50-year" component={FiftyYear} />
+          <Route path="/foundation/ray-cordova/:slug" component={RayCordova} />
+          <Route path="/foundation/ray-cordova" component={RayCordova} />
+          <Route path="/ray-cordova" component={RayCordova} />
+          <Route path="/board" component={Board} />
+          <Route path="/news" component={NewsImpact} />
+          <Route path="/news/:slug" component={NewsPost} />
+          <Route path="/events" component={Events} />
+          <Route path="/50th-anniversary" component={FiftiethAnniversary} />
+          <Route path="/50th" component={FiftiethAnniversary} />
+          <Route path="/events/:slug" component={EventPost} />
+          <Route path="/404" component={NotFound} />
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
     </Layout>
   );
 }

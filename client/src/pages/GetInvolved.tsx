@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Handshake, Users, Mail, Phone, MapPin, ArrowRight, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Heart, Handshake, Users, Mail, Phone, MapPin, ArrowRight, CheckCircle, AlertCircle, Loader2, Award } from "lucide-react";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { useState } from "react";
 
 const fadeInUp = {
@@ -16,7 +16,7 @@ const staggerContainer = {
   }
 };
 
-const cardVariant = {
+const cardVariant: Variants = {
   hidden: { opacity: 0, y: 32, scale: 0.97 },
   visible: {
     opacity: 1, y: 0, scale: 1,
@@ -62,7 +62,7 @@ export default function GetInvolved() {
       }
     } catch {
       setStatus("error");
-      setStatusMessage("Unable to send your message. Please email us directly at foundation@cccd.edu.");
+      setStatusMessage("Unable to send your message. Please email us directly at foundation@coastline.edu.");
     }
   };
 
@@ -82,7 +82,7 @@ export default function GetInvolved() {
 
         <motion.div
           className="container relative z-10"
-          initial="hidden"
+          initial={false}
           animate="visible"
           variants={staggerContainer}
         >
@@ -191,6 +191,58 @@ export default function GetInvolved() {
         </div>
       </section>
 
+      {/* ── Featured Legacy Campaign ── */}
+      <section className="bg-[#f5f9fc] py-20 md:py-24">
+        <div className="container">
+          <motion.div
+            className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer}
+          >
+            <motion.div className="overflow-hidden rounded-[8px] border border-slate-200 bg-white shadow-sm" variants={fadeInUp}>
+              <img
+                src="/ray-cordova-jim-moreno-embrace.jpg"
+                alt="Jim Moreno and Ray Cordova embracing"
+                className="aspect-[4/3] w-full object-cover"
+              />
+            </motion.div>
+
+            <motion.div variants={fadeInUp}>
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d9edf6] bg-white px-4 py-2 text-[12px] font-bold uppercase tracking-[0.12em] text-[#0b6fa4] shadow-sm">
+                <Award className="h-4 w-4" />
+                Featured Legacy Campaign
+              </div>
+              <h2 className="font-heading text-3xl font-bold leading-tight text-slate-950 md:text-4xl">
+                Help honor Ray Cordova and support Coastline student veterans.
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-slate-600">
+                The Ray Cordova Legacy Campaign is raising $30,000 to name Coastline College's Veteran Resource Center in Ray's honor and strengthen the Raymond L. Cordova Scholarship.
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Button
+                  asChild
+                  className="h-12 rounded-full bg-[#f7c948] px-7 text-sm font-bold text-[#06263a] hover:bg-[#ffd76a]"
+                >
+                  <a href="/foundation/ray-cordova">
+                    View the Campaign
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-12 rounded-full border-slate-300 px-7 text-sm font-semibold text-slate-800 hover:bg-white"
+                >
+                  <a href="/foundation/ray-cordova/community">Share With Supporters</a>
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ── Contact Section ── */}
       <section className="py-24 bg-[#fafbfd]">
         <div className="container">
@@ -225,8 +277,8 @@ export default function GetInvolved() {
                     <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/[0.06] flex items-center justify-center text-blue-300">
                       <Mail size={18} />
                     </div>
-                    <a href="mailto:foundation@cccd.edu" className="text-slate-300 hover:text-white transition-colors">
-                      foundation@cccd.edu
+                    <a href="mailto:foundation@coastline.edu" className="text-slate-300 hover:text-white transition-colors">
+                      foundation@coastline.edu
                     </a>
                   </div>
                   <div className="flex items-start gap-4">

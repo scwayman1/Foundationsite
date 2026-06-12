@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "News & Impact", path: "/news" },
     { name: "Events", path: "/events" },
     { name: "Meet Our Board", path: "/board" },
-    { name: "50 Year", path: "/50-year", featured: true },
+    { name: "50 Years", path: "/50-year", featured: true },
   ];
 
   return (
@@ -237,7 +237,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   { name: "Programs", path: "/programs" },
                   { name: "Budget & Finance", path: "/budget" },
                   { name: "Get Involved", path: "/get-involved" },
-                  { name: "50 Year", path: "/50-year" },
+                  { name: "Ray Cordova Legacy", path: "/foundation/ray-cordova" },
+                  { name: "50 Years", path: "/50-year" },
                   { name: "News & Impact", path: "/news" },
                   { name: "Events", path: "/events" },
                   { name: "Meet Our Board", path: "/board" },
