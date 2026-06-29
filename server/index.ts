@@ -49,7 +49,7 @@ function namingSeed(): NamingPolicyDb {
       project: "CCCD BP/AP 6620 Naming Policy Collaborative Workspace",
       version: 1,
       updatedAt: namingNow(),
-      persistence: "Append-only event log plus current-state JSON database on the service persistent disk.",
+      persistence: "Append-only event log plus current-state JSON database. Use NAMING_POLICY_DB on a persistent disk or external database for hard production durability.",
     },
     users: [
       { id: "scott", name: "Scott Wayman", role: "Foundation / advancement" },
@@ -76,7 +76,8 @@ function namingSeed(): NamingPolicyDb {
 }
 
 function ensureNamingPolicyDefaults(db: NamingPolicyDb) {
-  db.meta.persistence ||= "Append-only event log plus current-state JSON database on the service persistent disk.";
+  const persistenceNotice = "Append-only event log plus current-state JSON database. Use NAMING_POLICY_DB on a persistent disk or external database for hard production durability.";
+  if (!db.meta.persistence || db.meta.persistence.includes("service persistent disk")) db.meta.persistence = persistenceNotice;
   const requiredUsers: NamingPolicyUser[] = [
     { id: "ryan-cook", name: "Ryan Cook", role: "Director of Foundation, Coast District" },
   ];
