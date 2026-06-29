@@ -22,7 +22,7 @@ type NamingPolicySection = {
   rationale: string;
 };
 type NamingPolicyDb = {
-  meta: { project: string; version: number; updatedAt: string };
+  meta: { project: string; version: number; updatedAt: string; persistence?: string };
   users: NamingPolicyUser[];
   policySections: NamingPolicySection[];
   proposals: Array<Record<string, unknown>>;
@@ -45,9 +45,15 @@ function namingId(prefix: string) {
 
 function namingSeed(): NamingPolicyDb {
   return {
-    meta: { project: "CCCD BP/AP 6620 Naming Policy Collaborative Workspace", version: 1, updatedAt: namingNow() },
+    meta: {
+      project: "CCCD BP/AP 6620 Naming Policy Collaborative Workspace",
+      version: 1,
+      updatedAt: namingNow(),
+      persistence: "Append-only event log plus current-state JSON database on the service persistent disk.",
+    },
     users: [
       { id: "scott", name: "Scott Wayman", role: "Foundation / advancement" },
+      { id: "ryan-cook", name: "Ryan Cook", role: "Director of Foundation, Coast District" },
       { id: "jennifer", name: "Jennifer Mower", role: "Golden West College Foundation" },
       { id: "patricia", name: "Patricia Falzon", role: "Orange Coast College Foundation" },
       { id: "julie", name: "Julie Clevenger", role: "Director, Chancellor Office Operations" },
@@ -69,10 +75,28 @@ function namingSeed(): NamingPolicyDb {
   };
 }
 
+function ensureNamingPolicyDefaults(db: NamingPolicyDb) {
+  db.meta.persistence ||= "Append-only event log plus current-state JSON database on the service persistent disk.";
+  const requiredUsers: NamingPolicyUser[] = [
+    { id: "ryan-cook", name: "Ryan Cook", role: "Director of Foundation, Coast District" },
+  ];
+  for (const user of requiredUsers) {
+    const existing = db.users.find((item) => item.id === user.id || item.name === user.name);
+    if (existing) Object.assign(existing, user);
+    else db.users.splice(1, 0, user);
+  }
+  return db;
+}
+
 function readNamingDb(): NamingPolicyDb {
   fs.mkdirSync(path.dirname(namingPolicyDbPath), { recursive: true });
   if (!fs.existsSync(namingPolicyDbPath)) writeNamingDb(namingSeed(), false);
-  return JSON.parse(fs.readFileSync(namingPolicyDbPath, "utf8")) as NamingPolicyDb;
+  const db = JSON.parse(fs.readFileSync(namingPolicyDbPath, "utf8")) as NamingPolicyDb;
+  const beforeUsers = JSON.stringify(db.users);
+  const beforePersistence = db.meta.persistence;
+  ensureNamingPolicyDefaults(db);
+  if (beforeUsers !== JSON.stringify(db.users) || beforePersistence !== db.meta.persistence) writeNamingDb(db, false);
+  return db;
 }
 
 function writeNamingDb(db: NamingPolicyDb, emit = true) {
@@ -168,10 +192,14 @@ async function startServer() {
     const db = readNamingDb();
     const section = db.policySections.find((item) => item.id === req.params.id);
     if (!section) return res.status(404).json({ error: "section not found" });
+    const changes: Record<string, { before: unknown; after: unknown }> = {};
     for (const key of ["status", "owner", "proposedText", "rationale", "risk"] as const) {
-      if (key in req.body) section[key] = req.body[key];
+      if (key in req.body && section[key] !== req.body[key]) {
+        changes[key] = { before: section[key], after: req.body[key] };
+        section[key] = req.body[key];
+      }
     }
-    recordNamingEvent(db, "section.updated", req.body.actor || "anonymous", { sectionId: section.id, title: section.title });
+    recordNamingEvent(db, "section.updated", req.body.actor || "anonymous", { sectionId: section.id, title: section.title, changes });
     writeNamingDb(db);
     res.json(section);
   });
