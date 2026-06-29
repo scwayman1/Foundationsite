@@ -112,3 +112,6 @@ temp/
 *.db
 *.sqlite
 *.sqlite3
+
+# Local generated application data
+data/
