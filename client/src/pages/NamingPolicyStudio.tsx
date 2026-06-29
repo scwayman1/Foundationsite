@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertTriangle, CheckCircle2, FileText, GitBranch, History, Lightbulb, Radio, ShieldCheck, Sparkles, Users } from "lucide-react";
+import { AlertTriangle, CheckCircle2, FileText, GitBranch, History, Lightbulb, MessageCircle, Radio, ShieldCheck, Sparkles, Users } from "lucide-react";
 
 type User = { id: string; name: string; role: string };
 type PolicySection = {
@@ -191,6 +191,42 @@ function statusClass(status: string) {
   return "bg-sky-50 text-sky-700 border-sky-200";
 }
 
+function coachAnswer(section: PolicySection, coach: SectionCoach, question: string) {
+  const normalized = question.toLowerCase();
+  const focus = normalized.includes("legal") || normalized.includes("risk") || normalized.includes("liability")
+    ? "risk"
+    : normalized.includes("language") || normalized.includes("rewrite") || normalized.includes("word") || normalized.includes("draft")
+      ? "language"
+      : normalized.includes("board") || normalized.includes("chancellor") || normalized.includes("approval")
+        ? "governance"
+        : normalized.includes("gift") || normalized.includes("donor") || normalized.includes("threshold") || normalized.includes("fundraising")
+          ? "donor"
+          : normalized.includes("bp") || normalized.includes("ap") || normalized.includes("procedure") || normalized.includes("policy")
+            ? "placement"
+            : "general";
+
+  const focusAdvice: Record<string, string> = {
+    risk: `Risk lens: the main flags here are ${coach.riskFlags.join(", ")}. The editor should require a documented rationale before moving this section to Proposed or Approved, and anything with legal, reputational, donor-default, or Board-authority implications should be marked Needs Review until counsel/Chancellor review is complete.`,
+    language: `Drafting lens: prefer language that is specific enough to guide staff but not so detailed that Board Policy becomes an operations manual. Strong language moves for this section include: ${coach.suggestedLanguage.join(" ")}`,
+    governance: `Governance lens: preserve Board authority for material naming decisions while using AP 6620 for routing, evidence, and administrative steps. For this section, the core strategy is: ${coach.strategy}`,
+    donor: `Advancement lens: protect donor trust by making commitments conditional on District approval, documenting gift terms, and avoiding promises that outlive the asset, campaign, or gift agreement unless the Board explicitly approves them.`,
+    placement: `BP/AP placement lens: BP should state authority, principles, and reserved Board discretion. AP should carry workflow, documentation, due diligence, stewardship, and implementation details. Schedules/forms should carry dollar amounts, checklists, and campaign-specific menus.`,
+    general: `Best-practice lens: walk the reviewer through the decision points first, then revise language, then document why the committee chose that approach. Do not approve this section until each unresolved decision point has an owner or answer.`,
+  };
+
+  return [
+    `Coach answer for ${section.doc}: ${section.title}`,
+    "",
+    focusAdvice[focus],
+    "",
+    `Decision points to answer now:\n- ${coach.decisionPoints.join("\n- ")}`,
+    "",
+    `Recommended next move: ${coach.strategy}`,
+    "",
+    `Questions to route to reviewers:\n- ${coach.reviewerQuestions.join("\n- ")}`,
+  ].join("\n");
+}
+
 async function api<T>(path: string, options?: RequestInit): Promise<T> {
   const response = await fetch(`${API}${path}`, {
     headers: { "content-type": "application/json" },
@@ -212,6 +248,8 @@ export default function NamingPolicyStudio() {
   const [comment, setComment] = useState("");
   const [proposalTitle, setProposalTitle] = useState("");
   const [proposalBody, setProposalBody] = useState("");
+  const [coachQuestion, setCoachQuestion] = useState("");
+  const [coachResponse, setCoachResponse] = useState("");
   const [notice, setNotice] = useState("");
 
   async function load() {
@@ -245,6 +283,8 @@ export default function NamingPolicyStudio() {
     setRationale(selected.rationale);
     setStatus(selected.status);
     setOwner(selected.owner);
+    setCoachQuestion("");
+    setCoachResponse("");
   }, [selected?.id, selected?.proposedText, selected?.rationale, selected?.status, selected?.owner]);
 
   async function heartbeat(focus = "reviewing workspace") {
@@ -286,6 +326,13 @@ export default function NamingPolicyStudio() {
     setProposalBody("");
     setNotice("Proposal created.");
     await load();
+  }
+
+  function askCoach(prompt?: string) {
+    if (!selected || !coach) return;
+    const question = (prompt || coachQuestion || "What should the editor focus on here?").trim();
+    setCoachQuestion(question);
+    setCoachResponse(coachAnswer(selected, coach, question));
   }
 
   async function commitSnapshot() {
@@ -452,6 +499,28 @@ export default function NamingPolicyStudio() {
                         {coach.reviewerQuestions.map((question) => <li key={question} className="border-l-2 border-cyan-200 pl-3">{question}</li>)}
                       </ul>
                     </div>
+                  </div>
+
+                  <div className="mt-5 rounded-2xl border border-violet-200 bg-white p-4">
+                    <h4 className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-violet-800"><MessageCircle size={15} /> Ask this section coach</h4>
+                    <p className="mb-3 text-sm text-slate-600">Ask about best practices, BP/AP placement, donor implications, legal risk, Board authority, or suggested language for this section.</p>
+                    <textarea
+                      className="min-h-24 w-full rounded-2xl border border-violet-100 bg-violet-50/30 p-3 text-sm leading-6 outline-none focus:ring-2 focus:ring-violet-200"
+                      placeholder="Example: What should we watch out for legally in this section?"
+                      value={coachQuestion}
+                      onChange={(event) => setCoachQuestion(event.target.value)}
+                    />
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <button type="button" onClick={() => askCoach()} className="rounded-full bg-violet-700 px-4 py-2 text-sm font-bold text-white hover:bg-violet-800">Ask Coach</button>
+                      <button type="button" onClick={() => askCoach("What are the best practices for this section?")} className="rounded-full border border-violet-200 bg-white px-4 py-2 text-sm font-bold text-violet-800">Best practices</button>
+                      <button type="button" onClick={() => askCoach("What should legal review here?")} className="rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-bold text-amber-800">Legal lens</button>
+                      <button type="button" onClick={() => askCoach("What belongs in BP versus AP?")} className="rounded-full border border-cyan-200 bg-cyan-50 px-4 py-2 text-sm font-bold text-cyan-800">BP vs AP</button>
+                    </div>
+                    {coachResponse && (
+                      <div className="mt-4 whitespace-pre-wrap rounded-2xl border border-slate-100 bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                        {coachResponse}
+                      </div>
+                    )}
                   </div>
                 </section>
               )}
