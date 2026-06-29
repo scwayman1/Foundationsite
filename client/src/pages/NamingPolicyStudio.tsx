@@ -9,6 +9,7 @@ type PolicySection = {
   title: string;
   status: string;
   owner: string;
+  collaborators?: string[];
   risk: string;
   currentText: string;
   proposedText: string;
@@ -245,6 +246,7 @@ export default function NamingPolicyStudio() {
   const [rationale, setRationale] = useState("");
   const [status, setStatus] = useState("drafting");
   const [owner, setOwner] = useState("scott");
+  const [collaborators, setCollaborators] = useState<string[]>([]);
   const [comment, setComment] = useState("");
   const [proposalTitle, setProposalTitle] = useState("");
   const [proposalBody, setProposalBody] = useState("");
@@ -283,9 +285,10 @@ export default function NamingPolicyStudio() {
     setRationale(selected.rationale);
     setStatus(selected.status);
     setOwner(selected.owner);
+    setCollaborators(selected.collaborators?.length ? selected.collaborators : [selected.owner].filter(Boolean));
     setCoachQuestion("");
     setCoachResponse("");
-  }, [selected?.id, selected?.proposedText, selected?.rationale, selected?.status, selected?.owner]);
+  }, [selected?.id, selected?.proposedText, selected?.rationale, selected?.status, selected?.owner, selected?.collaborators]);
 
   async function heartbeat(focus = "reviewing workspace") {
     window.localStorage.setItem("namingPolicyReviewer", name);
@@ -299,7 +302,7 @@ export default function NamingPolicyStudio() {
     if (!selected) return;
     await api(`/sections/${selected.id}`, {
       method: "PATCH",
-      body: JSON.stringify({ actor: name, proposedText: draftText, rationale, status, owner }),
+      body: JSON.stringify({ actor: name, proposedText: draftText, rationale, status, owner, collaborators }),
     });
     setNotice("Saved to the policy workspace.");
     await load();
@@ -335,6 +338,12 @@ export default function NamingPolicyStudio() {
     setCoachResponse(coachAnswer(selected, coach, question));
   }
 
+  function toggleCollaborator(userId: string) {
+    setCollaborators((current) =>
+      current.includes(userId) ? current.filter((id) => id !== userId) : [...current, userId],
+    );
+  }
+
   async function commitSnapshot() {
     await api("/snapshots", {
       method: "POST",
@@ -345,8 +354,10 @@ export default function NamingPolicyStudio() {
   }
 
   const selectedComments = state?.comments.filter((item) => item.sectionId === selected?.id) || [];
-  const openProposals = state?.proposals.filter((item) => item.sectionId === selected?.id || item.status === "open") || [];
+  const openProposals = state?.proposals.filter((item) => item.sectionId === selected?.id) || [];
   const coach = selected ? sectionCoaches[selected.id] : undefined;
+  const userLabel = (id: string) => state?.users.find((user) => user.id === id)?.name || id;
+  const collaboratorLabels = collaborators.map(userLabel);
 
   if (!state || !selected) {
     return <div className="container py-24 text-slate-600">Loading naming policy studio…</div>;
@@ -365,8 +376,8 @@ export default function NamingPolicyStudio() {
                 CCCD Naming Policy Studio
               </h1>
               <p className="mt-2 max-w-3xl text-slate-600">
-                A private committee workspace for changing BP/AP 6620 together: proposed language, rationale, owners, comments,
-                proposals, snapshots, live audit trail, and Board-packet export.
+                A private committee workspace for changing BP/AP 6620 together: shared section editing, parallel suggestions,
+                proposed language, comments, snapshots, live audit trail, and Board-packet export.
               </p>
             </div>
             <div className="grid grid-cols-3 gap-2 text-center">
@@ -399,7 +410,7 @@ export default function NamingPolicyStudio() {
                   className={`w-full rounded-2xl border p-3 text-left transition ${section.id === selected.id ? "border-[#0096d6] bg-sky-50 shadow-sm" : "border-sky-100 bg-white hover:border-sky-200"}`}
                 >
                   <b className="block text-sm text-[#08324a]">{section.doc}: {section.title}</b>
-                  <span className="mt-1 block text-xs text-slate-500">{statusLabels[section.status]} · {section.owner} · {section.risk}</span>
+                  <span className="mt-1 block text-xs text-slate-500">{statusLabels[section.status]} · {(section.collaborators?.length ? section.collaborators : [section.owner]).map(userLabel).join(", ")} · {section.risk}</span>
                 </button>
               ))}
             </div>
@@ -418,6 +429,7 @@ export default function NamingPolicyStudio() {
                   <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${statusClass(status)}`}>{statusLabels[status] || status}</span>
                   <h2 className="mt-3 font-heading text-2xl font-bold text-[#08324a]">{selected.doc}: {selected.title}</h2>
                   <p className="mt-1 text-sm text-slate-600">{selected.rationale}</p>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Lead: {userLabel(owner)} · Working group: {collaboratorLabels.length ? collaboratorLabels.join(", ") : "open to all reviewers"}</p>
                 </div>
                 <button onClick={saveSection} className="rounded-full bg-[#005f86] px-5 py-3 text-sm font-bold text-white shadow-sm hover:bg-[#084b67]">Save Proposed Text</button>
               </div>
@@ -433,11 +445,23 @@ export default function NamingPolicyStudio() {
                     <option value="approved">Approved</option>
                   </select>
                 </label>
-                <label className="text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Owner
+                <label className="text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Lead reviewer, not exclusive owner
                   <select value={owner} onChange={(event) => setOwner(event.target.value)} className="mt-2 block w-full rounded-2xl border border-sky-100 bg-white px-3 py-3 text-base font-normal normal-case tracking-normal text-slate-900">
                     {state.users.map((user) => <option key={user.id} value={user.id}>{user.name} — {user.role}</option>)}
                   </select>
                 </label>
+                <div className="md:col-span-2">
+                  <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Working group — multiple reviewers can edit and suggest in tandem</h3>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+                    {state.users.map((user) => (
+                      <label key={user.id} className={`flex cursor-pointer items-start gap-2 rounded-2xl border p-3 text-sm transition ${collaborators.includes(user.id) ? "border-cyan-300 bg-white shadow-sm" : "border-sky-100 bg-white/60"}`}>
+                        <input type="checkbox" className="mt-1" checked={collaborators.includes(user.id)} onChange={() => toggleCollaborator(user.id)} />
+                        <span><b className="block text-[#08324a]">{user.name}</b><span className="text-xs text-slate-500">{user.role}</span></span>
+                      </label>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-xs text-slate-500">This replaces the old single-assigned-section model: anyone in the working group can edit proposed language, add comments, or create suggestions for this same section.</p>
+                </div>
               </section>
 
               <section className="grid gap-4 lg:grid-cols-2">
@@ -526,17 +550,17 @@ export default function NamingPolicyStudio() {
               )}
 
               <section className="rounded-3xl border border-sky-100 bg-white p-4">
-                <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]"><ShieldCheck size={15} /> Proposal builder</h3>
-                <input className="mb-3 w-full rounded-2xl border border-sky-100 px-4 py-3" placeholder="Proposal title" value={proposalTitle} onChange={(event) => setProposalTitle(event.target.value)} />
-                <textarea className="min-h-28 w-full rounded-2xl border border-sky-100 px-4 py-3" placeholder="What should the committee decide and why?" value={proposalBody} onChange={(event) => setProposalBody(event.target.value)} />
-                <button onClick={createProposal} className="mt-3 rounded-full bg-[#005f86] px-5 py-3 text-sm font-bold text-white">Create Proposal</button>
+                <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]"><ShieldCheck size={15} /> Suggestions / proposed edits for this section</h3>
+                <input className="mb-3 w-full rounded-2xl border border-sky-100 px-4 py-3" placeholder="Suggestion title" value={proposalTitle} onChange={(event) => setProposalTitle(event.target.value)} />
+                <textarea className="min-h-28 w-full rounded-2xl border border-sky-100 px-4 py-3" placeholder="Suggest a revision, decision, or alternative language for this section. Multiple people can add competing suggestions." value={proposalBody} onChange={(event) => setProposalBody(event.target.value)} />
+                <button onClick={createProposal} className="mt-3 rounded-full bg-[#005f86] px-5 py-3 text-sm font-bold text-white">Create Section Suggestion</button>
               </section>
             </div>
           </main>
 
           <aside className="space-y-5 xl:sticky xl:top-24 xl:max-h-[calc(100vh-7rem)] xl:overflow-auto">
             <section className="rounded-3xl border border-sky-100 bg-white/95 p-4 shadow-sm">
-              <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><Users size={18} /> Committee thread</h2>
+              <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><Users size={18} /> Section discussion thread</h2>
               <textarea className="mt-4 min-h-28 w-full rounded-2xl border border-sky-100 p-3" placeholder="Add a legal, advancement, or governance note…" value={comment} onChange={(event) => setComment(event.target.value)} />
               <button onClick={postComment} className="mt-2 w-full rounded-full bg-[#005f86] px-4 py-3 text-sm font-bold text-white">Post Comment</button>
               <div className="mt-4 space-y-2">
@@ -547,14 +571,15 @@ export default function NamingPolicyStudio() {
             </section>
 
             <section className="rounded-3xl border border-sky-100 bg-white/95 p-4 shadow-sm">
-              <h2 className="font-heading text-xl font-bold text-[#08324a]">Open proposals</h2>
+              <h2 className="font-heading text-xl font-bold text-[#08324a]">Section suggestions</h2>
+              <p className="mt-1 text-sm text-slate-500">Multiple reviewers can add parallel alternatives for this same section.</p>
               <div className="mt-4 space-y-3">
-                {openProposals.slice(0, 6).map((proposal) => (
+                {openProposals.length ? openProposals.slice(0, 6).map((proposal) => (
                   <div key={proposal.id} className="rounded-2xl border border-sky-100 bg-sky-50/50 p-3">
                     <div className="flex items-start justify-between gap-2"><b className="text-sm text-[#08324a]">{proposal.title}</b><span className="rounded-full bg-cyan-50 px-2 py-1 text-xs font-bold text-cyan-800">{proposal.status}</span></div>
                     <p className="mt-2 text-sm text-slate-600">{proposal.body}</p>
                   </div>
-                ))}
+                )) : <p className="rounded-2xl border border-sky-100 bg-slate-50 p-3 text-sm text-slate-500">No suggestions for this section yet.</p>}
               </div>
             </section>
 

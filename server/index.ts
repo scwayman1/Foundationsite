@@ -16,6 +16,7 @@ type NamingPolicySection = {
   title: string;
   status: string;
   owner: string;
+  collaborators?: string[];
   risk: string;
   currentText: string;
   proposedText: string;
@@ -87,6 +88,11 @@ function ensureNamingPolicyDefaults(db: NamingPolicyDb) {
     if (existing) Object.assign(existing, user);
     else db.users.splice(1, 0, user);
   }
+  for (const section of db.policySections) {
+    if (!Array.isArray(section.collaborators) || section.collaborators.length === 0) {
+      section.collaborators = Array.from(new Set([section.owner].filter(Boolean)));
+    }
+  }
   return db;
 }
 
@@ -95,9 +101,10 @@ function readNamingDb(): NamingPolicyDb {
   if (!fs.existsSync(namingPolicyDbPath)) writeNamingDb(namingSeed(), false);
   const db = JSON.parse(fs.readFileSync(namingPolicyDbPath, "utf8")) as NamingPolicyDb;
   const beforeUsers = JSON.stringify(db.users);
+  const beforeSections = JSON.stringify(db.policySections);
   const beforePersistence = db.meta.persistence;
   ensureNamingPolicyDefaults(db);
-  if (beforeUsers !== JSON.stringify(db.users) || beforePersistence !== db.meta.persistence) writeNamingDb(db, false);
+  if (beforeUsers !== JSON.stringify(db.users) || beforeSections !== JSON.stringify(db.policySections) || beforePersistence !== db.meta.persistence) writeNamingDb(db, false);
   return db;
 }
 
@@ -132,7 +139,7 @@ function recordNamingEvent(db: NamingPolicyDb, type: string, actor: string, deta
 function namingMarkdown(db: NamingPolicyDb) {
   const lines = ["# BP/AP 6620 Naming Policy Board Packet Export", "", `Exported: ${namingNow()}`, ""];
   for (const section of db.policySections) {
-    lines.push(`## ${section.doc}: ${section.title}`, "", `Status: ${section.status}  `, `Owner: ${section.owner}  `, `Risk: ${section.risk}`, "", "### Current", section.currentText, "", "### Proposed", section.proposedText, "", "### Rationale", section.rationale, "");
+    lines.push(`## ${section.doc}: ${section.title}`, "", `Status: ${section.status}  `, `Lead: ${section.owner}  `, `Working group: ${(section.collaborators || []).join(", ") || "open to all reviewers"}  `, `Risk: ${section.risk}`, "", "### Current", section.currentText, "", "### Proposed", section.proposedText, "", "### Rationale", section.rationale, "");
     const comments = db.comments.filter((comment) => comment.sectionId === section.id);
     if (comments.length) {
       lines.push("### Comments");
@@ -199,6 +206,13 @@ async function startServer() {
       if (key in req.body && section[key] !== req.body[key]) {
         changes[key] = { before: section[key], after: req.body[key] };
         section[key] = req.body[key];
+      }
+    }
+    if ("collaborators" in req.body) {
+      const nextCollaborators = Array.isArray(req.body.collaborators) ? Array.from(new Set(req.body.collaborators.map(String))) : [];
+      if (JSON.stringify(section.collaborators || []) !== JSON.stringify(nextCollaborators)) {
+        changes.collaborators = { before: section.collaborators || [], after: nextCollaborators };
+        section.collaborators = nextCollaborators;
       }
     }
     recordNamingEvent(db, "section.updated", req.body.actor || "anonymous", { sectionId: section.id, title: section.title, changes });
