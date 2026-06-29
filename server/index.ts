@@ -52,8 +52,8 @@ function namingSeed(): NamingPolicyDb {
       persistence: "Append-only event log plus current-state JSON database. Use NAMING_POLICY_DB on a persistent disk or external database for hard production durability.",
     },
     users: [
-      { id: "scott", name: "Scott Wayman", role: "Foundation / advancement" },
-      { id: "ryan-cook", name: "Ryan Cook", role: "Director of Foundation, Coast District" },
+      { id: "scott", name: "Scott Wayman", role: "Coastline College Foundation" },
+      { id: "ryan-cook", name: "Ryan Cook", role: "Coast District Foundation" },
       { id: "jennifer", name: "Jennifer Mower", role: "Golden West College Foundation" },
       { id: "patricia", name: "Patricia Falzon", role: "Orange Coast College Foundation" },
       { id: "julie", name: "Julie Clevenger", role: "Director, Chancellor Office Operations" },
@@ -79,7 +79,8 @@ function ensureNamingPolicyDefaults(db: NamingPolicyDb) {
   const persistenceNotice = "Append-only event log plus current-state JSON database. Use NAMING_POLICY_DB on a persistent disk or external database for hard production durability.";
   if (!db.meta.persistence || db.meta.persistence.includes("service persistent disk")) db.meta.persistence = persistenceNotice;
   const requiredUsers: NamingPolicyUser[] = [
-    { id: "ryan-cook", name: "Ryan Cook", role: "Director of Foundation, Coast District" },
+    { id: "scott", name: "Scott Wayman", role: "Coastline College Foundation" },
+    { id: "ryan-cook", name: "Ryan Cook", role: "Coast District Foundation" },
   ];
   for (const user of requiredUsers) {
     const existing = db.users.find((item) => item.id === user.id || item.name === user.name);

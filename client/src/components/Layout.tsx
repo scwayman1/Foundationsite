@@ -8,6 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const hideTopNav = location.startsWith("/internal/naming-policy-studio");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,6 +41,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <div className="min-h-screen flex flex-col bg-background font-sans">
       {/* ── Premium Navigation ── */}
+      {!hideTopNav && (
       <motion.header
         className={cn(
           "sticky top-0 z-50 w-full transition-all duration-500 ease-out",
@@ -189,6 +191,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           )}
         </AnimatePresence>
       </motion.header>
+      )}
 
       {/* ── Main Content ── */}
       <main id="main-content" className="flex-1">
