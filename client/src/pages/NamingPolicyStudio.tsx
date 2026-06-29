@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, FileText, GitBranch, History, Radio, ShieldCheck, Users } from "lucide-react";
+import { AlertTriangle, CheckCircle2, FileText, GitBranch, History, Lightbulb, Radio, ShieldCheck, Sparkles, Users } from "lucide-react";
 
 type User = { id: string; name: string; role: string };
 type PolicySection = {
@@ -32,11 +32,156 @@ type State = {
 const API = "/api/naming-policy";
 const reviewerId = `reviewer-${Math.random().toString(36).slice(2)}`;
 
+type SectionCoach = {
+  objective: string;
+  decisionPoints: string[];
+  riskFlags: string[];
+  strategy: string;
+  suggestedLanguage: string[];
+  reviewerQuestions: string[];
+};
+
 const statusLabels: Record<string, string> = {
   drafting: "Drafting",
   "needs-review": "Needs Review",
   proposed: "Proposed",
   approved: "Approved",
+};
+
+const sectionCoaches: Record<string, SectionCoach> = {
+  "bp-authority": {
+    objective: "Keep Board authority clear while giving the Chancellor and advancement teams enough procedural room to operate consistently.",
+    decisionPoints: [
+      "Which naming actions must always go to the Board versus which can be managed administratively?",
+      "Should Chancellor review be required before a College or Foundation advances any naming conversation externally?",
+      "What evidence should accompany a Board recommendation so trustees are not approving names blindly?",
+    ],
+    riskFlags: ["Board-delegation ambiguity", "Inconsistent campus routing", "Policy language becoming too procedural"],
+    strategy: "Keep BP 6620 principle-based. Put checklists, thresholds, and routing artifacts in AP 6620 or a supporting naming request form.",
+    suggestedLanguage: [
+      "The Board retains final authority for District naming actions with material visibility, philanthropic significance, or reputational impact.",
+      "The Chancellor shall establish administrative procedures for review, documentation, recommendation, stewardship, and changed-circumstance review.",
+    ],
+    reviewerQuestions: [
+      "For Chancellor's Office: Does this preserve final Board authority without slowing routine advancement work?",
+      "For Foundation Directors: Is the route clear enough to use during donor conversations?",
+      "For Legal: Are any delegated decisions too broad for administrative handling?",
+    ],
+  },
+  "ap-scope": {
+    objective: "Define the full universe of naming opportunities so the policy covers modern fundraising assets, not only buildings.",
+    decisionPoints: [
+      "Which assets require Board approval because they are highly visible or reputationally sensitive?",
+      "Should programs, scholarships, funds, collections, and virtual/technology-enabled spaces be explicitly included?",
+      "Should there be a separate naming menu or schedule outside AP 6620?",
+    ],
+    riskFlags: ["Overly narrow asset list", "Unpriced naming opportunities", "Confusion between recognition and official naming"],
+    strategy: "Use AP 6620 for categories and review standards; use a separate naming schedule for gift levels and campaign-specific opportunities.",
+    suggestedLanguage: [
+      "Naming opportunities may include physical, programmatic, endowed, expendable, digital, or mission-critical assets approved through District process.",
+      "The Chancellor or designee may maintain a naming schedule that identifies eligible assets, minimum gift expectations, term assumptions, and stewardship obligations.",
+    ],
+    reviewerQuestions: [
+      "For advancement: What assets are missing from the current list that donors actually ask about?",
+      "For facilities: Which spaces should never be named or need special review?",
+      "For Board/Chancellor: Which categories require trustee approval every time?",
+    ],
+  },
+  "criteria-gift": {
+    objective: "Set defensible gift-based naming criteria without hard-coding every dollar amount into Board policy.",
+    decisionPoints: [
+      "Should gift thresholds be fixed, campaign-based, or determined by asset type?",
+      "How should pledge fulfillment, in-kind gifts, and blended gifts be handled?",
+      "What standard prevents unfair or inconsistent donor recognition across Colleges?",
+    ],
+    riskFlags: ["Donor fairness", "Thresholds becoming stale", "Promises made before District approval"],
+    strategy: "Keep the policy standard flexible but require documented valuation, gift agreement terms, and District approval before a naming commitment is final.",
+    suggestedLanguage: [
+      "Gift-based naming should be significant in relation to the value, visibility, useful life, and strategic importance of the named opportunity.",
+      "Gift thresholds may be documented in an approved naming schedule, campaign plan, or gift agreement and should be reviewed periodically.",
+    ],
+    reviewerQuestions: [
+      "For Foundation Directors: What threshold flexibility do you need in active campaigns?",
+      "For finance/business offices: How should pledge defaults or partial fulfillment affect naming?",
+      "For Legal: Should the gift agreement control over the naming schedule if terms conflict?",
+    ],
+  },
+  "term-limits": {
+    objective: "Prevent accidental perpetual naming rights while honoring donor intent and campaign promises.",
+    decisionPoints: [
+      "Are names permanent by default, time-limited by default, or decided case-by-case?",
+      "Should buildings, rooms, programs, funds, and temporary spaces have different default terms?",
+      "What happens when a term ends, the space changes, or the donor wants renewal?",
+    ],
+    riskFlags: ["Accidental perpetual commitments", "Untracked expiration dates", "Signage/removal cost disputes"],
+    strategy: "Let Board Policy authorize permanent or term-limited namings, while AP/gift agreements define duration, renewal, signage, and end-of-term handling.",
+    suggestedLanguage: [
+      "Naming rights may be permanent, long-term, or time-limited as approved by the Board and documented in the applicable gift or naming agreement.",
+      "Term-limited namings should identify duration, renewal rights, signage responsibilities, and treatment of the name at expiration.",
+    ],
+    reviewerQuestions: [
+      "For advancement: Which donor offers need term flexibility?",
+      "For facilities: Who pays to install, maintain, replace, or remove signage?",
+      "For Legal: What agreement terms protect the District if the asset is repurposed?",
+    ],
+  },
+  "due-diligence": {
+    objective: "Make reputation review consistent, documented, and practical before a name reaches the Board.",
+    decisionPoints: [
+      "What level of review is required for honorary names versus philanthropic names?",
+      "Who checks conflicts, source-of-funds concerns, litigation, misconduct, or reputational issues?",
+      "What concerns must be escalated to Chancellor, counsel, or closed session advice?",
+    ],
+    riskFlags: ["Reputational harm", "Inconsistent background checks", "Sensitive findings handled informally"],
+    strategy: "Require a reasonable, documented due-diligence summary before Chancellor review, with escalation for material concerns.",
+    suggestedLanguage: [
+      "Before advancement, the responsible office shall complete reasonable due diligence addressing mission alignment, reputational risk, conflicts, donor intent, and legal restrictions.",
+      "Material concerns shall be summarized for Chancellor review before any recommendation is placed before the Board.",
+    ],
+    reviewerQuestions: [
+      "For Chancellor's Office: What threshold triggers legal or executive review?",
+      "For Foundation Directors: What review can occur before a donor conversation becomes too formal?",
+      "For Legal: What should not be written into public Board materials?",
+    ],
+  },
+  "revocation": {
+    objective: "Give the District a defensible path to remove or modify names when circumstances materially change.",
+    decisionPoints: [
+      "What circumstances justify removing or modifying a name?",
+      "Is donor notice required, and who provides it?",
+      "Does the Board need final approval for every removal or only Board-approved namings?",
+    ],
+    riskFlags: ["Donor dispute", "Public controversy", "Unclear Board authority during a crisis"],
+    strategy: "Use high-level BP authority for removal/modification and AP procedures for notice, review, documentation, and gift-agreement coordination.",
+    suggestedLanguage: [
+      "The Board may remove or modify an approved name if continued recognition would materially harm the District or College or if gift obligations are not fulfilled.",
+      "Changed use, demolition, relocation, substantial renovation, or newly discovered information may trigger review under administrative procedures.",
+    ],
+    reviewerQuestions: [
+      "For Legal: What due process or notice language is necessary?",
+      "For advancement: How do we preserve donor trust while protecting District discretion?",
+      "For Board/Chancellor: Who speaks publicly if a revocation becomes controversial?",
+    ],
+  },
+  "stewardship": {
+    objective: "Turn approved namings into maintainable records, obligations, reminders, and donor-trust practices.",
+    decisionPoints: [
+      "Who owns the official naming inventory?",
+      "Where are gift agreements, Board approvals, term dates, signage obligations, and renewal notes stored?",
+      "How often should naming records be reviewed for expired terms, changed spaces, or stewardship commitments?",
+    ],
+    riskFlags: ["Lost agreement terms", "Missed renewal dates", "Facilities changes breaking donor commitments"],
+    strategy: "Require a shared naming record and assign responsibility across advancement, business, facilities, and Board records functions.",
+    suggestedLanguage: [
+      "The District and Colleges shall maintain records of approved namings, supporting agreements, term lengths, signage obligations, renewal dates, and restrictions.",
+      "Advancement, business, facilities, and Board records offices should coordinate to keep naming records current through asset changes and donor stewardship cycles.",
+    ],
+    reviewerQuestions: [
+      "For advancement: What donor stewardship promises must be tracked?",
+      "For facilities: How will space renovations trigger naming review?",
+      "For records/Board office: Which approval documents must be retained permanently?",
+    ],
+  },
 };
 
 function statusClass(status: string) {
@@ -154,6 +299,7 @@ export default function NamingPolicyStudio() {
 
   const selectedComments = state?.comments.filter((item) => item.sectionId === selected?.id) || [];
   const openProposals = state?.proposals.filter((item) => item.sectionId === selected?.id || item.status === "open") || [];
+  const coach = selected ? sectionCoaches[selected.id] : undefined;
 
   if (!state || !selected) {
     return <div className="container py-24 text-slate-600">Loading naming policy studio…</div>;
@@ -261,6 +407,54 @@ export default function NamingPolicyStudio() {
               <label className="block text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Rationale
                 <textarea className="mt-2 min-h-28 w-full rounded-3xl border border-sky-100 p-4 text-base font-normal normal-case tracking-normal text-slate-900 outline-none focus:ring-2 focus:ring-sky-100" value={rationale} onChange={(event) => setRationale(event.target.value)} />
               </label>
+
+              {coach && (
+                <section className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 via-white to-cyan-50 p-5 shadow-sm">
+                  <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                    <div>
+                      <span className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-violet-800">
+                        <Sparkles size={14} /> Section AI Coach
+                      </span>
+                      <h3 className="mt-3 font-heading text-2xl font-bold text-[#08324a]">Coach for {selected.title}</h3>
+                      <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{coach.objective}</p>
+                    </div>
+                    <div className="rounded-2xl border border-violet-100 bg-white/80 px-4 py-3 text-sm text-slate-600">
+                      <b className="block text-violet-800">Recommended strategy</b>
+                      <span>{coach.strategy}</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 grid gap-4 xl:grid-cols-2">
+                    <div className="rounded-2xl border border-sky-100 bg-white p-4">
+                      <h4 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]"><Lightbulb size={15} /> Decision guide</h4>
+                      <ol className="space-y-2 text-sm leading-6 text-slate-700">
+                        {coach.decisionPoints.map((point) => <li key={point} className="flex gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cyan-50 text-xs font-bold text-cyan-800">?</span><span>{point}</span></li>)}
+                      </ol>
+                    </div>
+
+                    <div className="rounded-2xl border border-amber-100 bg-white p-4">
+                      <h4 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-amber-700"><AlertTriangle size={15} /> Critical risk flags</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {coach.riskFlags.map((risk) => <span key={risk} className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800">{risk}</span>)}
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-emerald-100 bg-white p-4">
+                      <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-emerald-700">Suggested language moves</h4>
+                      <ul className="space-y-2 text-sm leading-6 text-slate-700">
+                        {coach.suggestedLanguage.map((language) => <li key={language} className="rounded-2xl bg-emerald-50/70 p-3">“{language}”</li>)}
+                      </ul>
+                    </div>
+
+                    <div className="rounded-2xl border border-slate-100 bg-white p-4">
+                      <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-slate-700">Reviewer questions</h4>
+                      <ul className="space-y-2 text-sm leading-6 text-slate-700">
+                        {coach.reviewerQuestions.map((question) => <li key={question} className="border-l-2 border-cyan-200 pl-3">{question}</li>)}
+                      </ul>
+                    </div>
+                  </div>
+                </section>
+              )}
 
               <section className="rounded-3xl border border-sky-100 bg-white p-4">
                 <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]"><ShieldCheck size={15} /> Proposal builder</h3>
