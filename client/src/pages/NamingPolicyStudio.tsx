@@ -477,7 +477,7 @@ export default function NamingPolicyStudio() {
           </div>
         </div>
 
-        <div className="grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)_380px]">
+        <div className="grid gap-5 xl:grid-cols-[280px_minmax(720px,1fr)_360px]">
           <aside className="rounded-3xl border border-sky-100 bg-white/95 p-4 shadow-sm xl:sticky xl:top-24 xl:max-h-[calc(100vh-7rem)] xl:overflow-auto">
             <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-[#005f86]">Reviewer</h2>
             <div className="flex gap-2">
@@ -554,7 +554,7 @@ export default function NamingPolicyStudio() {
                       </label>
                     ))}
                   </div>
-                  <p className="mt-2 text-xs text-slate-500">This replaces the old single-assigned-section model: anyone in the working group can edit proposed language, add comments, or create suggestions for this same section.</p>
+                  <p className="mt-2 text-xs text-slate-500">People checked here can help edit, comment, or suggest changes for this section.</p>
                 </div>
               </section>
 
@@ -701,7 +701,9 @@ export default function NamingPolicyStudio() {
             <div className="rounded-3xl border border-slate-200 bg-white/95 p-2 shadow-sm">
               <div className="grid grid-cols-3 gap-1">
                 {(["discussion", "suggestions", "audit"] as const).map((panel) => (
-                  <button key={panel} type="button" onClick={() => setRightPanel(panel)} className={`rounded-2xl px-3 py-2 text-xs font-bold capitalize transition ${rightPanel === panel ? "bg-[#005f86] text-white shadow-sm" : "text-slate-600 hover:bg-slate-50"}`}>{panel}</button>
+                  <button key={panel} type="button" onClick={() => setRightPanel(panel)} className={`rounded-2xl px-3 py-2 text-xs font-bold transition ${rightPanel === panel ? "bg-[#005f86] text-white shadow-sm" : "text-slate-600 hover:bg-slate-50"}`}>
+                    {panel === "discussion" ? "Comments" : panel === "audit" ? "Activity" : "Suggestions"}
+                  </button>
                 ))}
               </div>
             </div>
@@ -712,7 +714,7 @@ export default function NamingPolicyStudio() {
                   <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><Users size={18} /> Comments</h2>
                   <p className="mt-1 text-sm text-slate-500">Add a note the team can read next to this section.</p>
                 </div>
-                <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500">{selectedComments.length} notes</span>
+                <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500">{selectedComments.length}</span>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 {contributionTypes.map((type) => (
@@ -741,8 +743,8 @@ export default function NamingPolicyStudio() {
 
             {rightPanel === "suggestions" && (
             <section className="rounded-3xl border border-sky-100 bg-white/95 p-4 shadow-sm">
-              <h2 className="font-heading text-xl font-bold text-[#08324a]">Section suggestions</h2>
-              <p className="mt-1 text-sm text-slate-500">Multiple reviewers can add parallel alternatives for this same section.</p>
+              <h2 className="font-heading text-xl font-bold text-[#08324a]">Suggestions</h2>
+              <p className="mt-1 text-sm text-slate-500">Suggest a clearer phrase, alternate wording, or decision for this section.</p>
               <div className="mt-4 space-y-3">
                 {openProposals.length ? openProposals.slice(0, 6).map((proposal) => (
                   <div key={proposal.id} className="rounded-2xl border border-sky-100 bg-sky-50/50 p-3">
@@ -758,8 +760,8 @@ export default function NamingPolicyStudio() {
             <section className="rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><History size={18} /> Audit trail</h2>
-                  <p className="mt-1 text-sm text-slate-500">Section-specific accountability: who did what, when, and why it matters.</p>
+                  <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><History size={18} /> Activity</h2>
+                  <p className="mt-1 text-sm text-slate-500">Recent edits, comments, suggestions, and status changes for this section.</p>
                 </div>
                 <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500">{visibleAuditEvents.length}/{selectedEvents.length}</span>
               </div>
