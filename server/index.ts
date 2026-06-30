@@ -209,7 +209,7 @@ async function startServer() {
       }
     }
     if ("collaborators" in req.body) {
-      const nextCollaborators = Array.isArray(req.body.collaborators) ? Array.from(new Set(req.body.collaborators.map(String))) : [];
+      const nextCollaborators: string[] = Array.isArray(req.body.collaborators) ? Array.from(new Set(req.body.collaborators.map(String))) : [];
       if (JSON.stringify(section.collaborators || []) !== JSON.stringify(nextCollaborators)) {
         changes.collaborators = { before: section.collaborators || [], after: nextCollaborators };
         section.collaborators = nextCollaborators;
