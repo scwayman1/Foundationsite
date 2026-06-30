@@ -379,8 +379,8 @@ export default function NamingPolicyStudio() {
       body: JSON.stringify({ sectionId: selected.id, author: name, body: comment.trim(), kind: contributionType }),
     });
     setComment("");
-    setRightPanel("audit");
-    setNotice(`${contributionType} committed — the team will see it in this section and in the audit trail.`);
+    setRightPanel("discussion");
+    setNotice("Comment posted to this section.");
     await load();
   }
 
@@ -433,7 +433,6 @@ export default function NamingPolicyStudio() {
     ...selectedComments.map((item) => (state?.users || []).find((user) => user.name === item.author)?.id || item.author),
     ...openProposals.map((item) => (state?.users || []).find((user) => user.name === item.author)?.id || item.author),
   ].filter(Boolean)));
-  const sectionActivityScore = selectedComments.length + openProposals.length + selectedEvents.filter((event) => event.detail?.sectionId === selected?.id).length;
   const auditFilters = ["All", "Comments", "Edits", "Suggestions", "Status"];
   const visibleAuditEvents = selectedEvents.filter((event) => {
     if (auditFilter === "Comments") return event.type === "comment.created";
@@ -442,13 +441,12 @@ export default function NamingPolicyStudio() {
     if (auditFilter === "Status") return event.type === "section.updated" && Boolean((event.detail?.changes as Record<string, unknown> | undefined)?.status);
     return true;
   });
-  const contributionHelp = contributionGuidance[contributionType] || contributionGuidance.Language;
   const contributionConfidence = comment.trim().length > 120 ? "Strong" : comment.trim().length > 35 ? "Good start" : "Drafting";
   const contributionConfidenceCopy = contributionConfidence === "Strong"
-    ? "This is specific enough for the team to act on."
+    ? "Clear note"
     : contributionConfidence === "Good start"
-      ? "A little more context would make this easier for others to use."
-      : "Start with the policy point, then add why it matters.";
+      ? "Add context if helpful"
+      : "Start with the policy point";
 
   if (!state || !selected) {
     return <div className="container py-24 text-slate-600">Loading naming policy studio…</div>;
@@ -563,51 +561,54 @@ export default function NamingPolicyStudio() {
               <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                   <div>
-                    <h3 className="font-heading text-xl font-bold text-[#08324a]">Section collaboration board</h3>
-                    <p className="text-sm text-slate-500">A ClickUp/Monday-style snapshot of who is contributing, what exists, and whether this section has enough review energy.</p>
+                    <h3 className="font-heading text-xl font-bold text-[#08324a]">Review status</h3>
+                    <p className="text-sm text-slate-500">Who is working here and what has already been added to this section.</p>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-bold text-sky-800">{sectionContributors.length} contributors</span>
+                    <span className="rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-bold text-sky-800">{sectionContributors.length} reviewers</span>
                     <span className="rounded-full border border-violet-100 bg-violet-50 px-3 py-1 text-xs font-bold text-violet-800">{openProposals.length} suggestions</span>
-                    <span className="rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-800">{selectedComments.length} notes</span>
-                    <span className="rounded-full border border-amber-100 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800">{sectionActivityScore} audit signals</span>
+                    <span className="rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-800">{selectedComments.length} comments</span>
                   </div>
                 </div>
-                <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_220px]">
-                  <div className="rounded-2xl border border-slate-100 bg-slate-50 p-3">
-                    <div className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Contributors on this section</div>
-                    <div className="flex flex-wrap gap-2">
-                      {sectionContributors.map((id) => (
-                        <span key={id} className="inline-flex items-center gap-2 rounded-full border border-white bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-sm">
-                          <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white ${avatarClass(id)}`}>{initials(userLabel(id))}</span>
-                          {userLabel(id)}
-                          {id === owner && <span className="rounded-full bg-cyan-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-cyan-800">Lead</span>}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="rounded-2xl border border-slate-100 bg-white p-3">
-                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Readiness</div>
-                    <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500" style={{ width: `${Math.min(100, 25 + sectionActivityScore * 12)}%` }} /></div>
-                    <p className="mt-2 text-xs leading-5 text-slate-500">More comments, suggestions, and reviewer coverage increases confidence before moving this to Proposed or Approved.</p>
-                  </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {sectionContributors.map((id) => (
+                    <span key={id} className="inline-flex items-center gap-2 rounded-full border border-slate-100 bg-slate-50 px-3 py-1.5 text-sm font-semibold text-slate-700">
+                      <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white ${avatarClass(id)}`}>{initials(userLabel(id))}</span>
+                      {userLabel(id)}
+                      {id === owner && <span className="rounded-full bg-cyan-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-cyan-800">Lead</span>}
+                    </span>
+                  ))}
                 </div>
               </section>
 
-              <section className="grid gap-4 lg:grid-cols-2">
-                <div>
-                  <h3 className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]"><FileText size={15} /> Current policy language</h3>
-                  <div className="min-h-64 rounded-3xl border border-sky-100 bg-slate-50 p-5 leading-7 text-slate-700">{selected.currentText}</div>
+              <section className="rounded-3xl border border-slate-200 bg-white shadow-sm">
+                <div className="flex flex-col gap-3 border-b border-slate-100 p-4 lg:flex-row lg:items-center lg:justify-between">
+                  <div>
+                    <h3 className="font-heading text-xl font-bold text-[#08324a]">Edit this section</h3>
+                    <p className="mt-1 text-sm text-slate-500">Read the current language, revise the proposed replacement, then save or ask for review.</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={() => setRightPanel("discussion")} className="rounded-full border border-sky-200 bg-white px-4 py-2 text-sm font-bold text-[#005f86] hover:bg-sky-50">Comment</button>
+                    <button type="button" onClick={() => setRightPanel("suggestions")} className="rounded-full border border-violet-200 bg-white px-4 py-2 text-sm font-bold text-violet-800 hover:bg-violet-50">Suggest edit</button>
+                    <button type="button" onClick={() => setCoachOpen((open) => !open)} className="rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-bold text-amber-800 hover:bg-amber-100">Ask coach</button>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]"><GitBranch size={15} /> Proposed replacement</h3>
-                  <textarea className="min-h-64 w-full rounded-3xl border border-cyan-200 bg-cyan-50/20 p-5 leading-7 outline-none focus:ring-2 focus:ring-cyan-200" value={draftText} onChange={(event) => setDraftText(event.target.value)} />
+                <div className="grid gap-0 lg:grid-cols-2">
+                  <div className="border-b border-slate-100 p-5 lg:border-b-0 lg:border-r">
+                    <h4 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-500"><FileText size={15} /> Current language</h4>
+                    <div className="min-h-72 rounded-2xl bg-slate-50 p-5 leading-7 text-slate-700">{selected.currentText}</div>
+                  </div>
+                  <div className="p-5">
+                    <h4 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]"><GitBranch size={15} /> Proposed replacement</h4>
+                    <textarea aria-label="Proposed replacement language" className="min-h-72 w-full rounded-2xl border border-cyan-200 bg-white p-5 leading-7 outline-none focus:ring-2 focus:ring-cyan-200" value={draftText} onChange={(event) => setDraftText(event.target.value)} />
+                  </div>
+                </div>
+                <div className="border-t border-slate-100 p-5">
+                  <label className="block text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Reason for this revision
+                    <textarea className="mt-2 min-h-24 w-full rounded-2xl border border-sky-100 p-4 text-base font-normal normal-case tracking-normal text-slate-900 outline-none focus:ring-2 focus:ring-sky-100" placeholder="Why is this change better for the policy?" value={rationale} onChange={(event) => setRationale(event.target.value)} />
+                  </label>
                 </div>
               </section>
-
-              <label className="block text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Rationale
-                <textarea className="mt-2 min-h-28 w-full rounded-3xl border border-sky-100 p-4 text-base font-normal normal-case tracking-normal text-slate-900 outline-none focus:ring-2 focus:ring-sky-100" value={rationale} onChange={(event) => setRationale(event.target.value)} />
-              </label>
 
               {coach && (
                 <section className="rounded-3xl border border-violet-100 bg-white p-4 shadow-sm">
@@ -708,8 +709,8 @@ export default function NamingPolicyStudio() {
             <section className="rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><Users size={18} /> Contribution composer</h2>
-                  <p className="mt-1 text-sm text-slate-500">Capture exactly what kind of contribution this is before it hits the audit trail.</p>
+                  <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><Users size={18} /> Comments</h2>
+                  <p className="mt-1 text-sm text-slate-500">Add a note the team can read next to this section.</p>
                 </div>
                 <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500">{selectedComments.length} notes</span>
               </div>
@@ -718,21 +719,12 @@ export default function NamingPolicyStudio() {
                   <button key={type} type="button" onClick={() => setContributionType(type)} className={`rounded-full border px-3 py-1.5 text-xs font-bold transition ${contributionType === type ? "border-[#005f86] bg-[#005f86] text-white" : "border-slate-200 bg-white text-slate-600 hover:border-sky-200"}`}>{type}</button>
                 ))}
               </div>
-              <div className="mt-3 rounded-2xl border border-cyan-100 bg-cyan-50/70 p-3 text-sm leading-6 text-slate-700">
-                <b className="block text-[#005f86]">You’re helping the group make a better decision.</b>
-                <span>{contributionHelp.encouragement}</span>
-                <div className="mt-2 rounded-xl bg-white/80 p-2 text-xs text-slate-600"><b>How the team will see it:</b> {contributionHelp.teamView}</div>
+              <textarea className="mt-3 min-h-32 w-full rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm leading-6 outline-none focus:bg-white focus:ring-2 focus:ring-cyan-100" placeholder="Add a comment, question, concern, decision, or evidence note…" value={comment} onChange={(event) => setComment(event.target.value)} />
+              <div className="mt-2 flex items-center justify-between gap-3 text-xs text-slate-500">
+                <span>Posts to this section and appears in Activity with your name and time.</span>
+                <span className="font-semibold text-slate-600">{contributionConfidenceCopy}</span>
               </div>
-              <textarea className="mt-3 min-h-32 w-full rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm leading-6 outline-none focus:bg-white focus:ring-2 focus:ring-cyan-100" placeholder={contributionHelp.prompt} value={comment} onChange={(event) => setComment(event.target.value)} />
-              <div className="mt-2 rounded-2xl border border-slate-200 bg-white p-3">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Commit preview</span>
-                  <span className={`rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wide ${contributionConfidence === "Strong" ? "bg-emerald-50 text-emerald-700" : contributionConfidence === "Good start" ? "bg-amber-50 text-amber-700" : "bg-slate-100 text-slate-500"}`}>{contributionConfidence}</span>
-                </div>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{contributionConfidenceCopy}</p>
-                <p className="mt-2 text-xs leading-5 text-slate-500">When you post, this becomes a <b>{contributionType}</b> on <b>{selected.title}</b>, visible in the section discussion and permanently listed in the audit trail with your name and timestamp.</p>
-              </div>
-              <button onClick={postComment} disabled={!comment.trim()} className="mt-2 w-full rounded-full bg-[#005f86] px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-[#084b67] disabled:cursor-not-allowed disabled:bg-slate-300">Commit {contributionType}</button>
+              <button onClick={postComment} disabled={!comment.trim()} className="mt-3 w-full rounded-full bg-[#005f86] px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-[#084b67] disabled:cursor-not-allowed disabled:bg-slate-300">Post comment</button>
               <div className="mt-4 space-y-2">
                 {selectedComments.length ? selectedComments.map((item) => (
                   <div key={item.id} className="rounded-2xl border border-slate-200 bg-white p-3 text-sm shadow-sm">
