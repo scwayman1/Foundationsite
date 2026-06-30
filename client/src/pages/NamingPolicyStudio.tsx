@@ -4,6 +4,7 @@ import { AlertTriangle, CheckCircle2, FileText, GitBranch, History, Lightbulb, M
 
 type User = { id: string; name: string; role: string };
 type Comment = { id: string; sectionId: string; author: string; body: string; kind?: string; createdAt: string };
+type Proposal = { id?: string; sectionId?: string; author?: string; title?: string; body?: string; status?: string; createdAt?: string };
 type Event = { id: string; type: string; actor: string; at: string; detail?: Record<string, unknown> };
 type Presence = { id: string; name: string; focus: string; color: string; at: string };
 type LegacyPolicySection = {
@@ -23,7 +24,7 @@ type State = {
   users: User[];
   policySections: LegacyPolicySection[];
   comments: Comment[];
-  proposals: Array<Record<string, unknown>>;
+  proposals: Proposal[];
   events: Event[];
   snapshots: unknown[];
   presence: Presence[];
@@ -230,6 +231,13 @@ function initials(name: string) {
   return name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("") || "?";
 }
 
+const avatarStyles = ["bg-cyan-700", "bg-violet-700", "bg-amber-700", "bg-emerald-700", "bg-rose-700", "bg-slate-700"];
+
+function avatarClass(name: string) {
+  const score = name.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  return avatarStyles[score % avatarStyles.length];
+}
+
 function eventSummary(event: Event) {
   const detail = event.detail || {};
   if (event.type === "section.updated") return `Updated ${String(detail.title || "packet section")}`;
@@ -281,12 +289,22 @@ export default function NamingPolicyStudio() {
   );
   const selected = sections.find((section) => section.id === selectedId) || sections[0];
   const selectedComments = state?.comments.filter((item) => item.sectionId === selected.id) || [];
+  const selectedProposals = state?.proposals.filter((item) => item.sectionId === selected.id) || [];
   const selectedEvents = state?.events.filter((event) => !event.detail?.sectionId || event.detail?.sectionId === selected.id).slice(0, 8) || [];
   const missingEvidence = sections.filter((section) => section.status === "needs-evidence");
   const openQuestions = state?.comments.filter((item) => item.kind === "Question" || item.sectionId === "open-questions") || [];
   const readyCount = sections.filter((section) => section.status === "ready").length;
   const blockers = sections.filter((section) => ["not-started", "needs-evidence", "needs-review"].includes(section.status));
   const readinessPercent = Math.round((readyCount / sections.length) * 100);
+  const activePresence = state?.presence?.slice(0, 8) || [];
+  const visibleContributorNames = Array.from(new Set([
+    selected.reviewer,
+    ...(state?.users?.map((user) => user.name) || []),
+    ...activePresence.map((person) => person.name),
+    ...selectedComments.map((item) => item.author),
+    ...selectedProposals.map((item) => item.author || "Reviewer"),
+    ...selectedEvents.map((event) => event.actor),
+  ].filter(Boolean)));
 
   function updateStatus(sectionId: string, nextStatus: ReadinessState) {
     const next = { ...localStatuses, [sectionId]: nextStatus };
@@ -490,10 +508,43 @@ export default function NamingPolicyStudio() {
             </section>
 
             <section className="rounded-3xl border border-slate-200 bg-white/95 p-5 shadow-sm">
-              <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><Users size={18} /> Assigned Reviewers</h2>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-semibold text-slate-700"><span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#005f86] text-xs font-bold text-white">{initials(selected.reviewer)}</span>{selected.reviewer}</span>
-                {state.users.slice(0, 3).map((user) => <span key={user.id} className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600">{user.name}</span>)}
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><Users size={18} /> Contributors</h2>
+                  <p className="mt-1 text-sm text-slate-500">People visible on this packet: assigned reviewers, live reviewers, and anyone contributing notes or suggestions.</p>
+                </div>
+                <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">{visibleContributorNames.length}</span>
+              </div>
+
+              <div className="mt-4 rounded-2xl border border-cyan-100 bg-cyan-50/70 p-3">
+                <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-cyan-800">Lead for this section</div>
+                <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-white px-3 py-1.5 text-sm font-bold text-slate-800">
+                  <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white ${avatarClass(selected.reviewer)}`}>{initials(selected.reviewer)}</span>
+                  {selected.reviewer}
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="mb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-500">Review team</div>
+                <div className="flex flex-wrap gap-2">
+                  {state.users.map((user) => (
+                    <span key={user.id} className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700">
+                      <span className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold text-white ${avatarClass(user.name)}`}>{initials(user.name)}</span>
+                      {user.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="mb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-500">Active now</div>
+                <div className="flex flex-wrap gap-2">
+                  {activePresence.length ? activePresence.map((person) => (
+                    <span key={person.id} className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-800">
+                      <span className="h-2 w-2 rounded-full bg-emerald-500" /> {person.name}
+                    </span>
+                  )) : <span className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-500">No live presence yet. Use Join to show as active.</span>}
+                </div>
               </div>
             </section>
 
