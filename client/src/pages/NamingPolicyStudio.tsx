@@ -15,9 +15,9 @@ type PolicySection = {
   proposedText: string;
   rationale: string;
 };
-type Comment = { id: string; sectionId: string; author: string; body: string; createdAt: string };
+type Comment = { id: string; sectionId: string; author: string; body: string; kind?: string; createdAt: string };
 type Proposal = { id: string; sectionId: string; author: string; title: string; body: string; status: string; createdAt: string };
-type Event = { id: string; type: string; actor: string; at: string };
+type Event = { id: string; type: string; actor: string; at: string; detail?: Record<string, unknown> };
 type Presence = { id: string; name: string; focus: string; color: string; at: string };
 type State = {
   meta: { project: string; updatedAt: string };
@@ -192,6 +192,31 @@ function statusClass(status: string) {
   return "bg-sky-50 text-sky-700 border-sky-200";
 }
 
+const avatarStyles = ["bg-cyan-600", "bg-violet-600", "bg-amber-600", "bg-emerald-600", "bg-rose-600", "bg-slate-700"];
+const contributionTypes = ["Language", "Question", "Concern", "Decision", "Evidence"];
+
+function initials(name: string) {
+  return name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("") || "?";
+}
+
+function avatarClass(id: string) {
+  const score = id.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  return avatarStyles[score % avatarStyles.length];
+}
+
+function eventSummary(event: Event) {
+  const detail = event.detail || {};
+  if (event.type === "section.updated") {
+    const changes = detail.changes && typeof detail.changes === "object" ? Object.keys(detail.changes as Record<string, unknown>) : [];
+    return changes.length ? `updated ${changes.join(", ")}` : "reviewed the section";
+  }
+  if (event.type === "comment.created") return `added ${String(detail.kind || "a contribution").toLowerCase()}`;
+  if (event.type === "proposal.created") return `created suggestion “${String(detail.title || "Untitled")}"`;
+  if (event.type === "snapshot.created") return `committed snapshot “${String(detail.title || "Snapshot")}"`;
+  if (event.type === "presence") return `joined ${String(detail.focus || "the workspace")}`;
+  return event.type.replace(/\./g, " ");
+}
+
 function coachAnswer(section: PolicySection, coach: SectionCoach, question: string) {
   const normalized = question.toLowerCase();
   const focus = normalized.includes("legal") || normalized.includes("risk") || normalized.includes("liability")
@@ -248,6 +273,7 @@ export default function NamingPolicyStudio() {
   const [owner, setOwner] = useState("scott");
   const [collaborators, setCollaborators] = useState<string[]>([]);
   const [comment, setComment] = useState("");
+  const [contributionType, setContributionType] = useState("Language");
   const [proposalTitle, setProposalTitle] = useState("");
   const [proposalBody, setProposalBody] = useState("");
   const [coachQuestion, setCoachQuestion] = useState("");
@@ -312,7 +338,7 @@ export default function NamingPolicyStudio() {
     if (!selected || !comment.trim()) return;
     await api("/comments", {
       method: "POST",
-      body: JSON.stringify({ sectionId: selected.id, author: name, body: comment.trim() }),
+      body: JSON.stringify({ sectionId: selected.id, author: name, body: comment.trim(), kind: contributionType }),
     });
     setComment("");
     setNotice("Comment posted.");
@@ -358,6 +384,17 @@ export default function NamingPolicyStudio() {
   const coach = selected ? sectionCoaches[selected.id] : undefined;
   const userLabel = (id: string) => state?.users.find((user) => user.id === id)?.name || id;
   const collaboratorLabels = collaborators.map(userLabel);
+  const selectedEvents = state?.events.filter((event) => {
+    const sectionId = event.detail?.sectionId;
+    return !sectionId || sectionId === selected?.id;
+  }) || [];
+  const sectionContributors = Array.from(new Set([
+    ...collaborators,
+    owner,
+    ...selectedComments.map((item) => (state?.users || []).find((user) => user.name === item.author)?.id || item.author),
+    ...openProposals.map((item) => (state?.users || []).find((user) => user.name === item.author)?.id || item.author),
+  ].filter(Boolean)));
+  const sectionActivityScore = selectedComments.length + openProposals.length + selectedEvents.filter((event) => event.detail?.sectionId === selected?.id).length;
 
   if (!state || !selected) {
     return <div className="container py-24 text-slate-600">Loading naming policy studio…</div>;
@@ -464,6 +501,40 @@ export default function NamingPolicyStudio() {
                 </div>
               </section>
 
+              <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                  <div>
+                    <h3 className="font-heading text-xl font-bold text-[#08324a]">Section collaboration board</h3>
+                    <p className="text-sm text-slate-500">A ClickUp/Monday-style snapshot of who is contributing, what exists, and whether this section has enough review energy.</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-bold text-sky-800">{sectionContributors.length} contributors</span>
+                    <span className="rounded-full border border-violet-100 bg-violet-50 px-3 py-1 text-xs font-bold text-violet-800">{openProposals.length} suggestions</span>
+                    <span className="rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-800">{selectedComments.length} notes</span>
+                    <span className="rounded-full border border-amber-100 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800">{sectionActivityScore} audit signals</span>
+                  </div>
+                </div>
+                <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_220px]">
+                  <div className="rounded-2xl border border-slate-100 bg-slate-50 p-3">
+                    <div className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Contributors on this section</div>
+                    <div className="flex flex-wrap gap-2">
+                      {sectionContributors.map((id) => (
+                        <span key={id} className="inline-flex items-center gap-2 rounded-full border border-white bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-sm">
+                          <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white ${avatarClass(id)}`}>{initials(userLabel(id))}</span>
+                          {userLabel(id)}
+                          {id === owner && <span className="rounded-full bg-cyan-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-cyan-800">Lead</span>}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="rounded-2xl border border-slate-100 bg-white p-3">
+                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Readiness</div>
+                    <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500" style={{ width: `${Math.min(100, 25 + sectionActivityScore * 12)}%` }} /></div>
+                    <p className="mt-2 text-xs leading-5 text-slate-500">More comments, suggestions, and reviewer coverage increases confidence before moving this to Proposed or Approved.</p>
+                  </div>
+                </div>
+              </section>
+
               <section className="grid gap-4 lg:grid-cols-2">
                 <div>
                   <h3 className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]"><FileText size={15} /> Current policy language</h3>
@@ -559,14 +630,31 @@ export default function NamingPolicyStudio() {
           </main>
 
           <aside className="space-y-5 xl:sticky xl:top-24 xl:max-h-[calc(100vh-7rem)] xl:overflow-auto">
-            <section className="rounded-3xl border border-sky-100 bg-white/95 p-4 shadow-sm">
-              <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><Users size={18} /> Section discussion thread</h2>
-              <textarea className="mt-4 min-h-28 w-full rounded-2xl border border-sky-100 p-3" placeholder="Add a legal, advancement, or governance note…" value={comment} onChange={(event) => setComment(event.target.value)} />
-              <button onClick={postComment} className="mt-2 w-full rounded-full bg-[#005f86] px-4 py-3 text-sm font-bold text-white">Post Comment</button>
+            <section className="rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-sm">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><Users size={18} /> Contribution composer</h2>
+                  <p className="mt-1 text-sm text-slate-500">Capture exactly what kind of contribution this is before it hits the audit trail.</p>
+                </div>
+                <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500">{selectedComments.length} notes</span>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {contributionTypes.map((type) => (
+                  <button key={type} type="button" onClick={() => setContributionType(type)} className={`rounded-full border px-3 py-1.5 text-xs font-bold transition ${contributionType === type ? "border-[#005f86] bg-[#005f86] text-white" : "border-slate-200 bg-white text-slate-600 hover:border-sky-200"}`}>{type}</button>
+                ))}
+              </div>
+              <textarea className="mt-3 min-h-32 w-full rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm leading-6 outline-none focus:bg-white focus:ring-2 focus:ring-cyan-100" placeholder="Add a clear contribution: suggested wording, risk concern, question, evidence, or decision note…" value={comment} onChange={(event) => setComment(event.target.value)} />
+              <button onClick={postComment} className="mt-2 w-full rounded-full bg-[#005f86] px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-[#084b67]">Post {contributionType}</button>
               <div className="mt-4 space-y-2">
                 {selectedComments.length ? selectedComments.map((item) => (
-                  <div key={item.id} className="rounded-2xl border border-sky-100 bg-slate-50 p-3 text-sm"><b className="text-[#005f86]">{item.author}</b><p className="mt-1 text-slate-600">{item.body}</p></div>
-                )) : <p className="rounded-2xl border border-sky-100 bg-slate-50 p-3 text-sm text-slate-500">No comments on this section yet.</p>}
+                  <div key={item.id} className="rounded-2xl border border-slate-200 bg-white p-3 text-sm shadow-sm">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="inline-flex items-center gap-2"><span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white ${avatarClass(item.author)}`}>{initials(item.author)}</span><b className="text-[#005f86]">{item.author}</b></span>
+                      <span className="rounded-full bg-slate-100 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-slate-600">{item.kind || "Note"}</span>
+                    </div>
+                    <p className="mt-2 leading-6 text-slate-600">{item.body}</p>
+                  </div>
+                )) : <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">No contributions yet. Add the first language note, concern, decision, question, or evidence item for this section.</p>}
               </div>
             </section>
 
@@ -583,13 +671,28 @@ export default function NamingPolicyStudio() {
               </div>
             </section>
 
-            <section className="rounded-3xl border border-sky-100 bg-white/95 p-4 shadow-sm">
-              <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><History size={18} /> Live audit trail</h2>
-              <div className="mt-4 space-y-3 border-l-2 border-sky-100 pl-4">
-                {state.events.slice(0, 14).map((event) => (
-                  <div key={event.id} className="relative text-sm text-slate-600 before:absolute before:-left-[22px] before:top-1.5 before:h-3 before:w-3 before:rounded-full before:bg-cyan-500">
-                    <b className="text-[#005f86]">{event.actor}</b> {event.type}
-                    <div className="text-xs text-slate-400">{new Date(event.at).toLocaleString()}</div>
+            <section className="rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-sm">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><History size={18} /> Audit trail</h2>
+                  <p className="mt-1 text-sm text-slate-500">Section-specific accountability: who did what, when, and why it matters.</p>
+                </div>
+                <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500">{selectedEvents.length}</span>
+              </div>
+              <div className="mt-4 space-y-3">
+                {selectedEvents.slice(0, 14).map((event) => (
+                  <div key={event.id} className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+                    <div className="flex items-start gap-3">
+                      <span className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white ${avatarClass(event.actor)}`}>{initials(event.actor)}</span>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start justify-between gap-2">
+                          <b className="text-sm text-[#005f86]">{event.actor}</b>
+                          <span className="rounded-full bg-slate-100 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-slate-500">{event.type.replace(/\..*/, "")}</span>
+                        </div>
+                        <p className="mt-1 text-sm leading-5 text-slate-600">{eventSummary(event)}</p>
+                        <div className="mt-2 text-xs text-slate-400">{new Date(event.at).toLocaleString()}</div>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -227,12 +227,13 @@ async function startServer() {
       sectionId: req.body.sectionId,
       proposalId: req.body.proposalId || null,
       author: req.body.author || "anonymous",
+      kind: req.body.kind || "Note",
       body: req.body.body || "",
       resolved: false,
       createdAt: namingNow(),
     };
     db.comments.unshift(comment);
-    recordNamingEvent(db, "comment.created", String(comment.author), { sectionId: comment.sectionId, proposalId: comment.proposalId });
+    recordNamingEvent(db, "comment.created", String(comment.author), { sectionId: comment.sectionId, proposalId: comment.proposalId, kind: comment.kind });
     writeNamingDb(db);
     res.status(201).json(comment);
   });
