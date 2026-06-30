@@ -194,6 +194,33 @@ function statusClass(status: string) {
 
 const avatarStyles = ["bg-cyan-600", "bg-violet-600", "bg-amber-600", "bg-emerald-600", "bg-rose-600", "bg-slate-700"];
 const contributionTypes = ["Language", "Question", "Concern", "Decision", "Evidence"];
+const contributionGuidance: Record<string, { encouragement: string; teamView: string; prompt: string }> = {
+  Language: {
+    encouragement: "Great language notes help the group move from abstract agreement to usable policy wording.",
+    teamView: "The team will see this as a suggested wording contribution tied to the current section.",
+    prompt: "Be specific: quote the phrase, explain the replacement, and name the policy reason.",
+  },
+  Question: {
+    encouragement: "Good questions protect the committee from approving language before the decision is actually clear.",
+    teamView: "The team will see this as an open question that needs an answer before the section advances.",
+    prompt: "Ask the question in a way that identifies who should answer it: Legal, Foundation, Chancellor, Board, or Facilities.",
+  },
+  Concern: {
+    encouragement: "Concerns are useful here — this is where risk gets surfaced early instead of becoming a board-packet problem later.",
+    teamView: "The team will see this as a risk flag for the section, not as a rejection of the work.",
+    prompt: "State the risk, why it matters, and what would make you comfortable moving forward.",
+  },
+  Decision: {
+    encouragement: "Decision notes are valuable because they turn discussion into a record the committee can trust later.",
+    teamView: "The team will see this as a decision record or recommended next step for the section.",
+    prompt: "Name the decision, the rationale, and whether anyone still needs to confirm it.",
+  },
+  Evidence: {
+    encouragement: "Evidence makes the policy review stronger because it connects edits to facts, examples, or institutional precedent.",
+    teamView: "The team will see this as supporting material for why the section should change or stay as written.",
+    prompt: "Include the source, example, or document reference that supports the contribution.",
+  },
+};
 
 function initials(name: string) {
   return name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("") || "?";
@@ -352,7 +379,8 @@ export default function NamingPolicyStudio() {
       body: JSON.stringify({ sectionId: selected.id, author: name, body: comment.trim(), kind: contributionType }),
     });
     setComment("");
-    setNotice("Comment posted.");
+    setRightPanel("audit");
+    setNotice(`${contributionType} committed — the team will see it in this section and in the audit trail.`);
     await load();
   }
 
@@ -414,6 +442,13 @@ export default function NamingPolicyStudio() {
     if (auditFilter === "Status") return event.type === "section.updated" && Boolean((event.detail?.changes as Record<string, unknown> | undefined)?.status);
     return true;
   });
+  const contributionHelp = contributionGuidance[contributionType] || contributionGuidance.Language;
+  const contributionConfidence = comment.trim().length > 120 ? "Strong" : comment.trim().length > 35 ? "Good start" : "Drafting";
+  const contributionConfidenceCopy = contributionConfidence === "Strong"
+    ? "This is specific enough for the team to act on."
+    : contributionConfidence === "Good start"
+      ? "A little more context would make this easier for others to use."
+      : "Start with the policy point, then add why it matters.";
 
   if (!state || !selected) {
     return <div className="container py-24 text-slate-600">Loading naming policy studio…</div>;
@@ -683,8 +718,21 @@ export default function NamingPolicyStudio() {
                   <button key={type} type="button" onClick={() => setContributionType(type)} className={`rounded-full border px-3 py-1.5 text-xs font-bold transition ${contributionType === type ? "border-[#005f86] bg-[#005f86] text-white" : "border-slate-200 bg-white text-slate-600 hover:border-sky-200"}`}>{type}</button>
                 ))}
               </div>
-              <textarea className="mt-3 min-h-32 w-full rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm leading-6 outline-none focus:bg-white focus:ring-2 focus:ring-cyan-100" placeholder="Add a clear contribution: suggested wording, risk concern, question, evidence, or decision note…" value={comment} onChange={(event) => setComment(event.target.value)} />
-              <button onClick={postComment} className="mt-2 w-full rounded-full bg-[#005f86] px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-[#084b67]">Post {contributionType}</button>
+              <div className="mt-3 rounded-2xl border border-cyan-100 bg-cyan-50/70 p-3 text-sm leading-6 text-slate-700">
+                <b className="block text-[#005f86]">You’re helping the group make a better decision.</b>
+                <span>{contributionHelp.encouragement}</span>
+                <div className="mt-2 rounded-xl bg-white/80 p-2 text-xs text-slate-600"><b>How the team will see it:</b> {contributionHelp.teamView}</div>
+              </div>
+              <textarea className="mt-3 min-h-32 w-full rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm leading-6 outline-none focus:bg-white focus:ring-2 focus:ring-cyan-100" placeholder={contributionHelp.prompt} value={comment} onChange={(event) => setComment(event.target.value)} />
+              <div className="mt-2 rounded-2xl border border-slate-200 bg-white p-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Commit preview</span>
+                  <span className={`rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wide ${contributionConfidence === "Strong" ? "bg-emerald-50 text-emerald-700" : contributionConfidence === "Good start" ? "bg-amber-50 text-amber-700" : "bg-slate-100 text-slate-500"}`}>{contributionConfidence}</span>
+                </div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{contributionConfidenceCopy}</p>
+                <p className="mt-2 text-xs leading-5 text-slate-500">When you post, this becomes a <b>{contributionType}</b> on <b>{selected.title}</b>, visible in the section discussion and permanently listed in the audit trail with your name and timestamp.</p>
+              </div>
+              <button onClick={postComment} disabled={!comment.trim()} className="mt-2 w-full rounded-full bg-[#005f86] px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-[#084b67] disabled:cursor-not-allowed disabled:bg-slate-300">Commit {contributionType}</button>
               <div className="mt-4 space-y-2">
                 {selectedComments.length ? selectedComments.map((item) => (
                   <div key={item.id} className="rounded-2xl border border-slate-200 bg-white p-3 text-sm shadow-sm">
