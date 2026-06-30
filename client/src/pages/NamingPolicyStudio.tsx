@@ -372,6 +372,25 @@ export default function NamingPolicyStudio() {
     await load();
   }
 
+  async function changeLeadReviewer(nextOwner: string) {
+    if (!selected) return;
+    const nextCollaborators = Array.from(new Set([nextOwner, ...collaborators].filter(Boolean)));
+    setOwner(nextOwner);
+    setCollaborators(nextCollaborators);
+    setNotice("Saving lead reviewer…");
+    await api(`/sections/${selected.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        actor: name,
+        owner: nextOwner,
+        collaborators: nextCollaborators,
+        changeReason: `Lead reviewer changed to ${userLabel(nextOwner)}`,
+      }),
+    });
+    setNotice(`Lead reviewer saved: ${userLabel(nextOwner)}.`);
+    await load();
+  }
+
   async function postComment() {
     if (!selected || !comment.trim()) return;
     await api("/comments", {
@@ -534,10 +553,11 @@ export default function NamingPolicyStudio() {
                     <option value="approved">Approved</option>
                   </select>
                 </label>
-                <label className="text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Lead reviewer, not exclusive owner
-                  <select value={owner} onChange={(event) => setOwner(event.target.value)} className="mt-2 block w-full rounded-2xl border border-sky-100 bg-white px-3 py-3 text-base font-normal normal-case tracking-normal text-slate-900">
+                <label className="text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Lead reviewer
+                  <select value={owner} onChange={(event) => changeLeadReviewer(event.target.value)} className="mt-2 block w-full rounded-2xl border border-sky-100 bg-white px-3 py-3 text-base font-normal normal-case tracking-normal text-slate-900">
                     {state.users.map((user) => <option key={user.id} value={user.id}>{user.name} — {user.role}</option>)}
                   </select>
+                  <span className="mt-2 block text-xs font-medium normal-case tracking-normal text-slate-500">Saves immediately and keeps the lead in the working group.</span>
                 </label>
                 <div className="md:col-span-2">
                   <label className="text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Status change reason {status !== selected.status && <span className="text-amber-700">· required</span>}
