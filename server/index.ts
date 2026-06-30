@@ -215,7 +215,7 @@ async function startServer() {
         section.collaborators = nextCollaborators;
       }
     }
-    recordNamingEvent(db, "section.updated", req.body.actor || "anonymous", { sectionId: section.id, title: section.title, changes });
+    recordNamingEvent(db, "section.updated", req.body.actor || "anonymous", { sectionId: section.id, title: section.title, changes, reason: req.body.changeReason || null });
     writeNamingDb(db);
     res.json(section);
   });

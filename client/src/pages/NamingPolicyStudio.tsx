@@ -208,7 +208,7 @@ function eventSummary(event: Event) {
   const detail = event.detail || {};
   if (event.type === "section.updated") {
     const changes = detail.changes && typeof detail.changes === "object" ? Object.keys(detail.changes as Record<string, unknown>) : [];
-    return changes.length ? `updated ${changes.join(", ")}` : "reviewed the section";
+    return changes.length ? `updated ${changes.join(", ")}${detail.reason ? ` — ${String(detail.reason)}` : ""}` : "reviewed the section";
   }
   if (event.type === "comment.created") return `added ${String(detail.kind || "a contribution").toLowerCase()}`;
   if (event.type === "proposal.created") return `created suggestion “${String(detail.title || "Untitled")}"`;
@@ -278,6 +278,10 @@ export default function NamingPolicyStudio() {
   const [proposalBody, setProposalBody] = useState("");
   const [coachQuestion, setCoachQuestion] = useState("");
   const [coachResponse, setCoachResponse] = useState("");
+  const [coachOpen, setCoachOpen] = useState(false);
+  const [statusReason, setStatusReason] = useState("");
+  const [rightPanel, setRightPanel] = useState<"discussion" | "suggestions" | "audit">("discussion");
+  const [auditFilter, setAuditFilter] = useState("All");
   const [notice, setNotice] = useState("");
 
   async function load() {
@@ -314,6 +318,8 @@ export default function NamingPolicyStudio() {
     setCollaborators(selected.collaborators?.length ? selected.collaborators : [selected.owner].filter(Boolean));
     setCoachQuestion("");
     setCoachResponse("");
+    setCoachOpen(false);
+    setStatusReason("");
   }, [selected?.id, selected?.proposedText, selected?.rationale, selected?.status, selected?.owner, selected?.collaborators]);
 
   async function heartbeat(focus = "reviewing workspace") {
@@ -326,10 +332,15 @@ export default function NamingPolicyStudio() {
 
   async function saveSection() {
     if (!selected) return;
+    if (status !== selected.status && !statusReason.trim()) {
+      setNotice("Add a status-change reason before saving.");
+      return;
+    }
     await api(`/sections/${selected.id}`, {
       method: "PATCH",
-      body: JSON.stringify({ actor: name, proposedText: draftText, rationale, status, owner, collaborators }),
+      body: JSON.stringify({ actor: name, proposedText: draftText, rationale, status, owner, collaborators, changeReason: statusReason.trim() }),
     });
+    setStatusReason("");
     setNotice("Saved to the policy workspace.");
     await load();
   }
@@ -395,6 +406,14 @@ export default function NamingPolicyStudio() {
     ...openProposals.map((item) => (state?.users || []).find((user) => user.name === item.author)?.id || item.author),
   ].filter(Boolean)));
   const sectionActivityScore = selectedComments.length + openProposals.length + selectedEvents.filter((event) => event.detail?.sectionId === selected?.id).length;
+  const auditFilters = ["All", "Comments", "Edits", "Suggestions", "Status"];
+  const visibleAuditEvents = selectedEvents.filter((event) => {
+    if (auditFilter === "Comments") return event.type === "comment.created";
+    if (auditFilter === "Edits") return event.type === "section.updated";
+    if (auditFilter === "Suggestions") return event.type === "proposal.created";
+    if (auditFilter === "Status") return event.type === "section.updated" && Boolean((event.detail?.changes as Record<string, unknown> | undefined)?.status);
+    return true;
+  });
 
   if (!state || !selected) {
     return <div className="container py-24 text-slate-600">Loading naming policy studio…</div>;
@@ -488,6 +507,11 @@ export default function NamingPolicyStudio() {
                   </select>
                 </label>
                 <div className="md:col-span-2">
+                  <label className="text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Status change reason {status !== selected.status && <span className="text-amber-700">· required</span>}
+                    <input className="mt-2 block w-full rounded-2xl border border-sky-100 bg-white px-3 py-3 text-base font-normal normal-case tracking-normal text-slate-900" placeholder="What prompted this status change?" value={statusReason} onChange={(event) => setStatusReason(event.target.value)} />
+                  </label>
+                </div>
+                <div className="md:col-span-2">
                   <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-[#005f86]">Working group — multiple reviewers can edit and suggest in tandem</h3>
                   <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
                     {state.users.map((user) => (
@@ -551,20 +575,26 @@ export default function NamingPolicyStudio() {
               </label>
 
               {coach && (
-                <section className="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50 via-white to-cyan-50 p-5 shadow-sm">
-                  <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                <section className="rounded-3xl border border-violet-100 bg-white p-4 shadow-sm">
+                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div>
-                      <span className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-violet-800">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-violet-800">
                         <Sparkles size={14} /> Section AI Coach
                       </span>
-                      <h3 className="mt-3 font-heading text-2xl font-bold text-[#08324a]">Coach for {selected.title}</h3>
-                      <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{coach.objective}</p>
+                      <h3 className="mt-3 font-heading text-xl font-bold text-[#08324a]">Decision support available</h3>
+                      <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">{coach.objective}</p>
                     </div>
-                    <div className="rounded-2xl border border-violet-100 bg-white/80 px-4 py-3 text-sm text-slate-600">
-                      <b className="block text-violet-800">Recommended strategy</b>
-                      <span>{coach.strategy}</span>
-                    </div>
+                    <button type="button" onClick={() => setCoachOpen((open) => !open)} className="rounded-full border border-violet-200 bg-violet-50 px-4 py-2 text-sm font-bold text-violet-800 hover:bg-violet-100">
+                      {coachOpen ? "Hide coach" : "Open coach"}
+                    </button>
                   </div>
+
+                  {coachOpen && (
+                    <>
+                      <div className="mt-4 rounded-2xl border border-violet-100 bg-violet-50/60 px-4 py-3 text-sm text-slate-600">
+                        <b className="block text-violet-800">Recommended strategy</b>
+                        <span>{coach.strategy}</span>
+                      </div>
 
                   <div className="mt-5 grid gap-4 xl:grid-cols-2">
                     <div className="rounded-2xl border border-sky-100 bg-white p-4">
@@ -617,6 +647,8 @@ export default function NamingPolicyStudio() {
                       </div>
                     )}
                   </div>
+                    </>
+                  )}
                 </section>
               )}
 
@@ -630,6 +662,14 @@ export default function NamingPolicyStudio() {
           </main>
 
           <aside className="space-y-5 xl:sticky xl:top-24 xl:max-h-[calc(100vh-7rem)] xl:overflow-auto">
+            <div className="rounded-3xl border border-slate-200 bg-white/95 p-2 shadow-sm">
+              <div className="grid grid-cols-3 gap-1">
+                {(["discussion", "suggestions", "audit"] as const).map((panel) => (
+                  <button key={panel} type="button" onClick={() => setRightPanel(panel)} className={`rounded-2xl px-3 py-2 text-xs font-bold capitalize transition ${rightPanel === panel ? "bg-[#005f86] text-white shadow-sm" : "text-slate-600 hover:bg-slate-50"}`}>{panel}</button>
+                ))}
+              </div>
+            </div>
+            {rightPanel === "discussion" && (
             <section className="rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -657,7 +697,9 @@ export default function NamingPolicyStudio() {
                 )) : <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">No contributions yet. Add the first language note, concern, decision, question, or evidence item for this section.</p>}
               </div>
             </section>
+            )}
 
+            {rightPanel === "suggestions" && (
             <section className="rounded-3xl border border-sky-100 bg-white/95 p-4 shadow-sm">
               <h2 className="font-heading text-xl font-bold text-[#08324a]">Section suggestions</h2>
               <p className="mt-1 text-sm text-slate-500">Multiple reviewers can add parallel alternatives for this same section.</p>
@@ -670,17 +712,24 @@ export default function NamingPolicyStudio() {
                 )) : <p className="rounded-2xl border border-sky-100 bg-slate-50 p-3 text-sm text-slate-500">No suggestions for this section yet.</p>}
               </div>
             </section>
+            )}
 
+            {rightPanel === "audit" && (
             <section className="rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h2 className="flex items-center gap-2 font-heading text-xl font-bold text-[#08324a]"><History size={18} /> Audit trail</h2>
                   <p className="mt-1 text-sm text-slate-500">Section-specific accountability: who did what, when, and why it matters.</p>
                 </div>
-                <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500">{selectedEvents.length}</span>
+                <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500">{visibleAuditEvents.length}/{selectedEvents.length}</span>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {auditFilters.map((filter) => (
+                  <button key={filter} type="button" onClick={() => setAuditFilter(filter)} className={`rounded-full border px-3 py-1 text-xs font-bold transition ${auditFilter === filter ? "border-[#005f86] bg-[#005f86] text-white" : "border-slate-200 bg-white text-slate-600 hover:border-sky-200"}`}>{filter}</button>
+                ))}
               </div>
               <div className="mt-4 space-y-3">
-                {selectedEvents.slice(0, 14).map((event) => (
+                {visibleAuditEvents.slice(0, 14).map((event) => (
                   <div key={event.id} className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
                     <div className="flex items-start gap-3">
                       <span className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white ${avatarClass(event.actor)}`}>{initials(event.actor)}</span>
@@ -697,6 +746,7 @@ export default function NamingPolicyStudio() {
                 ))}
               </div>
             </section>
+            )}
           </aside>
         </div>
 
