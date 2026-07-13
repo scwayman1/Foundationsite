@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Editable Coastline managers retreat working session" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+<title>Managers' Retreat — Make the work move</title>
+<style>
+  :root {
+    /* Coastline palette, sampled from the college's deployed public CSS: #003764, #0096D6, #E4F7FF, #EFEFEF, #2B2B2B */
+    --ink: #1b1b1b;
+    --muted: #59636b;
+    --paper: #f5f5f5;
+    --white: #ffffff;
+    --line: #d4d9dc;
+    --moss: #003764;
+    --moss-deep: #002a4d;
+    --lime: #0096d6;
+    --orange: #0079b8;
+    --yellow: #b7e2f7;
+    --blue: #e4f7ff;
+    --red: #a61f3d;
+    --shadow: 0 18px 50px rgba(0, 55, 100, .12);
+    --serif: Georgia, 'Times New Roman', serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--sans); line-height: 1.45; }
+  button { font: inherit; }
+  .topbar { position: sticky; z-index: 10; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 13px clamp(18px, 4vw, 54px); color: #fff; background: var(--moss-deep); border-bottom: 1px solid rgba(255,255,255,.12); }
+  .brand { display: flex; gap: 13px; align-items: center; min-width: 0; }
+  .brand-logo { display: block; width: clamp(135px, 16vw, 190px); height: auto; }
+  .brand span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; padding-left: 13px; border-left: 1px solid rgba(255,255,255,.35); }
+  .actions { display: flex; align-items: center; gap: 8px; }
+  .btn { min-height: 38px; border: 1px solid transparent; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px; transition: transform .18s ease, background .18s ease; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:focus-visible, [contenteditable]:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+  .btn-quiet { background: transparent; color: #fff; border-color: rgba(255,255,255,.28); }
+  .btn-main { background: var(--lime); color: #14251e; }
+  .save-state { color: #c9d6cd; font-size: 12px; min-width: 96px; text-align: right; }
+  .page { max-width: 1440px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 54px) 64px; }
+  .hero { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(260px,.65fr); gap: 30px; padding: 58px 0 34px; border-bottom: 1px solid var(--line); }
+  .eyebrow { display: inline-flex; align-items: center; gap: 9px; margin: 0 0 15px; color: var(--moss); font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+  .eyebrow::before { content: ''; width: 34px; height: 2px; background: var(--orange); }
+  h1 { margin: 0; max-width: 800px; font-family: var(--serif); font-size: clamp(47px, 7vw, 88px); line-height: .95; letter-spacing: -.055em; font-weight: 500; text-wrap: balance; }
+  h1 em { color: var(--moss); font-style: italic; }
+  .subtitle { max-width: 680px; margin: 20px 0 0; font-family: var(--serif); font-size: clamp(20px, 2.2vw, 27px); line-height: 1.26; color: #3b4840; }
+  .hero-meta { align-self: end; border-left: 3px solid var(--orange); padding: 4px 0 4px 20px; }
+  .hero-meta strong { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 5px; }
+  .hero-meta p { margin: 0 0 17px; font-weight: 650; font-size: 15px; }
+  .hero-meta p:last-child { margin-bottom: 0; }
+  .edit-hint { margin: 0; color: var(--muted); font-size: 13px; }
+  .edit-mode .editable { cursor: text; border-radius: 3px; }
+  .edit-mode .editable:hover { background: rgba(198,221,102,.22); }
+  .edit-mode .editable:focus { background: #fffde2; }
+  .nav { display: flex; gap: 8px; overflow: auto; padding: 18px 0; border-bottom: 1px solid var(--line); scrollbar-width: none; }
+  .nav a { color: #405048; text-decoration: none; white-space: nowrap; padding: 8px 11px; border-radius: 999px; font-size: 13px; font-weight: 750; }
+  .nav a:hover { background: var(--blue); color: var(--moss-deep); }
+  .content { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 42px; padding-top: 38px; }
+  .section { scroll-margin-top: 90px; padding: 0 0 43px; margin: 0 0 42px; border-bottom: 1px solid var(--line); }
+  .section:last-child { border-bottom: 0; }
+  .section-kicker { color: var(--orange); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  h2 { margin: 7px 0 15px; font-family: var(--serif); font-size: clamp(30px, 4vw, 47px); line-height: 1.05; letter-spacing: -.035em; font-weight: 500; }
+  .lede { margin: 0 0 24px; color: #455149; font-family: var(--serif); font-size: 20px; max-width: 760px; }
+  .principle { padding: 24px 25px; background: var(--moss); color: #fffdf8; box-shadow: var(--shadow); }
+  .principle p { margin: 0; font-family: var(--serif); font-size: clamp(23px, 3vw, 33px); line-height: 1.18; letter-spacing: -.025em; }
+  .principle span { display: block; margin-top: 13px; color: #cbd6ce; font-size: 13px; font-family: var(--sans); letter-spacing: .04em; }
+  .agenda { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .agenda-row { display: grid; grid-template-columns: 122px minmax(0,1fr) minmax(130px,.45fr); gap: 18px; align-items: start; padding: 18px 20px; background: var(--white); }
+  .agenda-time { color: var(--moss); font-size: 14px; font-weight: 850; letter-spacing: .02em; }
+  .agenda-main strong { display: block; font-family: var(--serif); font-size: 21px; font-weight: 500; line-height: 1.1; }
+  .agenda-main p, .agenda-owner { margin: 5px 0 0; color: var(--muted); font-size: 14px; }
+  .agenda-owner { text-align: right; }
+  .workshop-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+  .workshop { min-height: 186px; padding: 23px; background: var(--white); border-top: 4px solid var(--moss); box-shadow: 0 2px 0 rgba(24,32,29,.04); }
+  .workshop:nth-child(2) { border-color: var(--orange); }
+  .workshop:nth-child(3) { border-color: var(--yellow); }
+  .workshop:nth-child(4) { border-color: #6a9b8a; }
+  .step { font-size: 12px; color: var(--muted); font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+  .workshop h3 { margin: 8px 0 9px; font-size: 21px; line-height: 1.1; font-family: var(--serif); font-weight: 500; }
+  .workshop p { margin: 0; color: #546058; font-size: 14px; }
+  .prompt { margin-top: 17px; padding: 15px 17px; background: #fff8df; border-left: 3px solid var(--yellow); font-size: 16px; font-family: var(--serif); }
+  .prompt strong { font-family: var(--sans); font-size: 11px; color: #75591d; text-transform: uppercase; letter-spacing: .09em; display: block; margin-bottom: 4px; }
+  .case-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 28px; }
+  .case { display: grid; grid-template-columns: 39px 1fr; gap: 13px; padding: 18px 0; border-top: 1px solid var(--line); }
+  .case-num { color: var(--orange); font-family: var(--serif); font-size: 27px; line-height: 1; }
+  .case h3 { margin: 0 0 4px; font-size: 17px; }
+  .case p { margin: 0; color: var(--muted); font-size: 14px; }
+  .matrix { overflow-x: auto; }
+  table { width: 100%; min-width: 600px; border-collapse: collapse; background: var(--white); }
+  th { padding: 13px 14px; text-align: left; background: var(--moss-deep); color: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
+  td { padding: 14px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 750; width: 30%; }
+  .pill { display: inline-block; padding: 3px 8px; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+  .high { background: #f9ddd3; color: #8b2b16; }.medium { background: #fff1bf; color: #765700; }.low { background: #e1eee7; color: #225b43; }
+  .sidebar { position: sticky; top: 72px; align-self: start; }
+  .sidebar-card { margin-bottom: 14px; padding: 20px; background: var(--white); border: 1px solid var(--line); }
+  .sidebar-card.dark { background: var(--moss-deep); color: #fff; border-color: var(--moss-deep); }
+  .sidebar-card h3 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .12em; }
+  .sidebar-card p { margin: 0; color: var(--muted); font-size: 14px; }.sidebar-card.dark p { color: #d1ddd5; }
+  .question { padding: 13px 0; border-top: 1px solid var(--line); font-family: var(--serif); font-size: 18px; line-height: 1.15; }.question:first-of-type { border-top: 0; }.question::before { content: '→'; color: var(--orange); font-family: var(--sans); margin-right: 8px; }
+  .notes { min-height: 165px; padding: 17px; background: repeating-linear-gradient(to bottom, #fffdf8 0, #fffdf8 31px, #d9d5ca 32px); border: 1px solid var(--line); color: var(--ink); white-space: pre-wrap; font-family: var(--serif); font-size: 17px; line-height: 32px; }
+  .footer { display: flex; justify-content: space-between; gap: 16px; padding-top: 22px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); }
+  .toast { position: fixed; right: 20px; bottom: 20px; z-index: 20; padding: 12px 15px; color: #fff; background: var(--moss-deep); border-radius: 7px; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); pointer-events: none; transition: .24s ease; font-size: 13px; }.toast.show { opacity: 1; transform: translateY(0); }
+  @media (max-width: 940px) { .hero, .content { grid-template-columns: 1fr; }.sidebar { position: static; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }.sidebar-card { margin: 0; }.hero-meta { border-left: 0; border-top: 3px solid var(--orange); padding: 17px 0 0; }.agenda-owner { text-align: left; } }
+  @media (max-width: 640px) { .topbar { padding: 10px 16px; }.brand span { max-width: 132px; }.save-state { display: none; }.page { padding: 0 16px 42px; }.hero { padding-top: 40px; }.agenda-row { grid-template-columns: 1fr; gap: 5px; }.workshop-grid, .case-list, .sidebar { grid-template-columns: 1fr; }.actions .btn-quiet { display: none; } }
+  @media print { body { background: #fff; }.topbar, .nav, .edit-hint, .toast { display: none; }.page { max-width: none; padding: 0; }.hero { padding-top: 0; }.section { break-inside: avoid; }.sidebar { position: static; }.btn { display: none; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><img class="brand-logo" src="https://www.coastline.edu/_files/img/new-navigation-images/coastlinecollege_whitetext_800x240.png" alt="Coastline College" /><span>Manager working session</span></div>
+  <div class="actions">
+    <span class="save-state" id="saveState">Saved locally</span>
+    <button class="btn btn-quiet" id="printBtn" type="button">Print / PDF</button>
+    <button class="btn btn-main" id="editBtn" type="button">Edit meeting page</button>
+  </div>
+</header>
+<main class="page">
+  <section class="hero" aria-labelledby="page-title">
+    <div>
+      <p class="eyebrow editable" data-key="eyebrow">Manager’s retreat • working session</p>
+      <h1 id="page-title" class="editable" data-key="title">Make the work <em>move.</em></h1>
+      <p class="subtitle editable" data-key="subtitle">A practical day for managers to name the friction, own the part they can control, and leave with work that is already in motion.</p>
+    </div>
+    <aside class="hero-meta">
+      <strong class="editable" data-key="date-label">When / where</strong>
+      <p class="editable" data-key="date">August 2026 • Coastline Community College</p>
+      <strong class="editable" data-key="audience-label">In the room</strong>
+      <p class="editable" data-key="audience">Managers, VPs, and leadership partners</p>
+      <p class="edit-hint">This is a live working page. Click <b>Edit meeting page</b> to revise copy, prompts, owners, and notes during the session. Changes save on this browser.</p>
+    </aside>
+  </section>
+
+  <nav class="nav" aria-label="Page sections">
+    <a href="#why">The point</a><a href="#agenda">Run of show</a><a href="#workshop">The workshop</a><a href="#cases">Useful stories</a><a href="#commitments">Commitments</a><a href="#notes">Live notes</a>
+  </nav>
+
+  <div class="content">
+    <div>
+      <section class="section" id="why">
+        <div class="section-kicker editable" data-key="why-kicker">The point of the day</div>
+        <h2 class="editable" data-key="why-title">A retreat with receipts.</h2>
+        <p class="lede editable" data-key="why-lede">We are not here to generate a prettier list of problems. We are here to identify work worth doing, decide what we control, and leave with a small number of commitments that make service better and capacity stronger.</p>
+        <div class="principle">
+          <p class="editable" data-key="principle">“Notice the problem. Name it plainly. Work the part you control. Bring the rest back with a real recommendation.”</p>
+          <span class="editable" data-key="principle-source">Working principle for the day</span>
+        </div>
+      </section>
+
+      <section class="section" id="agenda">
+        <div class="section-kicker editable" data-key="agenda-kicker">Run of show</div>
+        <h2 class="editable" data-key="agenda-title">The day has a rhythm.</h2>
+        <div class="agenda">
+          <div class="agenda-row"><div class="agenda-time editable" data-key="a1-time">8:30–9:00</div><div class="agenda-main"><strong class="editable" data-key="a1-title">Open the room</strong><p class="editable" data-key="a1-copy">Set the premise: this is about capacity, service, and practical agency.</p></div><div class="agenda-owner editable" data-key="a1-owner">Facilitators</div></div>
+          <div class="agenda-row"><div class="agenda-time editable" data-key="a2-time">9:00–9:30</div><div class="agenda-main"><strong class="editable" data-key="a2-title">Three short stories</strong><p class="editable" data-key="a2-copy">Examples of people spotting a constraint and making something useful out of it.</p></div><div class="agenda-owner editable" data-key="a2-owner">Scott + guests</div></div>
+          <div class="agenda-row"><div class="agenda-time editable" data-key="a3-time">9:30–10:30</div><div class="agenda-main"><strong class="editable" data-key="a3-title">Name the friction</strong><p class="editable" data-key="a3-copy">Small groups collect the operational work that absorbs time, stalls service, or creates avoidable loops.</p></div><div class="agenda-owner editable" data-key="a3-owner">Table leads</div></div>
+          <div class="agenda-row"><div class="agenda-time editable" data-key="a4-time">10:45–12:00</div><div class="agenda-main"><strong class="editable" data-key="a4-title">Choose the work</strong><p class="editable" data-key="a4-copy">Score candidate problems by impact, control, effort, and the capacity created if solved.</p></div><div class="agenda-owner editable" data-key="a4-owner">All managers</div></div>
+          <div class="agenda-row"><div class="agenda-time editable" data-key="a5-time">1:00–2:15</div><div class="agenda-main"><strong class="editable" data-key="a5-title">Build a 30-day test</strong><p class="editable" data-key="a5-copy">Turn the strongest ideas into a first owner, first move, and an evidence check.</p></div><div class="agenda-owner editable" data-key="a5-owner">Problem teams</div></div>
+          <div class="agenda-row"><div class="agenda-time editable" data-key="a6-time">2:15–3:00</div><div class="agenda-main"><strong class="editable" data-key="a6-title">Make the commitments public</strong><p class="editable" data-key="a6-copy">Each team names what starts Monday, what needs escalation, and when the group reconvenes.</p></div><div class="agenda-owner editable" data-key="a6-owner">Leadership team</div></div>
+        </div>
+      </section>
+
+      <section class="section" id="workshop">
+        <div class="section-kicker editable" data-key="workshop-kicker">The workshop</div>
+        <h2 class="editable" data-key="workshop-title">Four moves. No theater.</h2>
+        <div class="workshop-grid">
+          <article class="workshop"><div class="step editable" data-key="w1-step">01 • See it</div><h3 class="editable" data-key="w1-title">Bring a real point of friction.</h3><p class="editable" data-key="w1-copy">Not a complaint. A specific moment where a student, colleague, or customer gets slowed down, confused, or sent in circles.</p><div class="prompt"><strong>Ask</strong><span class="editable" data-key="w1-prompt">What work keeps repeating because the system is asking people to compensate for it?</span></div></article>
+          <article class="workshop"><div class="step editable" data-key="w2-step">02 • Bound it</div><h3 class="editable" data-key="w2-title">Separate the whole problem from your part.</h3><p class="editable" data-key="w2-copy">Some issues need policy, money, or a different system. That is fine. Identify the part the team can begin without waiting for perfect conditions.</p><div class="prompt"><strong>Ask</strong><span class="editable" data-key="w2-prompt">What do we control this week? What needs a decision above us?</span></div></article>
+          <article class="workshop"><div class="step editable" data-key="w3-step">03 • Test it</div><h3 class="editable" data-key="w3-title">Make the first move small enough to start.</h3><p class="editable" data-key="w3-copy">A useful test has an owner, a date, a visible before/after, and a way to stop if it is not helping.</p><div class="prompt"><strong>Ask</strong><span class="editable" data-key="w3-prompt">What can we test in 30 days without pretending we have solved everything?</span></div></article>
+          <article class="workshop"><div class="step editable" data-key="w4-step">04 • Share it</div><h3 class="editable" data-key="w4-title">Show the work and make the ask.</h3><p class="editable" data-key="w4-copy">Bring back the result, not just the idea. If you need help, name the decision and the person who can make it.</p><div class="prompt"><strong>Ask</strong><span class="editable" data-key="w4-prompt">What evidence would make a reasonable person say: keep going?</span></div></article>
+        </div>
+      </section>
+
+      <section class="section" id="cases">
+        <div class="section-kicker editable" data-key="cases-kicker">Useful stories, not hero worship</div>
+        <h2 class="editable" data-key="cases-title">Examples with a point.</h2>
+        <p class="lede editable" data-key="cases-lede">Each story is there to open a conversation about constraints, not to suggest that every problem has a dramatic answer.</p>
+        <div class="case-list">
+          <article class="case"><div class="case-num">01</div><div><h3 class="editable" data-key="c1-title">Apollo 13</h3><p class="editable" data-key="c1-copy">The lesson is not the movie. It is the discipline of defining the constraint, using what is available, and keeping the team focused on the next workable move.</p></div></article>
+          <article class="case"><div class="case-num">02</div><div><h3 class="editable" data-key="c2-title">Post-it Notes</h3><p class="editable" data-key="c2-copy">A failed adhesive became useful because someone saw a different job it could do. The prompt: what “failed” process contains an overlooked capability?</p></div></article>
+          <article class="case"><div class="case-num">03</div><div><h3 class="editable" data-key="c3-title">Slack</h3><p class="editable" data-key="c3-copy">A team built an internal tool to solve its own communication problem, then noticed the tool was more valuable than the original plan.</p></div></article>
+          <article class="case"><div class="case-num">04</div><div><h3 class="editable" data-key="c4-title">A local service win</h3><p class="editable" data-key="c4-copy">Reserve this slot for a Coastline example: a manager who noticed a gap, brought people together, and materially improved the experience for students or staff.</p></div></article>
+        </div>
+      </section>
+
+      <section class="section" id="commitments">
+        <div class="section-kicker editable" data-key="commit-kicker">What leaves the room</div>
+        <h2 class="editable" data-key="commit-title">A short list with names next to it.</h2>
+        <p class="lede editable" data-key="commit-lede">Capture only the work that has a legitimate next move. Everything else becomes a clear escalation, parking-lot item, or a decision not to pursue it.</p>
+        <div class="matrix">
+          <table>
+            <thead><tr><th>Problem / opportunity</th><th>Impact</th><th>What we control</th><th>30-day first move</th><th>Owner</th><th>Check back</th></tr></thead>
+            <tbody id="commitmentRows">
+              <tr><td class="editable" data-key="m1-problem">[Add the first commitment]</td><td class="editable" data-key="m1-impact"><span class="pill high">High</span></td><td class="editable" data-key="m1-control">[What is in our hands?]</td><td class="editable" data-key="m1-move">[First test]</td><td class="editable" data-key="m1-owner">[Name]</td><td class="editable" data-key="m1-check">[Date]</td></tr>
+              <tr><td class="editable" data-key="m2-problem">[Add the second commitment]</td><td class="editable" data-key="m2-impact"><span class="pill medium">Medium</span></td><td class="editable" data-key="m2-control">[What is in our hands?]</td><td class="editable" data-key="m2-move">[First test]</td><td class="editable" data-key="m2-owner">[Name]</td><td class="editable" data-key="m2-check">[Date]</td></tr>
+              <tr><td class="editable" data-key="m3-problem">[Add the third commitment]</td><td class="editable" data-key="m3-impact"><span class="pill low">Low</span></td><td class="editable" data-key="m3-control">[What is in our hands?]</td><td class="editable" data-key="m3-move">[First test]</td><td class="editable" data-key="m3-owner">[Name]</td><td class="editable" data-key="m3-check">[Date]</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="notes">
+        <div class="section-kicker">Live capture</div>
+        <h2 class="editable" data-key="notes-title">The things worth carrying forward.</h2>
+        <div class="notes editable" data-key="live-notes">Use this space for the language, decisions, and clean questions that emerge in the room.
+
+•
+•
+•</div>
+      </section>
+    </div>
+
+    <aside class="sidebar" aria-label="Facilitator notes">
+      <section class="sidebar-card dark"><h3 class="editable" data-key="fac-title">Facilitator posture</h3><p class="editable" data-key="fac-copy">Keep the day useful. Do not let people hide in abstractions, complaints, or hypothetical solutions. Bring it back to a real person, a real moment, and a next move.</p></section>
+      <section class="sidebar-card"><h3 class="editable" data-key="questions-title">Questions that keep it honest</h3><div class="question editable" data-key="q1">Who feels this problem first?</div><div class="question editable" data-key="q2">What would a better version look like in plain English?</div><div class="question editable" data-key="q3">What part can we move without waiting for everyone else?</div><div class="question editable" data-key="q4">What would make us stop, adjust, or scale the test?</div></section>
+      <section class="sidebar-card"><h3 class="editable" data-key="parking-title">Parking lot rule</h3><p class="editable" data-key="parking-copy">A problem is allowed to be bigger than the room. If it needs policy, budget, or executive sponsorship, capture the decision needed and who owns that decision. Do not pretend it is a team action item.</p></section>
+    </aside>
+  </div>
+  <footer class="footer"><span class="editable" data-key="footer-left">Coastline Community College • Manager working session</span><span class="editable" data-key="footer-right">Editable local file • changes save in this browser</span></footer>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite">Saved locally</div>
+<script>
+(() => {
+  const storageKey = 'coastline-managers-retreat-v1';
+  const root = document.documentElement;
+  const saveState = document.getElementById('saveState');
+  const toast = document.getElementById('toast');
+  const editBtn = document.getElementById('editBtn');
+  let editMode = false;
+  let toastTimer;
+  function showToast(message) { toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 1700); }
+  function load() { try { const saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); document.querySelectorAll('[data-key]').forEach(el => { if (saved[el.dataset.key] !== undefined) el.innerHTML = saved[el.dataset.key]; }); } catch (e) { console.warn('Could not load local edits', e); } }
+  function save() { const data = {}; document.querySelectorAll('[data-key]').forEach(el => { data[el.dataset.key] = el.innerHTML; }); localStorage.setItem(storageKey, JSON.stringify(data)); saveState.textContent = 'Saved locally'; showToast('Saved locally'); }
+  function setEdit(on) { editMode = on; root.classList.toggle('edit-mode', on); document.querySelectorAll('.editable').forEach(el => { el.contentEditable = on ? 'true' : 'false'; el.setAttribute('spellcheck', on ? 'true' : 'false'); }); editBtn.textContent = on ? 'Done editing' : 'Edit meeting page'; if (on) showToast('Edit mode is on'); else save(); }
+  document.querySelectorAll('.editable').forEach(el => el.addEventListener('input', () => { saveState.textContent = 'Saving…'; clearTimeout(el._saveTimer); el._saveTimer = setTimeout(save, 450); }));
+  editBtn.addEventListener('click', () => setEdit(!editMode));
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+  window.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'e') { e.preventDefault(); setEdit(!editMode); } });
+  load(); setEdit(false);
+})();
+</script>
+</body>
+</html>
