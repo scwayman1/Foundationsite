@@ -9,6 +9,8 @@ services:
         value: 20.11.0
       - key: NAMING_POLICY_DB
         value: /var/data/naming-policy-db.json
+      - key: MANAGER_RETREAT_DB
+        value: /var/data/manager-retreat.sqlite
       - key: VITE_FRONTEND_FORGE_API_KEY
         sync: false
       - key: VITE_FRONTEND_FORGE_API_URL

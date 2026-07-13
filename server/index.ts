@@ -5,6 +5,7 @@ import path from "path";
 import fs from "fs";
 import crypto from "crypto";
 import { fileURLToPath } from "url";
+import initSqlJs from "sql.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,6 +36,71 @@ type NamingPolicyDb = {
 
 const namingPolicyClients = new Set<express.Response>();
 const namingPolicyDbPath = process.env.NAMING_POLICY_DB || path.resolve(process.cwd(), "data", "naming-policy-db.json");
+
+// The retreat is intentionally a small shared workspace, backed by a durable SQLite file
+// on Render's mounted disk. The browser only sends plain text for known editable fields.
+type RetreatState = { content: Record<string, string>; revision: number; updatedAt: string | null };
+const managerRetreatDbPath = process.env.MANAGER_RETREAT_DB || (
+  process.env.NODE_ENV === "production" && fs.existsSync("/var/data")
+    ? "/var/data/manager-retreat.sqlite"
+    : path.resolve(process.cwd(), "data", "manager-retreat.sqlite")
+);
+let managerRetreatDbPromise: Promise<Database> | undefined;
+
+async function getManagerRetreatDb() {
+  if (!managerRetreatDbPromise) {
+    managerRetreatDbPromise = (async () => {
+      fs.mkdirSync(path.dirname(managerRetreatDbPath), { recursive: true });
+      const SQL = await initSqlJs();
+      const db = fs.existsSync(managerRetreatDbPath)
+        ? new SQL.Database(fs.readFileSync(managerRetreatDbPath))
+        : new SQL.Database();
+      db.run(`CREATE TABLE IF NOT EXISTS retreat_state (
+        id INTEGER PRIMARY KEY CHECK (id = 1),
+        content TEXT NOT NULL,
+        revision INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT
+      )`);
+      const exists = db.exec("SELECT id FROM retreat_state WHERE id = 1");
+      if (!exists.length || !exists[0].values.length) {
+        db.run("INSERT INTO retreat_state (id, content, revision, updated_at) VALUES (1, ?, 0, NULL)", ["{}"]);
+      }
+      persistManagerRetreatDb(db);
+      return db;
+    })();
+  }
+  return managerRetreatDbPromise;
+}
+
+function persistManagerRetreatDb(db: Database) {
+  fs.mkdirSync(path.dirname(managerRetreatDbPath), { recursive: true });
+  const tempPath = `${managerRetreatDbPath}.tmp`;
+  fs.writeFileSync(tempPath, Buffer.from(db.export()));
+  fs.renameSync(tempPath, managerRetreatDbPath);
+}
+
+function managerRetreatState(db: Database): RetreatState {
+  const result = db.exec("SELECT content, revision, updated_at FROM retreat_state WHERE id = 1");
+  const [content = "{}", revision = 0, updatedAt = null] = result[0]?.values[0] || [];
+  let parsed: Record<string, string> = {};
+  try { parsed = JSON.parse(String(content)); } catch { parsed = {}; }
+  return { content: parsed, revision: Number(revision), updatedAt: updatedAt ? String(updatedAt) : null };
+}
+
+function validateRetreatContent(input: unknown): Record<string, string> | null {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return null;
+  const entries = Object.entries(input as Record<string, unknown>);
+  if (entries.length > 160) return null;
+  const clean: Record<string, string> = {};
+  let total = 0;
+  for (const [key, value] of entries) {
+    if (!/^[a-z0-9-]{1,80}$/i.test(key) || typeof value !== "string" || value.length > 15000) return null;
+    total += value.length;
+    if (total > 250000) return null;
+    clean[key] = value;
+  }
+  return clean;
+}
 
 function namingNow() {
   return new Date().toISOString();
@@ -372,6 +438,35 @@ async function startServer() {
         success: false, 
         error: "Something went wrong. Please try again or email us directly at foundation@cccd.edu." 
       });
+    }
+  });
+
+  // ── Manager Retreat shared SQLite workspace ──
+  app.get("/api/manager-retreat/state", async (_req, res) => {
+    try {
+      res.json(managerRetreatState(await getManagerRetreatDb()));
+    } catch (error) {
+      console.error("Manager retreat state read failed:", error);
+      res.status(500).json({ error: "retreat_state_unavailable" });
+    }
+  });
+
+  app.put("/api/manager-retreat/state", async (req, res) => {
+    const content = validateRetreatContent(req.body?.content);
+    if (!content) return res.status(400).json({ error: "invalid_retreat_content" });
+    try {
+      const db = await getManagerRetreatDb();
+      const current = managerRetreatState(db);
+      if (Number.isInteger(req.body?.revision) && req.body.revision !== current.revision) {
+        return res.status(409).json({ error: "retreat_state_conflict", state: current });
+      }
+      const updatedAt = new Date().toISOString();
+      db.run("UPDATE retreat_state SET content = ?, revision = ?, updated_at = ? WHERE id = 1", [JSON.stringify(content), current.revision + 1, updatedAt]);
+      persistManagerRetreatDb(db);
+      res.json(managerRetreatState(db));
+    } catch (error) {
+      console.error("Manager retreat state write failed:", error);
+      res.status(500).json({ error: "retreat_state_unavailable" });
     }
   });
 

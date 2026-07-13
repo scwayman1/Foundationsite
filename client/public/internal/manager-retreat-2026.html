@@ -221,27 +221,80 @@
       <section class="sidebar-card"><h3 class="editable" data-key="parking-title">Parking lot rule</h3><p class="editable" data-key="parking-copy">A problem is allowed to be bigger than the room. If it needs policy, budget, or executive sponsorship, capture the decision needed and who owns that decision. Do not pretend it is a team action item.</p></section>
     </aside>
   </div>
-  <footer class="footer"><span class="editable" data-key="footer-left">Coastline Community College • Manager working session</span><span class="editable" data-key="footer-right">Editable local file • changes save in this browser</span></footer>
+  <footer class="footer"><span class="editable" data-key="footer-left">Coastline Community College • Manager working session</span><span class="editable" data-key="footer-right">Shared workspace • changes save for everyone with this link</span></footer>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite">Saved locally</div>
 <script>
 (() => {
-  const storageKey = 'coastline-managers-retreat-v1';
+  const storageKey = 'coastline-managers-retreat-v2';
   const root = document.documentElement;
   const saveState = document.getElementById('saveState');
   const toast = document.getElementById('toast');
   const editBtn = document.getElementById('editBtn');
   let editMode = false;
   let toastTimer;
-  function showToast(message) { toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 1700); }
-  function load() { try { const saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); document.querySelectorAll('[data-key]').forEach(el => { if (saved[el.dataset.key] !== undefined) el.innerHTML = saved[el.dataset.key]; }); } catch (e) { console.warn('Could not load local edits', e); } }
-  function save() { const data = {}; document.querySelectorAll('[data-key]').forEach(el => { data[el.dataset.key] = el.innerHTML; }); localStorage.setItem(storageKey, JSON.stringify(data)); saveState.textContent = 'Saved locally'; showToast('Saved locally'); }
-  function setEdit(on) { editMode = on; root.classList.toggle('edit-mode', on); document.querySelectorAll('.editable').forEach(el => { el.contentEditable = on ? 'true' : 'false'; el.setAttribute('spellcheck', on ? 'true' : 'false'); }); editBtn.textContent = on ? 'Done editing' : 'Edit meeting page'; if (on) showToast('Edit mode is on'); else save(); }
-  document.querySelectorAll('.editable').forEach(el => el.addEventListener('input', () => { saveState.textContent = 'Saving…'; clearTimeout(el._saveTimer); el._saveTimer = setTimeout(save, 450); }));
+  let revision = 0;
+  let saveTimer;
+
+  function showToast(message) { toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2100); }
+  function collect() { const data = {}; document.querySelectorAll('[data-key]').forEach(el => { data[el.dataset.key] = el.textContent; }); return data; }
+  function apply(data) { document.querySelectorAll('[data-key]').forEach(el => { if (Object.prototype.hasOwnProperty.call(data, el.dataset.key)) el.textContent = data[el.dataset.key]; }); }
+  function saveLocal(data) { try { localStorage.setItem(storageKey, JSON.stringify({ content: data, revision })); } catch (e) { console.warn('Could not save local fallback', e); } }
+  function loadLocal() { try { const saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); if (saved.content) apply(saved.content); if (Number.isInteger(saved.revision)) revision = saved.revision; } catch (e) { console.warn('Could not load local fallback', e); } }
+
+  async function loadShared() {
+    saveState.textContent = 'Loading shared workspace…';
+    try {
+      const response = await fetch('/api/manager-retreat/state', { cache: 'no-store' });
+      if (!response.ok) throw new Error('shared workspace unavailable');
+      const state = await response.json();
+      revision = state.revision || 0;
+      if (state.content && Object.keys(state.content).length) apply(state.content);
+      saveLocal(collect());
+      saveState.textContent = 'Shared workspace ready';
+    } catch (e) {
+      loadLocal();
+      saveState.textContent = 'Offline — saved in this browser';
+      showToast('Shared workspace unavailable — using local backup');
+    }
+  }
+
+  async function saveShared() {
+    const content = collect();
+    saveLocal(content);
+    saveState.textContent = 'Saving for everyone…';
+    try {
+      const response = await fetch('/api/manager-retreat/state', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content, revision })
+      });
+      if (response.status === 409) {
+        const conflict = await response.json();
+        revision = conflict.state?.revision || revision;
+        saveState.textContent = 'Another edit landed — save again';
+        showToast('Another editor saved first. Your changes are still here; edit once more to save them.');
+        return;
+      }
+      if (!response.ok) throw new Error('shared save unavailable');
+      const state = await response.json();
+      revision = state.revision;
+      saveLocal(content);
+      saveState.textContent = 'Saved for everyone';
+      showToast('Saved for everyone');
+    } catch (e) {
+      saveState.textContent = 'Offline — saved in this browser';
+      showToast('Could not reach shared workspace; local backup kept');
+    }
+  }
+
+  function queueSave() { clearTimeout(saveTimer); saveTimer = setTimeout(saveShared, 700); }
+  function setEdit(on) { editMode = on; root.classList.toggle('edit-mode', on); document.querySelectorAll('.editable').forEach(el => { el.contentEditable = on ? 'true' : 'false'; el.setAttribute('spellcheck', on ? 'true' : 'false'); }); editBtn.textContent = on ? 'Done editing' : 'Edit meeting page'; if (on) showToast('Edit mode is on'); else if (document.activeElement?.matches?.('.editable')) document.activeElement.blur(); if (!on) queueSave(); }
+  document.querySelectorAll('.editable').forEach(el => el.addEventListener('input', queueSave));
   editBtn.addEventListener('click', () => setEdit(!editMode));
   document.getElementById('printBtn').addEventListener('click', () => window.print());
   window.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'e') { e.preventDefault(); setEdit(!editMode); } });
-  load(); setEdit(false);
+  loadLocal(); setEdit(false); loadShared();
 })();
 </script>
 </body>
