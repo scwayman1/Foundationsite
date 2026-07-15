@@ -476,6 +476,12 @@ async function startServer() {
       ? path.resolve(__dirname, "public")
       : path.resolve(__dirname, "..", "dist", "public");
 
+  // This unlinked concept page must not be indexed even if a crawler ignores its HTML meta tag.
+  app.use("/internal/accessibility-studio-pilot.html", (_req, res, next) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    next();
+  });
+
   app.use(express.static(staticPath));
 
   // Handle client-side routing - serve index.html for all routes
