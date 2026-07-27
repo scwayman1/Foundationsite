@@ -83,6 +83,32 @@
   .workshop p { margin: 0; color: #546058; font-size: 14px; }
   .prompt { margin-top: 17px; padding: 15px 17px; background: #fff8df; border-left: 3px solid var(--yellow); font-size: 16px; font-family: var(--serif); }
   .prompt strong { font-family: var(--sans); font-size: 11px; color: #75591d; text-transform: uppercase; letter-spacing: .09em; display: block; margin-bottom: 4px; }
+  .roleplay { overflow: hidden; background: var(--white); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .roleplay-head { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 24px; align-items: end; padding: 28px; color: #fff; background: var(--moss-deep); }
+  .roleplay-head .section-kicker { color: var(--yellow); }
+  .roleplay-head h2 { margin-bottom: 9px; }
+  .roleplay-head p { margin: 0; max-width: 760px; color: #d8e7ee; font-family: var(--serif); font-size: 19px; }
+  .roleplay-time { align-self: start; padding: 16px; text-align: center; color: var(--moss-deep); background: var(--yellow); }
+  .roleplay-time strong { display: block; font-family: var(--serif); font-size: 36px; line-height: 1; }
+  .roleplay-time span { display: block; margin-top: 5px; font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  .roleplay-body { padding: 28px; }
+  .scenario { margin: 0 0 25px; padding: 20px 22px; background: var(--blue); border-left: 4px solid var(--lime); font-family: var(--serif); font-size: 19px; }
+  .dependency-map { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin: 20px 0 28px; }
+  .dependency { min-height: 92px; padding: 15px; border: 1px solid var(--line); background: #fbfcfc; }
+  .dependency strong { display: block; margin-bottom: 5px; color: var(--moss); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+  .dependency span { color: var(--muted); font-size: 13px; }
+  .role-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .role-card { padding: 18px; border-top: 3px solid var(--orange); background: var(--paper); }
+  .role-card strong { display: block; font-family: var(--serif); font-size: 18px; }
+  .role-card p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+  .case-output { margin-top: 25px; padding: 22px; color: #fff; background: var(--moss); }
+  .case-output h3 { margin: 0 0 10px; font-family: var(--serif); font-size: 23px; font-weight: 500; }
+  .case-output ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 38px; }
+  .case-output li { break-inside: avoid; margin: 0 0 9px; color: #e1eae5; font-size: 14px; }
+  .runline { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1px; margin-top: 22px; background: var(--line); border: 1px solid var(--line); }
+  .runstep { padding: 14px; background: #fff; font-size: 13px; }
+  .runstep strong { display: block; color: var(--orange); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+  .guardrail { margin: 20px 0 0; color: var(--muted); font-size: 12px; font-style: italic; }
   .case-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 28px; }
   .case { display: grid; grid-template-columns: 39px 1fr; gap: 13px; padding: 18px 0; border-top: 1px solid var(--line); }
   .case-num { color: var(--orange); font-family: var(--serif); font-size: 27px; line-height: 1; }
@@ -105,8 +131,8 @@
   .notes { min-height: 165px; padding: 17px; background: repeating-linear-gradient(to bottom, #fffdf8 0, #fffdf8 31px, #d9d5ca 32px); border: 1px solid var(--line); color: var(--ink); white-space: pre-wrap; font-family: var(--serif); font-size: 17px; line-height: 32px; }
   .footer { display: flex; justify-content: space-between; gap: 16px; padding-top: 22px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); }
   .toast { position: fixed; right: 20px; bottom: 20px; z-index: 20; padding: 12px 15px; color: #fff; background: var(--moss-deep); border-radius: 7px; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); pointer-events: none; transition: .24s ease; font-size: 13px; }.toast.show { opacity: 1; transform: translateY(0); }
-  @media (max-width: 940px) { .hero, .content { grid-template-columns: 1fr; }.sidebar { position: static; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }.sidebar-card { margin: 0; }.hero-meta { border-left: 0; border-top: 3px solid var(--orange); padding: 17px 0 0; }.agenda-owner { text-align: left; } }
-  @media (max-width: 640px) { .topbar { padding: 10px 16px; }.brand span { max-width: 132px; }.save-state { display: none; }.page { padding: 0 16px 42px; }.hero { padding-top: 40px; }.agenda-row { grid-template-columns: 1fr; gap: 5px; }.workshop-grid, .case-list, .sidebar { grid-template-columns: 1fr; }.actions .btn-quiet { display: none; } }
+  @media (max-width: 940px) { .hero, .content { grid-template-columns: 1fr; }.dependency-map { grid-template-columns: repeat(2,minmax(0,1fr)); }.runline { grid-template-columns: repeat(2,minmax(0,1fr)); }.sidebar { position: static; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }.sidebar-card { margin: 0; }.hero-meta { border-left: 0; border-top: 3px solid var(--orange); padding: 17px 0 0; }.agenda-owner { text-align: left; } }
+  @media (max-width: 640px) { .topbar { padding: 10px 16px; }.brand span { max-width: 132px; }.save-state { display: none; }.page { padding: 0 16px 42px; }.hero { padding-top: 40px; }.agenda-row { grid-template-columns: 1fr; gap: 5px; }.workshop-grid, .case-list, .sidebar, .dependency-map, .role-grid, .runline { grid-template-columns: 1fr; }.roleplay-head { grid-template-columns: 1fr; }.roleplay-time { width: 130px; }.case-output ol { columns: 1; }.actions .btn-quiet { display: none; } }
   @media print { body { background: #fff; }.topbar, .nav, .edit-hint, .toast { display: none; }.page { max-width: none; padding: 0; }.hero { padding-top: 0; }.section { break-inside: avoid; }.sidebar { position: static; }.btn { display: none; } }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
 </style>
@@ -137,7 +163,7 @@
   </section>
 
   <nav class="nav" aria-label="Page sections">
-    <a href="#why">Design premise</a><a href="#agenda">Run of show</a><a href="#workshop">Afternoon lab</a><a href="#cases">Coastline stories</a><a href="#commitments">Decision record</a><a href="#notes">Live notes</a>
+    <a href="#why">Design premise</a><a href="#agenda">Run of show</a><a href="#hire-right">Role-play case</a><a href="#workshop">Afternoon lab</a><a href="#cases">Coastline stories</a><a href="#commitments">Decision record</a><a href="#notes">Live notes</a>
   </nav>
 
   <div class="content">
@@ -163,13 +189,65 @@
           <div class="agenda-row"><div class="agenda-time editable" data-key="a5-time">10:30–10:45</div><div class="agenda-main"><strong class="editable" data-key="a5-title">CPORT → Canvas</strong><p class="editable" data-key="a5-copy">A Coastline story about choosing a different path when needed, then realigning when the platform, timing, and return on investment changed.</p></div><div class="agenda-owner editable" data-key="a5-owner">Vince</div></div>
           <div class="agenda-row"><div class="agenda-time editable" data-key="a6-time">10:45–12:00</div><div class="agenda-main"><strong class="editable" data-key="a6-title">Apollo 13 team challenge</strong><p class="editable" data-key="a6-copy">Teams work with constrained materials, build a solution, and make the case for it. Awards: most functional, best pitch, and most creative.</p></div><div class="agenda-owner editable" data-key="a6-owner">Facilitators</div></div>
           <div class="agenda-row"><div class="agenda-time editable" data-key="a7-time">12:00–1:00</div><div class="agenda-main"><strong class="editable" data-key="a7-title">Lunch</strong><p class="editable" data-key="a7-copy">A full hour before the room turns to Coastline’s live operating friction.</p></div><div class="agenda-owner editable" data-key="a7-owner">—</div></div>
-          <div class="agenda-row"><div class="agenda-time editable" data-key="a8-time">1:00–close</div><div class="agenda-main"><strong class="editable" data-key="a8-title">Name the friction → make commitments</strong><p class="editable" data-key="a8-copy">Surface real friction, find the underlying problem, rank what matters, map the decision system, and make the next move public.</p></div><div class="agenda-owner editable" data-key="a8-owner">All managers + leaders</div></div>
+          <div class="agenda-row"><div class="agenda-time editable" data-key="a8-roleplay-time">1:00–1:30</div><div class="agenda-main"><strong class="editable" data-key="a8-roleplay-title">Role play: Hire the Right Way</strong><p class="editable" data-key="a8-roleplay-copy">Use one realistic service need to reveal the approvals, people, rules, and operating consequences that must be understood before making a change.</p></div><div class="agenda-owner editable" data-key="a8-roleplay-owner">Facilitators + role players</div></div>
+          <div class="agenda-row"><div class="agenda-time editable" data-key="a9-time">1:30–close</div><div class="agenda-main"><strong class="editable" data-key="a9-title">Name your friction → make commitments</strong><p class="editable" data-key="a9-copy">Apply the dependency lens from the case: surface real friction, find the underlying problem, rank what matters, map the decision system, and make the next move public.</p></div><div class="agenda-owner editable" data-key="a9-owner">All managers + leaders</div></div>
         </div>
+      </section>
+
+      <section class="section" id="hire-right">
+        <article class="roleplay">
+          <header class="roleplay-head">
+            <div>
+              <div class="section-kicker editable" data-key="hr-kicker">Afternoon focus • reusable role-play case</div>
+              <h2 class="editable" data-key="hr-title">Hire the Right Way</h2>
+              <p class="editable" data-key="hr-purpose">The point is not to win an argument about a hire. It is to make every dependency visible before choosing a path.</p>
+            </div>
+            <div class="roleplay-time"><strong>30</strong><span>minutes</span></div>
+          </header>
+          <div class="roleplay-body">
+            <p class="scenario editable" data-key="hr-scenario"><strong>The situation:</strong> A manager has time-limited grant funding and an urgent service gap. The proposed assignment mixes immediate project needs with duties that may continue after the grant and may belong to ongoing classified-staff work rather than a temporary, specialized Professional Expert engagement. The team must slow down long enough to define the need before selecting the employment mechanism.</p>
+
+            <div class="dependency-map" aria-label="Dependencies to examine">
+              <div class="dependency"><strong>Service need</strong><span class="editable" data-key="hr-d1">Who needs what result, how urgently, and what happens if the need is not met?</span></div>
+              <div class="dependency"><strong>Work itself</strong><span class="editable" data-key="hr-d2">Which duties are temporary and specialized—and which are recurring operational work?</span></div>
+              <div class="dependency"><strong>Funding ≠ classification</strong><span class="editable" data-key="hr-d3">What does the grant permit, and what remains true about classification regardless of available dollars?</span></div>
+              <div class="dependency"><strong>People affected</strong><span class="editable" data-key="hr-d4">Which staff, students, teams, bargaining-unit interests, and service partners feel the choice?</span></div>
+              <div class="dependency"><strong>Approvals + PIAC</strong><span class="editable" data-key="hr-d5">What review belongs with the manager, executive leadership, HR/classification, and the appropriate PIAC pathway?</span></div>
+              <div class="dependency"><strong>Operating consequences</strong><span class="editable" data-key="hr-d6">Who supervises, trains, houses, supports, and sustains the work when funding or conditions change?</span></div>
+            </div>
+
+            <div class="role-grid" aria-label="Role-play roles">
+              <div class="role-card"><strong class="editable" data-key="hr-r1-title">The service manager</strong><p class="editable" data-key="hr-r1-copy">Bring the urgent need and proposed work. Be ready to separate the desired outcome from the preferred hiring solution.</p></div>
+              <div class="role-card"><strong class="editable" data-key="hr-r2-title">The HR / classification partner</strong><p class="editable" data-key="hr-r2-copy">Ask about duties, duration, supervision, precedent, and whether the work points toward a classified position or a legitimate temporary specialist engagement.</p></div>
+              <div class="role-card"><strong class="editable" data-key="hr-r3-title">The grant / program partner</strong><p class="editable" data-key="hr-r3-copy">Clarify allowable costs, grant dates, deliverables, sustainability expectations, and the difference between money being available and a personnel path being appropriate.</p></div>
+              <div class="role-card"><strong class="editable" data-key="hr-r4-title">The dependency navigator</strong><p class="editable" data-key="hr-r4-copy">Represent the affected service system. Surface stakeholders, operational handoffs, approvals, PIAC questions, risks, and unintended consequences.</p></div>
+            </div>
+
+            <div class="case-output">
+              <h3 class="editable" data-key="hr-output-title">The team must leave the case with five things:</h3>
+              <ol>
+                <li class="editable" data-key="hr-o1"><strong>A clean service need</strong> stated without embedding a preferred hire.</li>
+                <li class="editable" data-key="hr-o2"><strong>A work diagnosis</strong> distinguishing temporary specialized duties from potentially ongoing classified work.</li>
+                <li class="editable" data-key="hr-o3"><strong>An approval map</strong> naming the HR/classification consultation, leadership decision, and appropriate PIAC pathway to confirm.</li>
+                <li class="editable" data-key="hr-o4"><strong>A dependency map</strong> showing affected people, systems, handoffs, timing, and sustainability.</li>
+                <li class="editable" data-key="hr-o5"><strong>A precise next request</strong>—the decision, consultation, or escalation needed next, from whom, and by when.</li>
+              </ol>
+            </div>
+
+            <div class="runline" aria-label="Thirty-minute facilitation plan">
+              <div class="runstep"><strong>0–5 min</strong><span class="editable" data-key="hr-t1">Set the scene and assign roles.</span></div>
+              <div class="runstep"><strong>5–15 min</strong><span class="editable" data-key="hr-t2">Role-play the first request and challenge its assumptions.</span></div>
+              <div class="runstep"><strong>15–25 min</strong><span class="editable" data-key="hr-t3">Build the dependency and approval map together.</span></div>
+              <div class="runstep"><strong>25–30 min</strong><span class="editable" data-key="hr-t4">State the next request; debrief what changed.</span></div>
+            </div>
+            <p class="guardrail editable" data-key="hr-guardrail">Facilitator guardrail: This is a fictional composite for learning. It does not describe a real employee, department, recruitment, classification determination, or personnel decision. Participants should identify the questions and pathway—not adjudicate an individual case.</p>
+          </div>
+        </article>
       </section>
 
       <section class="section" id="workshop">
         <div class="section-kicker editable" data-key="workshop-kicker">Afternoon working lab</div>
-        <h2 class="editable" data-key="workshop-title">Name the friction. Find the system. Make the move.</h2>
+        <h2 class="editable" data-key="workshop-title-v2">Use the lens. Name your friction. Make the move.</h2>
         <div class="workshop-grid">
           <article class="workshop"><div class="step editable" data-key="w1-step">01 • Surface it</div><h3 class="editable" data-key="w1-title">Put the friction on the wall.</h3><p class="editable" data-key="w1-copy">Use Padlet or color-coded sticky notes to capture what absorbs time, slows service, creates confusion, or keeps repeating. Do not mistake the first complaint for the actual problem.</p><div class="prompt"><strong>Ask</strong><span class="editable" data-key="w1-prompt">What is happening repeatedly—and who feels it first?</span></div></article>
           <article class="workshop"><div class="step editable" data-key="w2-step">02 • Map it</div><h3 class="editable" data-key="w2-title">See the decision system.</h3><p class="editable" data-key="w2-copy">Separate symptoms from root causes. Identify barriers, dependencies, unintended consequences, influencers, and the part the group can actually control.</p><div class="prompt"><strong>Ask</strong><span class="editable" data-key="w2-prompt">What changes somewhere else if we solve this here?</span></div></article>
