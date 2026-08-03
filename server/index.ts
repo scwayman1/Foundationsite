@@ -248,7 +248,7 @@ async function startServer() {
   app.post("/api/casino-night-availability/responses", (req, res) => {
     const name = typeof req.body?.name === "string" ? req.body.name.trim().slice(0, 100) : "";
     const email = typeof req.body?.email === "string" ? req.body.email.trim().toLowerCase().slice(0, 180) : "";
-    const slots = Array.isArray(req.body?.slots) ? Array.from(new Set(req.body.slots.filter((slot: unknown) => typeof slot === "string" && /^[0-4]-(?:0[89]|1[0-6]):(?:00|30)$/.test(slot)).slice(0, 85))) : [];
+    const slots: string[] = Array.isArray(req.body?.slots) ? Array.from(new Set(req.body.slots.filter((slot: unknown): slot is string => typeof slot === "string" && /^[0-4]-(?:0[89]|1[0-6]):(?:00|30)$/.test(slot)).slice(0, 85))) : [];
     if (!name || !email.includes("@") || !slots.length) return res.status(400).json({ error: "name_email_and_availability_required" });
     const items = readAvailability();
     const response: AvailabilityResponse = { id: crypto.createHash("sha256").update(email).digest("hex").slice(0, 16), name, email, slots, updatedAt: new Date().toISOString() };
@@ -513,6 +513,10 @@ async function startServer() {
 
   // This unlinked concept page must not be indexed even if a crawler ignores its HTML meta tag.
   app.use("/internal/accessibility-studio-pilot.html", (_req, res, next) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    next();
+  });
+  app.use("/50th-planning-availability", (_req, res, next) => {
     res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
     next();
   });
