@@ -36,6 +36,21 @@ type NamingPolicyDb = {
 
 const namingPolicyClients = new Set<express.Response>();
 const namingPolicyDbPath = process.env.NAMING_POLICY_DB || path.resolve(process.cwd(), "data", "naming-policy-db.json");
+const availabilityDbPath = process.env.AVAILABILITY_DB || (
+  process.env.NODE_ENV === "production" && fs.existsSync("/var/data")
+    ? "/var/data/casino-night-availability.json"
+    : path.resolve(process.cwd(), "data", "casino-night-availability.json")
+);
+type AvailabilityResponse = { id: string; name: string; email: string; slots: string[]; updatedAt: string };
+function readAvailability(): AvailabilityResponse[] {
+  try { return JSON.parse(fs.readFileSync(availabilityDbPath, "utf8")); } catch { return []; }
+}
+function writeAvailability(items: AvailabilityResponse[]) {
+  fs.mkdirSync(path.dirname(availabilityDbPath), { recursive: true });
+  const tmp = `${availabilityDbPath}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(items, null, 2));
+  fs.renameSync(tmp, availabilityDbPath);
+}
 
 // The retreat is intentionally a small shared workspace, backed by a durable SQLite file
 // on Render's mounted disk. The browser only sends plain text for known editable fields.
@@ -222,6 +237,26 @@ async function startServer() {
 
   // Parse JSON request bodies
   app.use(express.json());
+
+  // ── 50th Anniversary Casino Night availability ──
+  app.get("/api/casino-night-availability/results", (_req, res) => {
+    const responses = readAvailability();
+    const counts: Record<string, number> = {};
+    responses.forEach((response) => response.slots.forEach((slot) => { counts[slot] = (counts[slot] || 0) + 1; }));
+    res.json({ responseCount: responses.length, counts, responses: responses.map(({ name, slots, updatedAt }) => ({ name, slots, updatedAt })) });
+  });
+  app.post("/api/casino-night-availability/responses", (req, res) => {
+    const name = typeof req.body?.name === "string" ? req.body.name.trim().slice(0, 100) : "";
+    const email = typeof req.body?.email === "string" ? req.body.email.trim().toLowerCase().slice(0, 180) : "";
+    const slots = Array.isArray(req.body?.slots) ? Array.from(new Set(req.body.slots.filter((slot: unknown) => typeof slot === "string" && /^[0-4]-(?:0[89]|1[0-6]):(?:00|30)$/.test(slot)).slice(0, 85))) : [];
+    if (!name || !email.includes("@") || !slots.length) return res.status(400).json({ error: "name_email_and_availability_required" });
+    const items = readAvailability();
+    const response: AvailabilityResponse = { id: crypto.createHash("sha256").update(email).digest("hex").slice(0, 16), name, email, slots, updatedAt: new Date().toISOString() };
+    const existing = items.findIndex((item) => item.email === email);
+    if (existing >= 0) items[existing] = response; else items.push(response);
+    writeAvailability(items);
+    res.json({ ok: true, updated: existing >= 0 });
+  });
 
   // ── Hidden Naming Policy Studio API ──
   app.get("/api/naming-policy/events", (req, res) => {

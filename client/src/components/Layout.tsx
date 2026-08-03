@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const hideTopNav = location.startsWith("/internal/naming-policy-studio");
+  const hideTopNav = location.startsWith("/internal/naming-policy-studio") || location.startsWith("/50th-planning-availability");
 
   useEffect(() => {
     const handleScroll = () => {

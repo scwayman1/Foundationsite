@@ -22,6 +22,7 @@ const FiftiethAnniversary = lazy(() => import("./pages/FiftiethAnniversary"));
 const FiftyYear = lazy(() => import("./pages/FiftyYear"));
 const RayCordova = lazy(() => import("./pages/RayCordova"));
 const NamingPolicyStudio = lazy(() => import("./pages/NamingPolicyStudio"));
+const CasinoNightAvailability = lazy(() => import("./pages/CasinoNightAvailability"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function Router() {
@@ -46,6 +47,8 @@ function Router() {
           <Route path="/50th-anniversary" component={FiftiethAnniversary} />
           <Route path="/50th" component={FiftiethAnniversary} />
           <Route path="/internal/naming-policy-studio" component={NamingPolicyStudio} />
+          <Route path="/50th-planning-availability" component={CasinoNightAvailability} />
+          <Route path="/50th-planning-availability/results" component={CasinoNightAvailability} />
           <Route path="/events/:slug" component={EventPost} />
           <Route path="/404" component={NotFound} />
           <Route component={NotFound} />
