@@ -1,4 +1,4 @@
-import express from "express";
+import express, { type NextFunction, type Request, type Response } from "express";
 import { createServer } from "http";
 import nodemailer from "nodemailer";
 import path from "path";
@@ -556,8 +556,12 @@ async function startServer() {
       ? path.resolve(__dirname, "public")
       : path.resolve(__dirname, "..", "dist", "public");
 
-  // This unlinked concept page must not be indexed even if a crawler ignores its HTML meta tag.
+  // Internal interactive pages remain unindexed even if a crawler ignores their HTML meta tags.
   app.use("/internal/accessibility-studio-pilot.html", (_req, res, next) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    next();
+  });
+  app.use("/internal/manager-retreat-day-in-play.html", (_req: Request, res: Response, next: NextFunction) => {
     res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
     next();
   });
