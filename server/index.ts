@@ -5,7 +5,8 @@ import path from "path";
 import fs from "fs";
 import crypto from "crypto";
 import { fileURLToPath } from "url";
-import initSqlJs from "sql.js";
+import initSqlJs, { type Database } from "sql.js";
+import { AvailabilityStore } from "./availability-store";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,57 +37,31 @@ type NamingPolicyDb = {
 
 const namingPolicyClients = new Set<express.Response>();
 const namingPolicyDbPath = process.env.NAMING_POLICY_DB || path.resolve(process.cwd(), "data", "naming-policy-db.json");
-const availabilityDbPath = process.env.AVAILABILITY_DB || (
+const availabilityLegacyJsonPath = process.env.AVAILABILITY_LEGACY_JSON || (
   process.env.NODE_ENV === "production" && fs.existsSync("/var/data")
     ? "/var/data/casino-night-availability.json"
     : path.resolve(process.cwd(), "data", "casino-night-availability.json")
 );
-type AvailabilityResponse = { id: string; name: string; email: string; slots: string[]; updatedAt: string };
-let availabilityWriteQueue: Promise<void> = Promise.resolve();
+const availabilityDbPath = process.env.AVAILABILITY_DB || (
+  process.env.NODE_ENV === "production" && fs.existsSync("/var/data")
+    ? "/var/data/casino-night-availability.sqlite"
+    : path.resolve(process.cwd(), "data", "casino-night-availability.sqlite")
+);
+const availabilityStore = new AvailabilityStore({
+  dbPath: availabilityDbPath,
+  legacyJsonPaths: Array.from(new Set([
+    availabilityLegacyJsonPath,
+    path.resolve(process.cwd(), "data", "casino-night-availability.json"),
+  ])),
+});
 
-function readAvailabilityFile(filePath: string): AvailabilityResponse[] {
-  try {
-    const parsed: unknown = JSON.parse(fs.readFileSync(filePath, "utf8"));
-    return Array.isArray(parsed) ? parsed as AvailabilityResponse[] : [];
-  } catch { return []; }
-}
-
-function readAvailability(): AvailabilityResponse[] {
-  return readAvailabilityFile(availabilityDbPath);
-}
-
-function writeAvailability(items: AvailabilityResponse[]) {
-  fs.mkdirSync(path.dirname(availabilityDbPath), { recursive: true });
-  const backupPath = `${availabilityDbPath}.bak`;
-  if (fs.existsSync(availabilityDbPath)) fs.copyFileSync(availabilityDbPath, backupPath);
-  const tmp = `${availabilityDbPath}.${process.pid}.tmp`;
-  fs.writeFileSync(tmp, JSON.stringify(items, null, 2), { encoding: "utf8", mode: 0o600 });
-  fs.renameSync(tmp, availabilityDbPath);
-  fs.chmodSync(availabilityDbPath, 0o600);
-  if (fs.existsSync(backupPath)) fs.chmodSync(backupPath, 0o600);
-}
-
-function updateAvailability(mutator: (items: AvailabilityResponse[]) => void) {
-  const operation = availabilityWriteQueue.then(() => {
-    const items = readAvailability();
-    mutator(items);
-    writeAvailability(items);
-  });
-  availabilityWriteQueue = operation.catch(() => undefined);
-  return operation;
-}
-
-function initializeAvailabilityStorage() {
-  const existing = readAvailability();
-  if (!existing.length) return;
-  const byEmail = new Map<string, AvailabilityResponse>();
-  for (const item of existing) {
-    if (!item?.email) continue;
-    const prior = byEmail.get(item.email);
-    if (!prior || item.updatedAt > prior.updatedAt) byEmail.set(item.email, item);
-  }
-  const normalized = [...byEmail.values()];
-  if (normalized.length !== existing.length || !fs.existsSync(`${availabilityDbPath}.bak`)) writeAvailability(normalized);
+function availabilityVerificationAuthorized(req: Request) {
+  const expected = process.env.AVAILABILITY_VERIFICATION_TOKEN?.trim() || "";
+  const supplied = req.get("x-availability-verification")?.trim() || "";
+  if (!expected || !supplied) return false;
+  const expectedBytes = Buffer.from(expected);
+  const suppliedBytes = Buffer.from(supplied);
+  return expectedBytes.length === suppliedBytes.length && crypto.timingSafeEqual(expectedBytes, suppliedBytes);
 }
 
 // The retreat is intentionally a small shared workspace, backed by a durable SQLite file
@@ -269,7 +244,7 @@ function namingMarkdown(db: NamingPolicyDb) {
 }
 
 async function startServer() {
-  initializeAvailabilityStorage();
+  await availabilityStore.initialize();
   const app = express();
   const server = createServer(app);
 
@@ -277,26 +252,68 @@ async function startServer() {
   app.use(express.json());
 
   // ── 50th Anniversary Casino Night availability ──
-  app.get("/api/casino-night-availability/results", (_req, res) => {
-    const responses = readAvailability();
-    const counts: Record<string, number> = {};
-    responses.forEach((response) => response.slots.forEach((slot) => { counts[slot] = (counts[slot] || 0) + 1; }));
-    res.json({ responseCount: responses.length, counts, responses: responses.map(({ name, slots, updatedAt }) => ({ name, slots, updatedAt })) });
+  app.get("/api/casino-night-availability/results", async (_req, res) => {
+    try {
+      const responses = await availabilityStore.latest();
+      const counts: Record<string, number> = {};
+      responses.forEach((response) => response.slots.forEach((slot) => { counts[slot] = (counts[slot] || 0) + 1; }));
+      res.setHeader("Cache-Control", "no-store");
+      res.json({ generatedAt: new Date().toISOString(), responseCount: responses.length, counts, responses });
+    } catch (error) {
+      console.error("Casino Night availability read failed:", error);
+      res.status(500).json({ error: "availability_unavailable" });
+    }
   });
+
+  app.get("/api/casino-night-availability/health", async (_req, res) => {
+    try {
+      res.setHeader("Cache-Control", "no-store");
+      res.json({ ok: true, storage: "sqlite", generatedAt: new Date().toISOString(), ...await availabilityStore.health() });
+    } catch (error) {
+      console.error("Casino Night availability health check failed:", error);
+      res.status(500).json({ error: "availability_unavailable" });
+    }
+  });
+
+  app.get("/api/casino-night-availability/history", async (req, res) => {
+    if (!availabilityVerificationAuthorized(req)) return res.status(404).json({ error: "not_found" });
+    try {
+      res.setHeader("Cache-Control", "no-store");
+      res.json({ generatedAt: new Date().toISOString(), submissions: await availabilityStore.history() });
+    } catch (error) {
+      console.error("Casino Night availability history read failed:", error);
+      res.status(500).json({ error: "availability_unavailable" });
+    }
+  });
+
   app.post("/api/casino-night-availability/responses", async (req, res) => {
     const name = typeof req.body?.name === "string" ? req.body.name.trim().slice(0, 100) : "";
     const email = typeof req.body?.email === "string" ? req.body.email.trim().toLowerCase().slice(0, 180) : "";
     const slots: string[] = Array.isArray(req.body?.slots) ? Array.from(new Set(req.body.slots.filter((slot: unknown): slot is string => typeof slot === "string" && /^[0-4]-(?:0[89]|1[0-6]):(?:00|30)$/.test(slot)).slice(0, 85))) : [];
-    if (!name || !email.includes("@") || !slots.length) return res.status(400).json({ error: "name_email_and_availability_required" });
-    const response: AvailabilityResponse = { id: crypto.createHash("sha256").update(email).digest("hex").slice(0, 16), name, email, slots, updatedAt: new Date().toISOString() };
-    let updated = false;
+    if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !slots.length) {
+      return res.status(400).json({ error: "name_email_and_availability_required" });
+    }
+    const verificationRequested = Boolean(req.get("x-availability-verification"));
+    if (verificationRequested && !availabilityVerificationAuthorized(req)) {
+      return res.status(403).json({ error: "verification_forbidden" });
+    }
     try {
-      await updateAvailability((items) => {
-        const existing = items.findIndex((item) => item.email === email);
-        updated = existing >= 0;
-        if (updated) items[existing] = response; else items.push(response);
+      const recorded = await availabilityStore.record({
+        name,
+        email,
+        slots,
+        recordType: verificationRequested ? "verification" : "participant",
+        source: verificationRequested ? "durability_verification" : "form",
       });
-      res.json({ ok: true, updated });
+      res.setHeader("Cache-Control", "no-store");
+      res.json({
+        ok: true,
+        updated: recorded.updated,
+        submissionId: recorded.submissionId,
+        recordedAt: recorded.recordedAt,
+        historyCount: recorded.historyCount,
+        verification: recorded.recordType === "verification",
+      });
     } catch (error) {
       console.error("Casino Night availability write failed:", error);
       res.status(500).json({ error: "availability_unavailable" });

@@ -12,7 +12,11 @@ services:
       - key: MANAGER_RETREAT_DB
         value: /var/data/manager-retreat.sqlite
       - key: AVAILABILITY_DB
+        value: /var/data/casino-night-availability.sqlite
+      - key: AVAILABILITY_LEGACY_JSON
         value: /var/data/casino-night-availability.json
+      - key: AVAILABILITY_VERIFICATION_TOKEN
+        sync: false
       - key: VITE_FRONTEND_FORGE_API_KEY
         sync: false
       - key: VITE_FRONTEND_FORGE_API_URL
