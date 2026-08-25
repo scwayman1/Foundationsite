@@ -10,6 +10,7 @@ import { AvailabilityStore } from "./availability-store";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const casinoNightPlanningStudioUrl = "https://casinonight-g5w3tsno.manus.space/";
 
 type NamingPolicyUser = { id: string; name: string; role: string };
 type NamingPolicySection = {
@@ -250,6 +251,14 @@ async function startServer() {
 
   // Parse JSON request bodies
   app.use(express.json());
+
+  // Unlisted entry point for the shared, database-backed Manus planning studio.
+  // Manus remains authoritative for tracker data and activity history.
+  app.get("/internal/casino-night-planning-studio", (_req, res) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    res.setHeader("Cache-Control", "no-store");
+    res.redirect(302, casinoNightPlanningStudioUrl);
+  });
 
   // ── 50th Anniversary Casino Night availability ──
   app.get("/api/casino-night-availability/results", async (_req, res) => {
