@@ -128,7 +128,7 @@ function JsonLd() {
     "@type": "Event",
     name: "Coastline College 50th Anniversary Casino Night",
     description:
-      "Coastline College Foundation's 50th Anniversary sponsorship season honors the past, celebrates the present, and funds the future through Casino Night, donor wall recognition, and a student showcase.",
+      "Coastline College's 50th Anniversary sponsorship season honors the past, celebrates the present, and funds the future through Casino Night, donor wall recognition, and a student showcase.",
     startDate: "2026-10-17",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
@@ -170,7 +170,7 @@ export default function FiftyYear() {
   useEffect(() => {
     const title = "Coastline College 50th Anniversary Sponsorship | 50 Year";
     const description =
-      "Honor the past, celebrate the present, and fund the future with Coastline College Foundation's 50th Anniversary sponsorship season, including Casino Night, donor wall recognition, and the Student Showcase.";
+      "Honor the past, celebrate the present, and fund the future with Coastline College's 50th Anniversary sponsorship season, including Casino Night, donor wall recognition, and the Student Showcase.";
     document.title = title;
     setMeta("description", description);
     setMeta("keywords", "Coastline College 50th Anniversary, Coastline sponsorship, Casino Night Newport Beach, Golden Dolphin sponsor, college foundation donor wall, student showcase");
@@ -208,7 +208,7 @@ export default function FiftyYear() {
               Honor the past. Celebrate the present. Fund the future.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-100 md:text-xl">
-              The Coastline College Foundation's 50th Anniversary season invites partners to invest in scholarships, student support, flexible learning pathways, and the community partnerships that will define Coastline's next 50 years.
+              Coastline College's 50th Anniversary season invites partners to invest in scholarships, student support, flexible learning pathways, and the community partnerships that will define Coastline's next 50 years.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="rounded-md bg-[#f7d47a] px-6 py-6 text-[#08324a] hover:bg-[#ffe08a]">
