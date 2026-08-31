@@ -25,6 +25,7 @@ const NamingPolicyStudio = lazy(() => import("./pages/NamingPolicyStudio"));
 const CasinoNightAvailability = lazy(() => import("./pages/CasinoNightAvailability"));
 const CasinoNightPlanningStudio = lazy(() => import("./pages/CasinoNightPlanningStudio"));
 const CasinoNightAgentConnect = lazy(() => import("./pages/CasinoNightAgentConnect"));
+const CasinoNightPlanningAccess = lazy(() => import("./pages/CasinoNightPlanningAccess"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function Router() {
@@ -33,6 +34,9 @@ function Router() {
   }
   if (window.location.pathname === "/internal/casino-night-agent-connect") {
     return <Suspense fallback={null}><CasinoNightAgentConnect /></Suspense>;
+  }
+  if (window.location.pathname === "/internal/casino-night-planning-access") {
+    return <Suspense fallback={null}><CasinoNightPlanningAccess /></Suspense>;
   }
 
   return (

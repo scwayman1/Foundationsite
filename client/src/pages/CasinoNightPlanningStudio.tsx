@@ -51,6 +51,11 @@ type Snapshot = {
   activity: PlanningActivity[];
   meta: { storage: string; durability: string; generatedAt: string };
 };
+type AuthSession = {
+  authenticated: boolean;
+  mode: "observe" | "enforced";
+  user?: { id: string; email: string; name: string; role: "owner" | "editor" | "viewer"; orientationComplete: boolean };
+};
 type Tab = "overview" | "actions" | "completed" | "workstreams" | "activity";
 type ActionView = "list" | "kanban";
 
@@ -97,6 +102,13 @@ const workstreamFields: FieldDefinition[] = [
 ];
 
 function text(value: unknown) { return value == null ? "" : String(value); }
+function planningCsrf() {
+  const value = document.cookie.split(";").map((part) => part.trim()).find((part) => part.startsWith("casino_planning_csrf="));
+  return value ? decodeURIComponent(value.slice("casino_planning_csrf=".length)) : "";
+}
+function planningMutation(url: string, method: "POST" | "PATCH" | "DELETE", body: unknown) {
+  return fetch(url, { method, credentials: "same-origin", headers: { "content-type": "application/json", "x-csrf-token": planningCsrf() }, body: JSON.stringify(body) });
+}
 function valueFor(record: PlanningRecord, field: FieldDefinition) {
   const direct = record.data[field.key];
   if (direct !== undefined && direct !== "") return text(direct);
@@ -149,11 +161,7 @@ function RecordEditor({ record, onClose, onSaved }: { record: PlanningRecord; on
 
   async function save() {
     setSaving(true); setNotice("");
-    const response = await fetch(`/api/casino-night-planning/records/${record.id}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ title, data, revision: record.revision, actor: "Committee workspace" }),
-    });
+    const response = await planningMutation(`/api/casino-night-planning/records/${record.id}`, "PATCH", { title, data, revision: record.revision });
     if (response.status === 409) setNotice("Someone else updated this record. Refresh the workspace and review the newest version before saving again.");
     else if (!response.ok) setNotice("This update could not be saved. Your text is still here; please try again.");
     else { onSaved(await response.json()); onClose(); }
@@ -182,7 +190,7 @@ function RecordEditor({ record, onClose, onSaved }: { record: PlanningRecord; on
   </div>;
 }
 
-function ActionCard({ record, onSaved }: { record: PlanningRecord; onSaved: (record: PlanningRecord) => void }) {
+function ActionCard({ record, onSaved, canEdit }: { record: PlanningRecord; onSaved: (record: PlanningRecord) => void; canEdit: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const [editing, setEditing] = useState(false);
   const status = display(record.data.status, "Not started");
@@ -192,7 +200,7 @@ function ActionCard({ record, onSaved }: { record: PlanningRecord; onSaved: (rec
     <div className="flex min-w-0 items-start gap-3">
       <button onClick={() => setExpanded((value) => !value)} className="mt-0.5 rounded-lg border bg-slate-50 p-2 text-[#0b6fa4]" aria-expanded={expanded} aria-label={expanded ? "Collapse action" : "Expand action"}>{expanded ? <ChevronUp size={18}/> : <ChevronDown size={18}/>}</button>
       <div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><span className={`rounded-full px-2.5 py-1 text-xs font-bold ring-1 ${statusClass(status)}`}>{status}</span><span className="text-xs font-semibold text-slate-500">{display(record.data.owner, "Unassigned")}</span></div><h3 className="mt-2 break-words text-lg font-extrabold leading-6 text-[#132746]">{record.title}</h3><p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{latest}</p></div>
-      <button onClick={() => { setExpanded(true); setEditing((value) => !value); }} className="rounded-lg border bg-white p-2 text-slate-500 hover:border-[#8bccea] hover:text-[#0b6fa4]" aria-label="Edit action"><Pencil size={17}/></button>
+      {canEdit && <button onClick={() => { setExpanded(true); setEditing((value) => !value); }} className="rounded-lg border bg-white p-2 text-slate-500 hover:border-[#8bccea] hover:text-[#0b6fa4]" aria-label="Edit action"><Pencil size={17}/></button>}
     </div>
     {expanded && <div className="mt-5 border-t border-slate-100 pt-5">
       <dl className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -202,7 +210,7 @@ function ActionCard({ record, onSaved }: { record: PlanningRecord; onSaved: (rec
         <div className="md:col-span-2"><dt className="text-xs font-black uppercase tracking-[.12em] text-slate-400">Dependency</dt><dd className="mt-1 whitespace-pre-wrap text-sm leading-6 text-slate-700">{display(record.data.dependency)}</dd></div>
         <div className="md:col-span-2"><dt className="text-xs font-black uppercase tracking-[.12em] text-slate-400">Evidence / latest update</dt><dd className="mt-1 whitespace-pre-wrap text-sm leading-6 text-slate-700">{display(record.data.evidence, latest)}</dd></div>
       </dl>
-      {editing ? <RecordEditor record={record} onClose={() => setEditing(false)} onSaved={onSaved}/> : <button onClick={() => setEditing(true)} className="mt-5 inline-flex items-center gap-2 rounded-xl border border-[#8bccea] bg-[#f2fbff] px-4 py-2.5 text-sm font-bold text-[#0b6fa4]"><Pencil size={16}/> Open large editor</button>}
+      {canEdit && (editing ? <RecordEditor record={record} onClose={() => setEditing(false)} onSaved={onSaved}/> : <button onClick={() => setEditing(true)} className="mt-5 inline-flex items-center gap-2 rounded-xl border border-[#8bccea] bg-[#f2fbff] px-4 py-2.5 text-sm font-bold text-[#0b6fa4]"><Pencil size={16}/> Open large editor</button>)}
     </div>}
   </article>;
 }
@@ -222,7 +230,7 @@ function kanbanStatus(record: PlanningRecord) {
   return "not-started";
 }
 
-function KanbanCard({ record, onOpen }: { record: PlanningRecord; onOpen: () => void }) {
+function KanbanCard({ record, onOpen, canEdit }: { record: PlanningRecord; onOpen: () => void; canEdit: boolean }) {
   const status = display(record.data.status, "Not started");
   const owner = display(record.data.owner, "Unassigned");
   const due = display(record.data.dueDate ?? record.data.due_date, "No due date");
@@ -237,11 +245,11 @@ function KanbanCard({ record, onOpen }: { record: PlanningRecord; onOpen: () => 
     <div className="mt-4 rounded-xl border border-[#d9e8ef] bg-[#f7fbfd] p-3"><p className="text-[10px] font-black uppercase tracking-[.14em] text-[#0b6fa4]">Next move</p><p className="mt-1 line-clamp-3 text-sm font-semibold leading-5 text-slate-700">{next}</p></div>
     {hasBlocker && <div className="mt-3 flex items-start gap-2 rounded-xl bg-rose-50 p-3 text-xs font-semibold leading-5 text-rose-800"><AlertTriangle className="mt-0.5 shrink-0" size={14}/><span className="line-clamp-2">{blocker}</span></div>}
     <dl className="mt-4 grid gap-2 text-xs text-slate-600"><div className="flex items-center gap-2"><UserRound size={14} className="text-slate-400"/><dt className="sr-only">Owner</dt><dd className="font-semibold">{owner}</dd></div><div className="flex items-center gap-2"><CalendarDays size={14} className="text-slate-400"/><dt className="sr-only">Due date</dt><dd>{due}</dd></div></dl>
-    <button onClick={onOpen} className="mt-4 inline-flex w-full items-center justify-between rounded-xl border border-[#8bccea] bg-[#f2fbff] px-3.5 py-2.5 text-sm font-black text-[#0b6fa4] hover:bg-[#e8f7fd]">Review and update <ArrowRight size={16}/></button>
+    {canEdit && <button onClick={onOpen} className="mt-4 inline-flex w-full items-center justify-between rounded-xl border border-[#8bccea] bg-[#f2fbff] px-3.5 py-2.5 text-sm font-black text-[#0b6fa4] hover:bg-[#e8f7fd]">Review and update <ArrowRight size={16}/></button>}
   </article>;
 }
 
-function KanbanBoard({ records, selectedId, onSelect, onSaved }: { records: PlanningRecord[]; selectedId: number | null; onSelect: (id: number | null) => void; onSaved: (record: PlanningRecord) => void }) {
+function KanbanBoard({ records, selectedId, onSelect, onSaved, canEdit }: { records: PlanningRecord[]; selectedId: number | null; onSelect: (id: number | null) => void; onSaved: (record: PlanningRecord) => void; canEdit: boolean }) {
   const selected = selectedId == null ? null : records.find((record) => record.id === selectedId) || null;
   const dialogRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -261,17 +269,17 @@ function KanbanBoard({ records, selectedId, onSelect, onSaved }: { records: Plan
     {selected && <div className="fixed inset-0 z-[80] overflow-y-auto bg-slate-950/60 p-3 backdrop-blur-[2px] sm:p-8" onMouseDown={(event) => { if (event.target === event.currentTarget) onSelect(null); }}><div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby={`kanban-action-${selected.id}`} tabIndex={-1} className="mx-auto max-w-5xl rounded-2xl border border-[#8bccea] bg-white p-4 shadow-2xl outline-none sm:p-6"><div><p className="text-xs font-black uppercase tracking-[.14em] text-[#0b6fa4]">Selected action</p><h3 id={`kanban-action-${selected.id}`} className="mt-1 text-xl font-black text-[#132746]">{selected.title}</h3><p className="mt-2 text-sm text-slate-600">Update the owner, status, deadline, blocker, and next concrete move. Press Escape to close without saving.</p></div><RecordEditor record={selected} onClose={() => onSelect(null)} onSaved={(record) => { onSaved(record); onSelect(null); }}/></div></div>}
     <div className="w-full min-w-0 max-w-full overflow-x-auto overscroll-x-contain pb-3" style={{ contain: "inline-size" }}><div className="grid min-w-[1160px] grid-cols-4 gap-4 xl:min-w-0">{kanbanColumns.map((column) => {
       const columnRecords = records.filter((record) => kanbanStatus(record) === column.id);
-      return <section key={column.id} className={`min-w-0 rounded-2xl border-t-4 p-3 ${column.tone}`}><header className="flex items-start justify-between gap-3 px-1 pb-3"><div><div className="flex items-center gap-2"><span className={`h-2.5 w-2.5 rounded-full ${column.dot}`}/><h3 className="font-black text-[#132746]">{column.label}</h3></div><p className="mt-1 text-xs text-slate-500">{column.helper}</p></div><span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-slate-600 shadow-sm">{columnRecords.length}</span></header><div className="grid gap-3">{columnRecords.map((record) => <KanbanCard key={record.id} record={record} onOpen={() => onSelect(record.id)}/>)}{!columnRecords.length && <div className="rounded-xl border border-dashed border-slate-300 bg-white/60 p-5 text-center text-xs font-semibold text-slate-400">No actions in this lane</div>}</div></section>;
+      return <section key={column.id} className={`min-w-0 rounded-2xl border-t-4 p-3 ${column.tone}`}><header className="flex items-start justify-between gap-3 px-1 pb-3"><div><div className="flex items-center gap-2"><span className={`h-2.5 w-2.5 rounded-full ${column.dot}`}/><h3 className="font-black text-[#132746]">{column.label}</h3></div><p className="mt-1 text-xs text-slate-500">{column.helper}</p></div><span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-slate-600 shadow-sm">{columnRecords.length}</span></header><div className="grid gap-3">{columnRecords.map((record) => <KanbanCard key={record.id} record={record} canEdit={canEdit} onOpen={() => onSelect(record.id)}/>)}{!columnRecords.length && <div className="rounded-xl border border-dashed border-slate-300 bg-white/60 p-5 text-center text-xs font-semibold text-slate-400">No actions in this lane</div>}</div></section>;
     })}</div></div>
   </div>;
 }
 
-function GenericRecordCard({ record, onSaved }: { record: PlanningRecord; onSaved: (record: PlanningRecord) => void }) {
+function GenericRecordCard({ record, onSaved, canEdit }: { record: PlanningRecord; onSaved: (record: PlanningRecord) => void; canEdit: boolean }) {
   const [editing, setEditing] = useState(false);
   const status = display(record.data.status, record.kind === "accomplishment" ? "Confirmed" : "Not started");
-  return <article className="min-w-0 rounded-2xl border border-[#dbe6ec] bg-white p-5 shadow-sm"><div className="flex min-w-0 items-start justify-between gap-4"><div className="min-w-0"><p className="text-xs font-black uppercase tracking-[.14em] text-[#0b6fa4]">{humanize(record.kind)}</p><h3 className="mt-1 break-words text-xl font-extrabold text-[#132746]">{record.title}</h3><div className="mt-3 flex flex-wrap gap-2"><span className={`rounded-full px-2.5 py-1 text-xs font-bold ring-1 ${statusClass(status === "Confirmed" ? "Done" : status)}`}>{status}</span><span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">{display(record.data.owner, "Unassigned")}</span></div></div><button onClick={() => setEditing((value) => !value)} className="rounded-lg border p-2 text-slate-500 hover:text-[#0b6fa4]" aria-label={`Edit ${record.title}`}><Pencil size={17}/></button></div>
+  return <article className="min-w-0 rounded-2xl border border-[#dbe6ec] bg-white p-5 shadow-sm"><div className="flex min-w-0 items-start justify-between gap-4"><div className="min-w-0"><p className="text-xs font-black uppercase tracking-[.14em] text-[#0b6fa4]">{humanize(record.kind)}</p><h3 className="mt-1 break-words text-xl font-extrabold text-[#132746]">{record.title}</h3><div className="mt-3 flex flex-wrap gap-2"><span className={`rounded-full px-2.5 py-1 text-xs font-bold ring-1 ${statusClass(status === "Confirmed" ? "Done" : status)}`}>{status}</span><span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">{display(record.data.owner, "Unassigned")}</span></div></div>{canEdit && <button onClick={() => setEditing((value) => !value)} className="rounded-lg border p-2 text-slate-500 hover:text-[#0b6fa4]" aria-label={`Edit ${record.title}`}><Pencil size={17}/></button>}</div>
     <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-slate-600">{display(record.data.milestone ?? record.data.notes ?? record.data.latestUpdate, "Open this record to review the full detail.")}</p>
-    {editing && <RecordEditor record={record} onClose={() => setEditing(false)} onSaved={onSaved}/>}</article>;
+    {canEdit && editing && <RecordEditor record={record} onClose={() => setEditing(false)} onSaved={onSaved}/>}</article>;
 }
 
 function NewActionForm({ onClose, onCreated }: { onClose: () => void; onCreated: (record: PlanningRecord) => void }) {
@@ -285,10 +293,7 @@ function NewActionForm({ onClose, onCreated }: { onClose: () => void; onCreated:
   async function create() {
     if (!title.trim()) { setNotice("Add the action item before saving."); return; }
     setSaving(true); setNotice("");
-    const response = await fetch("/api/casino-night-planning/records", {
-      method: "POST", headers: { "content-type": "application/json" },
-      body: JSON.stringify({ kind: "action", title, workstream, actor: "Committee workspace", data: { owner, status, latestUpdate, blocker: "", dependency: "", evidence: "", dueDate: "" } }),
-    });
+    const response = await planningMutation("/api/casino-night-planning/records", "POST", { kind: "action", title, workstream, data: { owner, status, latestUpdate, blocker: "", dependency: "", evidence: "", dueDate: "" } });
     if (!response.ok) setNotice("The action could not be saved. Your text is still here; please try again.");
     else { onCreated(await response.json()); onClose(); }
     setSaving(false);
@@ -301,6 +306,7 @@ function NewActionForm({ onClose, onCreated }: { onClose: () => void; onCreated:
 
 export default function CasinoNightPlanningStudio() {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
+  const [auth, setAuth] = useState<AuthSession | null>(null);
   const [tab, setTab] = useState<Tab>("overview");
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("All");
@@ -314,8 +320,10 @@ export default function CasinoNightPlanningStudio() {
 
   async function load() {
     setLoading(true); setNotice("");
-    const response = await fetch("/api/casino-night-planning/snapshot", { cache: "no-store" });
+    const response = await fetch("/api/casino-night-planning/snapshot", { cache: "no-store", credentials: "same-origin" });
     if (response.ok) setSnapshot(await response.json());
+    else if (response.status === 401) setNotice("Your committee session has expired. Sign in again without closing any open work.");
+    else if (response.status === 403) setNotice("Your role does not permit this action.");
     else setNotice("The shared planning database could not be loaded. No local data was substituted.");
     setLoading(false);
   }
@@ -324,9 +332,15 @@ export default function CasinoNightPlanningStudio() {
     let robots = document.querySelector('meta[name="robots"]');
     if (!robots) { robots = document.createElement("meta"); robots.setAttribute("name", "robots"); document.head.appendChild(robots); }
     robots.setAttribute("content", "noindex,nofollow,noarchive,nosnippet");
-    load();
+    fetch("/api/casino-night-auth/session", { cache: "no-store", credentials: "same-origin" })
+      .then(async (response) => {
+        const next = await response.json() as AuthSession; setAuth(next);
+        if (next.authenticated || next.mode === "observe") await load(); else setLoading(false);
+      })
+      .catch(() => { setNotice("Committee access could not be verified."); setLoading(false); });
   }, []);
 
+  const canEdit = auth?.mode === "observe" || auth?.user?.role === "owner" || auth?.user?.role === "editor";
   const records = snapshot?.records || [];
   const actions = records.filter((record) => record.kind === "action");
   const accomplishments = records.filter((record) => record.kind === "accomplishment");
@@ -363,11 +377,13 @@ export default function CasinoNightPlanningStudio() {
     { id: "activity", label: "Activity", count: snapshot?.activity.length },
   ];
 
+  if (auth && !auth.authenticated && auth.mode === "enforced") return <main className="grid min-h-screen place-items-center bg-[#f4f8fa] px-4 text-[#17324d]"><section className="w-full max-w-xl rounded-3xl border bg-white p-8 text-center shadow-xl"><ShieldCheck className="mx-auto text-[#0b6fa4]" size={42}/><h1 className="mt-5 text-3xl font-black">Committee sign-in required</h1><p className="mt-3 leading-7 text-slate-600">Open your private invitation link, or return to committee access if you already joined.</p><a href="/internal/casino-night-planning-access" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#0b6fa4] px-5 py-3 font-black text-white">Go to committee access <ArrowRight size={17}/></a></section></main>;
+
   return <main className="min-h-screen overflow-x-hidden bg-[#f4f8fa] text-[#17324d]">
     <header className="border-b border-white/10 bg-[#082f49] text-white shadow-xl">
       <div className="mx-auto max-w-[1480px] px-4 py-6 sm:px-7 lg:px-10">
         <div className="flex min-w-0 flex-wrap items-start justify-between gap-5"><div className="min-w-0 max-w-3xl"><div className="flex min-w-0 items-start gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#f0c96b] text-[#082f49]"><ClipboardCheck size={24}/></span><div className="min-w-0"><p className="text-[10px] font-black uppercase tracking-[.16em] text-[#f0c96b] sm:text-xs sm:tracking-[.2em]">Coastline College Foundation</p><h1 className="mt-1 break-words text-2xl font-black leading-tight tracking-tight sm:text-4xl">Casino Night Planning Studio</h1></div></div><p className="mt-4 max-w-2xl text-sm leading-6 text-sky-100">A standalone committee workspace for actions, decisions, evidence, and follow-through through October 17. Operational planning only—do not enter confidential donor, payment, student, or personnel data.</p></div>
-          <div className="flex flex-wrap gap-2"><button onClick={load} className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-bold hover:bg-white/15"><RefreshCw size={16}/> Refresh</button><button onClick={exportJson} className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-[#082f49]"><Download size={16}/> Export snapshot</button></div></div>
+          <div className="flex flex-wrap gap-2"><a href="/internal/casino-night-planning-access" className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-bold hover:bg-white/15"><Users size={16}/> Committee access</a><button onClick={load} className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-bold hover:bg-white/15"><RefreshCw size={16}/> Refresh</button><button onClick={exportJson} className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-[#082f49]"><Download size={16}/> Export snapshot</button></div></div>
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/10 pt-4 text-xs font-semibold text-sky-100"><span className="inline-flex items-center gap-2"><Database size={15} className="text-[#f0c96b]"/> Persistent SQLite database</span><span className="inline-flex items-center gap-2"><ShieldCheck size={15} className="text-[#f0c96b]"/> Append-only activity history</span><span>Last synchronized: {snapshot?.meta?.generatedAt ? formatDate(snapshot.meta.generatedAt) : "Loading…"}</span></div>
       </div>
     </header>
@@ -381,24 +397,24 @@ export default function CasinoNightPlanningStudio() {
       {loading && !snapshot ? <div className="grid min-h-[45vh] place-items-center"><div className="text-center"><Loader2 className="mx-auto animate-spin text-[#0b6fa4]" size={38}/><p className="mt-3 font-bold text-slate-600">Loading the shared database…</p></div></div> : null}
 
       {snapshot && tab === "overview" && <section className="mt-6 grid min-w-0 gap-6 xl:grid-cols-[1.35fr_.65fr]">
-        <div className="min-w-0"><div className="flex min-w-0 flex-wrap items-end justify-between gap-4"><div className="min-w-0"><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Immediate focus</p><h2 className="mt-1 break-words text-2xl font-black text-[#132746]">Blocked and active actions</h2></div><button onClick={() => setTab("actions")} className="shrink-0 text-sm font-bold text-[#0b6fa4]">View all {actions.length} actions</button></div><div className="mt-4 grid min-w-0 gap-3">{[...blocked, ...inProgress].slice(0, 8).map((record) => <ActionCard key={record.id} record={record} onSaved={replaceRecord}/>)}{!blocked.length && !inProgress.length && <div className="rounded-2xl border bg-white p-8 text-center text-slate-500">No blocked or in-progress actions are recorded.</div>}</div></div>
+        <div className="min-w-0"><div className="flex min-w-0 flex-wrap items-end justify-between gap-4"><div className="min-w-0"><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Immediate focus</p><h2 className="mt-1 break-words text-2xl font-black text-[#132746]">Blocked and active actions</h2></div><button onClick={() => setTab("actions")} className="shrink-0 text-sm font-bold text-[#0b6fa4]">View all {actions.length} actions</button></div><div className="mt-4 grid min-w-0 gap-3">{[...blocked, ...inProgress].slice(0, 8).map((record) => <ActionCard key={record.id} record={record} canEdit={Boolean(canEdit)} onSaved={replaceRecord}/>)}{!blocked.length && !inProgress.length && <div className="rounded-2xl border bg-white p-8 text-center text-slate-500">No blocked or in-progress actions are recorded.</div>}</div></div>
         <aside className="min-w-0"><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Recent movement</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Committee activity</h2><div className="mt-4 rounded-2xl border border-[#dbe6ec] bg-white p-5 shadow-sm"><ol className="space-y-5">{snapshot.activity.slice(0, 10).map((event) => <li key={event.id} className="relative border-l-2 border-[#cbe8f5] pl-5"><span className="absolute -left-[7px] top-1 h-3 w-3 rounded-full border-2 border-white bg-[#0096d6]"/><p className="text-sm font-bold text-[#17324d]">{event.description}</p><p className="mt-1 text-xs text-slate-500">{event.actor} · {formatDate(event.createdAt)}</p></li>)}</ol></div></aside>
       </section>}
 
-      {snapshot && tab === "actions" && <section className="mt-6 min-w-0 max-w-full"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Madness checklist</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Action command board</h2><p className="mt-1 text-sm text-slate-600">Switch between a complete register and a status board built around owners, deadlines, blockers, and the next move.</p></div><div className="flex flex-wrap items-center gap-2"><div role="group" aria-label="Action view" className="inline-flex rounded-xl border border-[#c8dce6] bg-white p-1 shadow-sm"><button onClick={() => { setActionView("kanban"); setSelectedKanbanAction(null); }} aria-pressed={actionView === "kanban"} className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-black ${actionView === "kanban" ? "bg-[#0b6fa4] text-white" : "text-slate-600 hover:bg-slate-50"}`}><Columns3 size={16}/> Kanban</button><button onClick={() => { setActionView("list"); setSelectedKanbanAction(null); }} aria-pressed={actionView === "list"} className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-black ${actionView === "list" ? "bg-[#0b6fa4] text-white" : "text-slate-600 hover:bg-slate-50"}`}><List size={16}/> List</button></div><div className="inline-flex items-center gap-2 rounded-xl border bg-white px-3 py-2 text-xs font-bold text-slate-500"><Filter size={15}/>{filteredActions.length} shown</div><button onClick={() => setShowNewAction((value) => !value)} className="inline-flex items-center gap-2 rounded-xl bg-[#0b6fa4] px-4 py-2.5 text-sm font-bold text-white"><Plus size={16}/> Add action</button></div></div>
-        {showNewAction && <NewActionForm onClose={() => setShowNewAction(false)} onCreated={addRecord}/>}
+      {snapshot && tab === "actions" && <section className="mt-6 min-w-0 max-w-full"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Madness checklist</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Action command board</h2><p className="mt-1 text-sm text-slate-600">Switch between a complete register and a status board built around owners, deadlines, blockers, and the next move.</p></div><div className="flex flex-wrap items-center gap-2"><div role="group" aria-label="Action view" className="inline-flex rounded-xl border border-[#c8dce6] bg-white p-1 shadow-sm"><button onClick={() => { setActionView("kanban"); setSelectedKanbanAction(null); }} aria-pressed={actionView === "kanban"} className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-black ${actionView === "kanban" ? "bg-[#0b6fa4] text-white" : "text-slate-600 hover:bg-slate-50"}`}><Columns3 size={16}/> Kanban</button><button onClick={() => { setActionView("list"); setSelectedKanbanAction(null); }} aria-pressed={actionView === "list"} className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-black ${actionView === "list" ? "bg-[#0b6fa4] text-white" : "text-slate-600 hover:bg-slate-50"}`}><List size={16}/> List</button></div><div className="inline-flex items-center gap-2 rounded-xl border bg-white px-3 py-2 text-xs font-bold text-slate-500"><Filter size={15}/>{filteredActions.length} shown</div>{canEdit && <button onClick={() => setShowNewAction((value) => !value)} className="inline-flex items-center gap-2 rounded-xl bg-[#0b6fa4] px-4 py-2.5 text-sm font-bold text-white"><Plus size={16}/> Add action</button>}</div></div>
+        {canEdit && showNewAction && <NewActionForm onClose={() => setShowNewAction(false)} onCreated={addRecord}/>}
         <div className="mt-4 grid gap-3 rounded-2xl border border-[#dbe6ec] bg-white p-4 shadow-sm sm:grid-cols-2 xl:grid-cols-5"><label className="relative sm:col-span-2"><Search className="absolute left-3 top-3.5 text-slate-400" size={17}/><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search actions, evidence, blockers…" className="h-11 w-full rounded-xl border pl-10 pr-3 outline-none focus:border-[#0096d6] focus:ring-4 focus:ring-[#0096d6]/10"/></label><select aria-label="Filter by status" value={status} onChange={(event) => setStatus(event.target.value)} className="h-11 rounded-xl border bg-white px-3"><option value="All">All statuses</option>{statusOptions.map((option) => <option key={option}>{option}</option>)}</select><select aria-label="Filter by owner" value={owner} onChange={(event) => setOwner(event.target.value)} className="h-11 rounded-xl border bg-white px-3"><option value="All">All owners</option>{owners.map((option) => <option key={option}>{option}</option>)}</select><select aria-label="Filter by workstream" value={workstream} onChange={(event) => setWorkstream(event.target.value)} className="h-11 rounded-xl border bg-white px-3"><option value="All">All workstreams</option>{workstreamOptions.map((option) => <option key={option}>{option}</option>)}</select></div>
-        {actionView === "kanban" ? <KanbanBoard records={filteredActions} selectedId={selectedKanbanAction} onSelect={setSelectedKanbanAction} onSaved={replaceRecord}/> : <div className="mt-4 grid gap-3">{filteredActions.map((record) => <ActionCard key={record.id} record={record} onSaved={replaceRecord}/>)}{!filteredActions.length && <div className="rounded-2xl border bg-white p-10 text-center"><Search className="mx-auto text-slate-300" size={34}/><p className="mt-3 font-bold text-slate-600">No actions match those filters.</p></div>}</div>}
+        {actionView === "kanban" ? <KanbanBoard records={filteredActions} selectedId={selectedKanbanAction} onSelect={setSelectedKanbanAction} onSaved={replaceRecord} canEdit={Boolean(canEdit)}/> : <div className="mt-4 grid gap-3">{filteredActions.map((record) => <ActionCard key={record.id} record={record} canEdit={Boolean(canEdit)} onSaved={replaceRecord}/>)}{!filteredActions.length && <div className="rounded-2xl border bg-white p-10 text-center"><Search className="mx-auto text-slate-300" size={34}/><p className="mt-3 font-bold text-slate-600">No actions match those filters.</p></div>}</div>}
         {actionView === "kanban" && !filteredActions.length && <div className="mt-4 rounded-2xl border bg-white p-10 text-center"><Search className="mx-auto text-slate-300" size={34}/><p className="mt-3 font-bold text-slate-600">No actions match those filters.</p></div>}
       </section>}
 
-      {snapshot && tab === "completed" && <section className="mt-6"><div><p className="text-xs font-black uppercase tracking-[.16em] text-emerald-700">What is already moving</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Completed actions and confirmed accomplishments</h2></div><div className="mt-4 grid gap-4 xl:grid-cols-2">{[...accomplishments, ...done].map((record) => record.kind === "action" ? <ActionCard key={record.id} record={record} onSaved={replaceRecord}/> : <GenericRecordCard key={record.id} record={record} onSaved={replaceRecord}/>)}</div></section>}
+      {snapshot && tab === "completed" && <section className="mt-6"><div><p className="text-xs font-black uppercase tracking-[.16em] text-emerald-700">What is already moving</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Completed actions and confirmed accomplishments</h2></div><div className="mt-4 grid gap-4 xl:grid-cols-2">{[...accomplishments, ...done].map((record) => record.kind === "action" ? <ActionCard key={record.id} record={record} canEdit={Boolean(canEdit)} onSaved={replaceRecord}/> : <GenericRecordCard key={record.id} record={record} canEdit={Boolean(canEdit)} onSaved={replaceRecord}/>)}</div></section>}
 
-      {snapshot && tab === "workstreams" && <section className="mt-6"><div><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Planning lanes</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Workstreams and procurement record</h2></div><div className="mt-4 grid gap-4 xl:grid-cols-2">{workstreams.map((record) => <GenericRecordCard key={record.id} record={record} onSaved={replaceRecord}/>)}</div></section>}
+      {snapshot && tab === "workstreams" && <section className="mt-6"><div><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Planning lanes</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Workstreams and procurement record</h2></div><div className="mt-4 grid gap-4 xl:grid-cols-2">{workstreams.map((record) => <GenericRecordCard key={record.id} record={record} canEdit={Boolean(canEdit)} onSaved={replaceRecord}/>)}</div></section>}
 
       {snapshot && tab === "activity" && <section className="mt-6"><div><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Audit trail</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Append-only activity history</h2><p className="mt-1 text-sm text-slate-600">Imported Manus history is preserved alongside every new change on the Foundation site.</p></div><div className="mt-4 overflow-hidden rounded-2xl border border-[#dbe6ec] bg-white shadow-sm"><ol className="divide-y">{snapshot.activity.map((event) => <li key={event.id} className="grid gap-2 p-4 sm:grid-cols-[9rem_1fr_auto] sm:items-center sm:px-5"><span className="inline-flex w-fit items-center gap-2 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600"><Activity size={13}/>{humanize(event.action)}</span><div><p className="text-sm font-bold text-[#17324d]">{event.description}</p><p className="mt-1 text-xs text-slate-500">{event.actor}</p></div><time className="text-xs font-semibold text-slate-400">{formatDate(event.createdAt)}</time></li>)}</ol></div></section>}
 
-      <footer className="mt-10 border-t border-[#dbe6ec] py-6 text-xs leading-5 text-slate-500"><p><strong>Hidden is not private.</strong> This unlisted workspace is intentionally absent from public navigation and blocked from indexing, but it is not access-controlled. Use only approved operational planning information.</p></footer>
+      <footer className="mt-10 border-t border-[#dbe6ec] py-6 text-xs leading-5 text-slate-500"><p><strong>{auth?.mode === "enforced" ? "Invitation-only workspace." : "Authentication rollout in progress."}</strong> Use only approved operational planning information; never enter confidential donor, payment, student, or personnel data.</p></footer>
     </div>
   </main>;
 }

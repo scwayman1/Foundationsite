@@ -17,6 +17,12 @@ services:
         value: /var/data/casino-night-availability.json
       - key: CASINO_PLANNING_DB
         value: /var/data/casino-night-planning.sqlite
+      - key: CASINO_PLANNING_AUTH_DB
+        value: /var/data/casino-night-planning-auth.sqlite
+      - key: CASINO_PLANNING_AUTH_MODE
+        value: observe
+      - key: CASINO_PLANNING_PUBLIC_ORIGIN
+        value: https://www.coastlinecollegefoundation.com
       - key: CASINO_PLANNING_MCP_TOKEN
         sync: false
       - key: AVAILABILITY_VERIFICATION_TOKEN

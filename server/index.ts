@@ -9,6 +9,8 @@ import initSqlJs, { type Database } from "sql.js";
 import { AvailabilityStore } from "./availability-store";
 import { PlanningStore } from "./planning-store";
 import { installPlanningMcp } from "./planning-mcp";
+import { PlanningAuthStore } from "./planning-auth-store";
+import { installPlanningAuth } from "./planning-auth";
 import QRCode from "qrcode";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -67,6 +69,12 @@ const planningStore = new PlanningStore({
   dbPath: planningDbPath,
   seedPath: path.resolve(process.cwd(), "data", "casino-night-planning-manus-snapshot.json"),
 });
+const planningAuthDbPath = process.env.CASINO_PLANNING_AUTH_DB || (
+  process.env.NODE_ENV === "production" && fs.existsSync("/var/data")
+    ? "/var/data/casino-night-planning-auth.sqlite"
+    : path.resolve(process.cwd(), "data", "casino-night-planning-auth.sqlite")
+);
+const planningAuthStore = new PlanningAuthStore({ dbPath: planningAuthDbPath });
 
 function availabilityVerificationAuthorized(req: Request) {
   const expected = process.env.AVAILABILITY_VERIFICATION_TOKEN?.trim() || "";
@@ -259,12 +267,14 @@ function namingMarkdown(db: NamingPolicyDb) {
 async function startServer() {
   await availabilityStore.initialize();
   await planningStore.initialize();
+  await planningAuthStore.initialize();
   const app = express();
   const server = createServer(app);
 
   // Parse JSON request bodies
   app.use(express.json());
 
+  const planningAuth = installPlanningAuth(app, planningAuthStore);
   installPlanningMcp(app, planningStore);
 
   app.get("/internal/casino-night-agent-connect/qr.svg", async (req, res) => {
@@ -281,7 +291,7 @@ async function startServer() {
   });
 
   // ── Hidden Casino Night planning workspace ──
-  app.get("/api/casino-night-planning/snapshot", async (_req, res) => {
+  app.get("/api/casino-night-planning/snapshot", planningAuth.requireRead, async (_req, res) => {
     try {
       res.setHeader("Cache-Control", "no-store");
       res.json(await planningStore.snapshot());
@@ -301,20 +311,20 @@ async function startServer() {
     }
   });
 
-  app.post("/api/casino-night-planning/records", async (req, res) => {
+  app.post("/api/casino-night-planning/records", planningAuth.requireEdit, async (req, res) => {
     try {
-      res.status(201).json(await planningStore.create(req.body || {}));
+      res.status(201).json(await planningStore.create({ ...(req.body || {}), actor: planningAuth.actor(res) }));
     } catch (error) {
       console.error("Casino Night planning create failed:", error);
       res.status(400).json({ error: error instanceof Error ? error.message : "invalid_planning_record" });
     }
   });
 
-  app.patch("/api/casino-night-planning/records/:id", async (req, res) => {
+  app.patch("/api/casino-night-planning/records/:id", planningAuth.requireEdit, async (req, res) => {
     const id = Number(req.params.id);
     if (!Number.isInteger(id)) return res.status(400).json({ error: "invalid_planning_record_id" });
     try {
-      res.json(await planningStore.update(id, req.body || {}));
+      res.json(await planningStore.update(id, { ...(req.body || {}), actor: planningAuth.actor(res) }));
     } catch (error) {
       const message = error instanceof Error ? error.message : "planning_update_failed";
       const status = message === "planning_revision_conflict" ? 409 : message === "planning_record_not_found" ? 404 : 400;
@@ -322,11 +332,11 @@ async function startServer() {
     }
   });
 
-  app.delete("/api/casino-night-planning/records/:id", async (req, res) => {
+  app.delete("/api/casino-night-planning/records/:id", planningAuth.requireOwner, async (req, res) => {
     const id = Number(req.params.id);
     if (!Number.isInteger(id)) return res.status(400).json({ error: "invalid_planning_record_id" });
     try {
-      res.json(await planningStore.archive(id, req.body?.actor));
+      res.json(await planningStore.archive(id, planningAuth.actor(res)));
     } catch (error) {
       const message = error instanceof Error ? error.message : "planning_archive_failed";
       res.status(message === "planning_record_not_found" ? 404 : 400).json({ error: message });
@@ -673,9 +683,15 @@ async function startServer() {
     res.setHeader("Cache-Control", "no-store");
     next();
   });
-  app.use("/internal/casino-night-agent-connect", (_req, res, next) => {
+  app.use("/internal/casino-night-agent-connect", planningAuth.requireOwnerRead, (_req, res, next) => {
     res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
     res.setHeader("Cache-Control", "no-store");
+    next();
+  });
+  app.use("/internal/casino-night-planning-access", (_req, res, next) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Referrer-Policy", "no-referrer");
     next();
   });
 
