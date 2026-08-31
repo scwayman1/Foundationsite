@@ -2,16 +2,19 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Activity,
   AlertTriangle,
+  ArrowRight,
   CalendarDays,
   CheckCircle2,
   ChevronDown,
   ChevronUp,
   ClipboardCheck,
   Clock3,
+  Columns3,
   Database,
   Download,
   Filter,
   Loader2,
+  List,
   Pencil,
   Plus,
   RefreshCw,
@@ -19,6 +22,7 @@ import {
   Search,
   ShieldCheck,
   Users,
+  UserRound,
   X,
 } from "lucide-react";
 
@@ -48,6 +52,7 @@ type Snapshot = {
   meta: { storage: string; durability: string; generatedAt: string };
 };
 type Tab = "overview" | "actions" | "completed" | "workstreams" | "activity";
+type ActionView = "list" | "kanban";
 
 type FieldDefinition = {
   key: string;
@@ -104,7 +109,7 @@ function valueFor(record: PlanningRecord, field: FieldDefinition) {
 function display(value: unknown, fallback = "TBD") { return text(value).trim() || fallback; }
 function statusClass(status: string) {
   const normalized = status.toLowerCase();
-  if (normalized === "done") return "bg-emerald-50 text-emerald-800 ring-emerald-200";
+  if (["done", "complete", "completed"].includes(normalized)) return "bg-emerald-50 text-emerald-800 ring-emerald-200";
   if (normalized === "blocked") return "bg-rose-50 text-rose-800 ring-rose-200";
   if (normalized === "in progress") return "bg-amber-50 text-amber-900 ring-amber-200";
   return "bg-slate-100 text-slate-700 ring-slate-200";
@@ -202,6 +207,51 @@ function ActionCard({ record, onSaved }: { record: PlanningRecord; onSaved: (rec
   </article>;
 }
 
+const kanbanColumns = [
+  { id: "not-started", label: "Needs direction", helper: "Clarify the next move", tone: "border-slate-300 bg-slate-50", dot: "bg-slate-400" },
+  { id: "in-progress", label: "In motion", helper: "Work actively moving", tone: "border-amber-300 bg-amber-50/60", dot: "bg-amber-500" },
+  { id: "blocked", label: "Blocked", helper: "Intervention required", tone: "border-rose-300 bg-rose-50/60", dot: "bg-rose-500" },
+  { id: "done", label: "Done", helper: "Closed with evidence", tone: "border-emerald-300 bg-emerald-50/60", dot: "bg-emerald-500" },
+] as const;
+
+function kanbanStatus(record: PlanningRecord) {
+  const status = text(record.data.status).trim().toLowerCase();
+  if (status === "done" || status === "complete" || status === "completed") return "done";
+  if (status === "blocked") return "blocked";
+  if (status === "in progress" || status === "in-progress") return "in-progress";
+  return "not-started";
+}
+
+function KanbanCard({ record, onOpen }: { record: PlanningRecord; onOpen: () => void }) {
+  const status = display(record.data.status, "Not started");
+  const owner = display(record.data.owner, "Unassigned");
+  const due = display(record.data.dueDate ?? record.data.due_date, "No due date");
+  const priority = display(record.data.priority, "Standard");
+  const next = display(record.data.next_step ?? record.data.nextStep ?? record.data.latestUpdate ?? record.data.latest_update, "Define the next concrete step.");
+  const blocker = text(record.data.blocker).trim();
+  const hasBlocker = Boolean(blocker) && !/^(none|no blocker|n\/a|not applicable)/i.test(blocker);
+  return <article className={`rounded-2xl border bg-white p-4 shadow-sm ${kanbanStatus(record) === "blocked" ? "border-rose-200" : "border-[#dbe6ec]"}`}>
+    <div className="flex items-center justify-between gap-3"><span className={`rounded-full px-2.5 py-1 text-[11px] font-black uppercase tracking-[.08em] ring-1 ${statusClass(status)}`}>{status}</span><span className="text-[11px] font-bold uppercase tracking-[.1em] text-slate-400">{priority}</span></div>
+    <p className="mt-3 text-[11px] font-black uppercase tracking-[.12em] text-[#0b6fa4]">{display(record.workstream || record.data.workstream, "General")}</p>
+    <h3 className="mt-1 break-words text-base font-black leading-6 text-[#132746]">{record.title}</h3>
+    <div className="mt-4 rounded-xl border border-[#d9e8ef] bg-[#f7fbfd] p-3"><p className="text-[10px] font-black uppercase tracking-[.14em] text-[#0b6fa4]">Next move</p><p className="mt-1 line-clamp-3 text-sm font-semibold leading-5 text-slate-700">{next}</p></div>
+    {hasBlocker && <div className="mt-3 flex items-start gap-2 rounded-xl bg-rose-50 p-3 text-xs font-semibold leading-5 text-rose-800"><AlertTriangle className="mt-0.5 shrink-0" size={14}/><span className="line-clamp-2">{blocker}</span></div>}
+    <dl className="mt-4 grid gap-2 text-xs text-slate-600"><div className="flex items-center gap-2"><UserRound size={14} className="text-slate-400"/><dt className="sr-only">Owner</dt><dd className="font-semibold">{owner}</dd></div><div className="flex items-center gap-2"><CalendarDays size={14} className="text-slate-400"/><dt className="sr-only">Due date</dt><dd>{due}</dd></div></dl>
+    <button onClick={onOpen} className="mt-4 inline-flex w-full items-center justify-between rounded-xl border border-[#8bccea] bg-[#f2fbff] px-3.5 py-2.5 text-sm font-black text-[#0b6fa4] hover:bg-[#e8f7fd]">Review and update <ArrowRight size={16}/></button>
+  </article>;
+}
+
+function KanbanBoard({ records, selectedId, onSelect, onSaved }: { records: PlanningRecord[]; selectedId: number | null; onSelect: (id: number | null) => void; onSaved: (record: PlanningRecord) => void }) {
+  const selected = selectedId == null ? null : records.find((record) => record.id === selectedId) || null;
+  return <div className="mt-4 min-w-0 max-w-full">
+    {selected && <div className="mb-5 rounded-2xl border border-[#8bccea] bg-white p-4 shadow-sm sm:p-5"><div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-xs font-black uppercase tracking-[.14em] text-[#0b6fa4]">Selected action</p><h3 className="mt-1 text-xl font-black text-[#132746]">{selected.title}</h3></div><button onClick={() => onSelect(null)} className="rounded-full border bg-white p-2 text-slate-500" aria-label="Close selected action"><X size={18}/></button></div><RecordEditor record={selected} onClose={() => onSelect(null)} onSaved={(record) => { onSaved(record); onSelect(null); }}/></div>}
+    <div className="w-full min-w-0 max-w-full overflow-x-auto overscroll-x-contain pb-3" style={{ contain: "inline-size" }}><div className="grid min-w-[1160px] grid-cols-4 gap-4 xl:min-w-0">{kanbanColumns.map((column) => {
+      const columnRecords = records.filter((record) => kanbanStatus(record) === column.id);
+      return <section key={column.id} className={`min-w-0 rounded-2xl border-t-4 p-3 ${column.tone}`}><header className="flex items-start justify-between gap-3 px-1 pb-3"><div><div className="flex items-center gap-2"><span className={`h-2.5 w-2.5 rounded-full ${column.dot}`}/><h3 className="font-black text-[#132746]">{column.label}</h3></div><p className="mt-1 text-xs text-slate-500">{column.helper}</p></div><span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-slate-600 shadow-sm">{columnRecords.length}</span></header><div className="grid gap-3">{columnRecords.map((record) => <KanbanCard key={record.id} record={record} onOpen={() => onSelect(record.id)}/>)}{!columnRecords.length && <div className="rounded-xl border border-dashed border-slate-300 bg-white/60 p-5 text-center text-xs font-semibold text-slate-400">No actions in this lane</div>}</div></section>;
+    })}</div></div>
+  </div>;
+}
+
 function GenericRecordCard({ record, onSaved }: { record: PlanningRecord; onSaved: (record: PlanningRecord) => void }) {
   const [editing, setEditing] = useState(false);
   const status = display(record.data.status, record.kind === "accomplishment" ? "Confirmed" : "Not started");
@@ -245,6 +295,8 @@ export default function CasinoNightPlanningStudio() {
   const [loading, setLoading] = useState(true);
   const [notice, setNotice] = useState("");
   const [showNewAction, setShowNewAction] = useState(false);
+  const [actionView, setActionView] = useState<ActionView>("kanban");
+  const [selectedKanbanAction, setSelectedKanbanAction] = useState<number | null>(null);
 
   async function load() {
     setLoading(true); setNotice("");
@@ -319,10 +371,11 @@ export default function CasinoNightPlanningStudio() {
         <aside className="min-w-0"><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Recent movement</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Committee activity</h2><div className="mt-4 rounded-2xl border border-[#dbe6ec] bg-white p-5 shadow-sm"><ol className="space-y-5">{snapshot.activity.slice(0, 10).map((event) => <li key={event.id} className="relative border-l-2 border-[#cbe8f5] pl-5"><span className="absolute -left-[7px] top-1 h-3 w-3 rounded-full border-2 border-white bg-[#0096d6]"/><p className="text-sm font-bold text-[#17324d]">{event.description}</p><p className="mt-1 text-xs text-slate-500">{event.actor} · {formatDate(event.createdAt)}</p></li>)}</ol></div></aside>
       </section>}
 
-      {snapshot && tab === "actions" && <section className="mt-6"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Madness checklist</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Open action register</h2><p className="mt-1 text-sm text-slate-600">Expand any action to see the full record; use the large editor for detailed updates.</p></div><div className="flex flex-wrap gap-2"><div className="inline-flex items-center gap-2 rounded-xl border bg-white px-3 py-2 text-xs font-bold text-slate-500"><Filter size={15}/>{filteredActions.length} shown</div><button onClick={() => setShowNewAction((value) => !value)} className="inline-flex items-center gap-2 rounded-xl bg-[#0b6fa4] px-4 py-2 text-sm font-bold text-white"><Plus size={16}/> Add action</button></div></div>
+      {snapshot && tab === "actions" && <section className="mt-6 min-w-0 max-w-full"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-black uppercase tracking-[.16em] text-[#0b6fa4]">Madness checklist</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Action command board</h2><p className="mt-1 text-sm text-slate-600">Switch between a complete register and a status board built around owners, deadlines, blockers, and the next move.</p></div><div className="flex flex-wrap items-center gap-2"><div role="group" aria-label="Action view" className="inline-flex rounded-xl border border-[#c8dce6] bg-white p-1 shadow-sm"><button onClick={() => { setActionView("kanban"); setSelectedKanbanAction(null); }} aria-pressed={actionView === "kanban"} className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-black ${actionView === "kanban" ? "bg-[#0b6fa4] text-white" : "text-slate-600 hover:bg-slate-50"}`}><Columns3 size={16}/> Kanban</button><button onClick={() => { setActionView("list"); setSelectedKanbanAction(null); }} aria-pressed={actionView === "list"} className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-black ${actionView === "list" ? "bg-[#0b6fa4] text-white" : "text-slate-600 hover:bg-slate-50"}`}><List size={16}/> List</button></div><div className="inline-flex items-center gap-2 rounded-xl border bg-white px-3 py-2 text-xs font-bold text-slate-500"><Filter size={15}/>{filteredActions.length} shown</div><button onClick={() => setShowNewAction((value) => !value)} className="inline-flex items-center gap-2 rounded-xl bg-[#0b6fa4] px-4 py-2.5 text-sm font-bold text-white"><Plus size={16}/> Add action</button></div></div>
         {showNewAction && <NewActionForm onClose={() => setShowNewAction(false)} onCreated={addRecord}/>}
-        <div className="mt-4 grid gap-3 rounded-2xl border border-[#dbe6ec] bg-white p-4 shadow-sm sm:grid-cols-2 xl:grid-cols-5"><label className="relative sm:col-span-2"><Search className="absolute left-3 top-3.5 text-slate-400" size={17}/><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search actions, evidence, blockers…" className="h-11 w-full rounded-xl border pl-10 pr-3 outline-none focus:border-[#0096d6] focus:ring-4 focus:ring-[#0096d6]/10"/></label><select value={status} onChange={(event) => setStatus(event.target.value)} className="h-11 rounded-xl border bg-white px-3"><option>All</option>{statusOptions.map((option) => <option key={option}>{option}</option>)}</select><select value={owner} onChange={(event) => setOwner(event.target.value)} className="h-11 rounded-xl border bg-white px-3"><option>All</option>{owners.map((option) => <option key={option}>{option}</option>)}</select><select value={workstream} onChange={(event) => setWorkstream(event.target.value)} className="h-11 rounded-xl border bg-white px-3"><option>All</option>{workstreamOptions.map((option) => <option key={option}>{option}</option>)}</select></div>
-        <div className="mt-4 grid gap-3">{filteredActions.map((record) => <ActionCard key={record.id} record={record} onSaved={replaceRecord}/>)}{!filteredActions.length && <div className="rounded-2xl border bg-white p-10 text-center"><Search className="mx-auto text-slate-300" size={34}/><p className="mt-3 font-bold text-slate-600">No actions match those filters.</p></div>}</div>
+        <div className="mt-4 grid gap-3 rounded-2xl border border-[#dbe6ec] bg-white p-4 shadow-sm sm:grid-cols-2 xl:grid-cols-5"><label className="relative sm:col-span-2"><Search className="absolute left-3 top-3.5 text-slate-400" size={17}/><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search actions, evidence, blockers…" className="h-11 w-full rounded-xl border pl-10 pr-3 outline-none focus:border-[#0096d6] focus:ring-4 focus:ring-[#0096d6]/10"/></label><select aria-label="Filter by status" value={status} onChange={(event) => setStatus(event.target.value)} className="h-11 rounded-xl border bg-white px-3"><option value="All">All statuses</option>{statusOptions.map((option) => <option key={option}>{option}</option>)}</select><select aria-label="Filter by owner" value={owner} onChange={(event) => setOwner(event.target.value)} className="h-11 rounded-xl border bg-white px-3"><option value="All">All owners</option>{owners.map((option) => <option key={option}>{option}</option>)}</select><select aria-label="Filter by workstream" value={workstream} onChange={(event) => setWorkstream(event.target.value)} className="h-11 rounded-xl border bg-white px-3"><option value="All">All workstreams</option>{workstreamOptions.map((option) => <option key={option}>{option}</option>)}</select></div>
+        {actionView === "kanban" ? <KanbanBoard records={filteredActions} selectedId={selectedKanbanAction} onSelect={setSelectedKanbanAction} onSaved={replaceRecord}/> : <div className="mt-4 grid gap-3">{filteredActions.map((record) => <ActionCard key={record.id} record={record} onSaved={replaceRecord}/>)}{!filteredActions.length && <div className="rounded-2xl border bg-white p-10 text-center"><Search className="mx-auto text-slate-300" size={34}/><p className="mt-3 font-bold text-slate-600">No actions match those filters.</p></div>}</div>}
+        {actionView === "kanban" && !filteredActions.length && <div className="mt-4 rounded-2xl border bg-white p-10 text-center"><Search className="mx-auto text-slate-300" size={34}/><p className="mt-3 font-bold text-slate-600">No actions match those filters.</p></div>}
       </section>}
 
       {snapshot && tab === "completed" && <section className="mt-6"><div><p className="text-xs font-black uppercase tracking-[.16em] text-emerald-700">What is already moving</p><h2 className="mt-1 text-2xl font-black text-[#132746]">Completed actions and confirmed accomplishments</h2></div><div className="mt-4 grid gap-4 xl:grid-cols-2">{[...accomplishments, ...done].map((record) => record.kind === "action" ? <ActionCard key={record.id} record={record} onSaved={replaceRecord}/> : <GenericRecordCard key={record.id} record={record} onSaved={replaceRecord}/>)}</div></section>}

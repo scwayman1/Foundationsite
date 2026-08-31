@@ -44,6 +44,8 @@ Improvements over the former table-heavy workspace:
 - Command-center summary for event date, readiness, active work, blockers, and accomplishments.
 - Separate tabs for actions, completed work, workstreams, and activity.
 - Search plus status, owner, and workstream filters.
+- A Kanban/list switcher that groups actions into Needs direction, In motion, Blocked, and Done lanes.
+- Action-oriented Kanban cards that foreground the owner, due date, blocker, and next concrete move without enabling accidental drag-and-drop status changes.
 - Expandable action cards for progressive disclosure.
 - Large, vertically resizable text areas for detailed fields.
 - Explicit Save controls instead of silent or ambiguous autosave.
