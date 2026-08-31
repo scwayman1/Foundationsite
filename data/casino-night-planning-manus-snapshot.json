@@ -1,0 +1,1066 @@
+{
+  "records": [
+    {
+      "id": 60009,
+      "kind": "accomplishment",
+      "workstream": "contracting",
+      "title": "PO route confirmed",
+      "data": "{\"milestone\":\"PO route confirmed\",\"date\":\"August 24, 2026\",\"owner\":\"Patty Gilyeart\",\"source\":\"Patty Gilyeart, Executive Assistant in the Office of the President: “Process this as a purchase order with quote.”\",\"workstream\":\"Contracting & Procurement\",\"notes\":\"Procurement routing confirmed; quote and contract documents remain pending.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-25T14:34:24.000Z",
+      "updatedAt": "2026-08-25T14:34:24.000Z"
+    },
+    {
+      "id": 60010,
+      "kind": "accomplishment",
+      "workstream": "contracting",
+      "title": "Contract-preparation details sent",
+      "data": "{\"milestone\":\"Contract-preparation details sent\",\"date\":\"August 24, 2026\",\"owner\":\"Unassigned\",\"source\":\"August 24 correspondence\",\"workstream\":\"Contracting & Procurement\",\"notes\":\"Scott Wayman as signer/on-site contact; October 17, 2026; Coastline College Newport Beach Campus, 1515 Monrovia Avenue.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-25T14:34:24.000Z",
+      "updatedAt": "2026-08-25T14:34:24.000Z"
+    },
+    {
+      "id": 210044,
+      "kind": "accomplishment",
+      "workstream": "planning",
+      "title": "Committee planning cadence and priority map established",
+      "data": "{\"milestone\":\"Kate, Nicholas, and Scott completed a working session that converted major Casino Night questions into named action lanes and the August 31/September 1 outreach cadence.\",\"date\":\"2026-08-28\",\"owner\":\"Kate / Nicholas / Scott\",\"source\":\"Bee conversation 10171926; committee recap\",\"workstream\":\"Planning & Governance\",\"notes\":\"Speaker attribution is incomplete; the recap distinguishes confirmed items from working direction and open decisions.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:06.000Z",
+      "updatedAt": "2026-08-28T21:14:06.000Z"
+    },
+    {
+      "id": 210045,
+      "kind": "accomplishment",
+      "workstream": "vendors",
+      "title": "Gaming package signed and event footprint confirmed",
+      "data": "{\"milestone\":\"Signed $5,760 gaming package confirmed: 13 tables, 15 dealers/facilitators, and a four-hour event operating window.\",\"date\":\"2026-08-28\",\"owner\":\"Scott\",\"source\":\"Bee conversation 10171926; meeting statement\",\"workstream\":\"Vendors & Gaming\",\"notes\":\"Arrival, setup, breakdown, insurance, and weekend pickup/access details remain open actions.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:06.000Z",
+      "updatedAt": "2026-08-28T21:14:06.000Z"
+    },
+    {
+      "id": 210046,
+      "kind": "accomplishment",
+      "workstream": "facilities",
+      "title": "Two-floor event concept established",
+      "data": "{\"milestone\":\"Working event concept established: first-floor gaming; second-floor food, beverage, music, gallery, and conversation.\",\"date\":\"2026-08-28\",\"owner\":\"Committee\",\"source\":\"Bee conversation 10171926\",\"workstream\":\"Facilities & Guest Experience\",\"notes\":\"Concept remains subject to Tom Neal, facilities, IT/AV, safety, and accessibility validation.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:06.000Z",
+      "updatedAt": "2026-08-28T21:14:06.000Z"
+    },
+    {
+      "id": 210047,
+      "kind": "accomplishment",
+      "workstream": "creative",
+      "title": "Coastline blue-and-gold creative direction selected",
+      "data": "{\"milestone\":\"The committee aligned on Coastline blue with anniversary gold and a polished, reusable 50th-anniversary visual direction.\",\"date\":\"2026-08-28\",\"owner\":\"Nicholas / Kate / Scott\",\"source\":\"Bee conversation 10171926\",\"workstream\":\"Creative & Communications\",\"notes\":\"Final production assets remain to be designed and approved.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:07.000Z",
+      "updatedAt": "2026-08-28T21:14:07.000Z"
+    },
+    {
+      "id": 210048,
+      "kind": "accomplishment",
+      "workstream": "communications",
+      "title": "Public committee recap restored; source notes access-controlled",
+      "data": "{\"milestone\":\"Restored the public Cloudflare committee-safe recap while keeping the underlying Bee notes and transcript in a separate owner-only, full-text searchable Google Doc.\",\"date\":\"2026-08-28\",\"owner\":\"Scott\",\"source\":\"https://coastline-casino-night-committee.pages.dev/; private source document ID 1kPqe2PwYGn-9EI5g9N_eFnzifi2VSYPjGw0nbj2JTI0\",\"workstream\":\"Communications & Governance\",\"notes\":\"The public site contains the curated planning recap only. /meeting-notes.md returns 404, and no transcript or private note download is published. The source document remains owner-only.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:07.000Z",
+      "updatedAt": "2026-08-28T21:50:11.000Z"
+    },
+    {
+      "id": 210049,
+      "kind": "accomplishment",
+      "workstream": "planning",
+      "title": "Casino Night tracker redundancy activated",
+      "data": "{\"milestone\":\"Versioned JSON/CSV backups and a recurring tracker health check are active without modifying planning records during backup operations.\",\"date\":\"2026-08-28\",\"owner\":\"Scott\",\"source\":\"Casino Night tracker backup status\",\"workstream\":\"Planning & Governance\",\"notes\":\"Monitoring is configured to stay silent while healthy and alert on failure.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:08.000Z",
+      "updatedAt": "2026-08-28T21:14:08.000Z"
+    },
+    {
+      "id": 60003,
+      "kind": "action",
+      "workstream": "contracting",
+      "title": "Dominica issues draft contract",
+      "data": "{\"owner\":\"Scott\",\"status\":\"Completed\",\"dueDate\":\"2026-08-28\",\"blocker\":\"None for contract issuance/signature; payment and event logistics remain separate open items.\",\"dependency\":\"Completed\",\"evidence\":\"Scott’s August 28 meeting statement; Bee conversation 10171926\",\"latestUpdate\":\"Contract signed; $5,760 package confirmed.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-25T14:34:24.000Z",
+      "updatedAt": "2026-08-28T21:16:22.000Z"
+    },
+    {
+      "id": 60004,
+      "kind": "action",
+      "workstream": "contracting",
+      "title": "Confirm exact legal entity",
+      "data": "{\"owner\":\"Dominica Dao\",\"status\":\"Blocked\",\"dueDate\":\"TBD\",\"blocker\":\"Quote identifies “Ace High / All-In Productions / Casino De Paris”; Dominica was asked to confirm the exact legal entity.\",\"dependency\":\"Vendor response\",\"evidence\":\"August 24 email\",\"latestUpdate\":\"Pending vendor confirmation\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-25T14:34:24.000Z",
+      "updatedAt": "2026-08-25T14:34:24.000Z"
+    },
+    {
+      "id": 60005,
+      "kind": "action",
+      "workstream": "contracting",
+      "title": "Reconcile final package and price",
+      "data": "{\"owner\":\"Scott\",\"status\":\"Completed\",\"dueDate\":\"2026-08-28\",\"blocker\":\"None for package/price reconciliation.\",\"dependency\":\"Completed\",\"evidence\":\"Scott’s August 28 meeting statement; Bee conversation 10171926\",\"latestUpdate\":\"Final signed package confirmed at $5,760 for 13 tables and 15 dealers/facilitators.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-25T14:34:24.000Z",
+      "updatedAt": "2026-08-28T21:16:22.000Z"
+    },
+    {
+      "id": 60006,
+      "kind": "action",
+      "workstream": "contracting",
+      "title": "Route quote and contract through PO",
+      "data": "{\"owner\":\"Unassigned\",\"status\":\"In progress\",\"dueDate\":\"TBD\",\"blocker\":\"Quote and draft contract are required for routing\",\"dependency\":\"Final vendor documents\",\"evidence\":\"Patty Gilyeart, August 24: “Process this as a purchase order with quote.”\",\"latestUpdate\":\"PO route confirmed\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-25T14:34:24.000Z",
+      "updatedAt": "2026-08-25T14:34:24.000Z"
+    },
+    {
+      "id": 60007,
+      "kind": "action",
+      "workstream": "contracting",
+      "title": "Obtain authorized review before signature or payment",
+      "data": "{\"owner\":\"Unassigned\",\"status\":\"Not started\",\"dueDate\":\"TBD\",\"blocker\":\"Draft contract and authorized review are pending; no signature/payment is authorized in this tracker.\",\"dependency\":\"Draft contract, PO documentation, and authorized review\",\"evidence\":\"Working-draft safeguard\",\"latestUpdate\":\"Pending\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-25T14:34:24.000Z",
+      "updatedAt": "2026-08-25T14:34:24.000Z"
+    },
+    {
+      "id": 60008,
+      "kind": "action",
+      "workstream": "contracting",
+      "title": "Confirm arrival/dealer times, table/chair count, COI wording/charge, and venue access",
+      "data": "{\"owner\":\"Scott\",\"status\":\"In progress\",\"dueDate\":\"ASAP\",\"blocker\":\"Pending Scott review/send, vendor logistics response, and campus coordination.\",\"dependency\":\"Vendor logistics call and Tom Neal/facilities walk-through\",\"evidence\":\"August 28 planning session and signed package confirmation\",\"latestUpdate\":\"Vendor logistics Gmail draft prepared for Dominica Dao (draft r6709166790451852269); awaiting Scott review/send.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-25T14:34:24.000Z",
+      "updatedAt": "2026-08-28T22:34:06.000Z"
+    },
+    {
+      "id": 150001,
+      "kind": "action",
+      "workstream": "",
+      "title": "New open action",
+      "data": "{\"owner\":\"Unassigned\",\"status\":\"Not started\",\"dueDate\":\"\",\"blocker\":\"\",\"dependency\":\"\",\"evidence\":\"\",\"latestUpdate\":\"\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T19:00:34.000Z",
+      "updatedAt": "2026-08-28T19:00:34.000Z"
+    },
+    {
+      "id": 180001,
+      "kind": "action",
+      "workstream": "staffing",
+      "title": "Build event-day staffing plan from setup through teardown",
+      "data": "{\"owner\":\"Unassigned\",\"status\":\"In progress\",\"dueDate\":\"Early September\",\"blocker\":\"Vendor load-in/pickup windows and campus staffing requirements remain to be confirmed.\",\"dependency\":\"Vendor, facilities, IT/AV, food service, security and custodial schedules\",\"evidence\":\"August 28 planning session with Kate, Nicholas and Scott\",\"latestUpdate\":\"Plan for 15–20 event-assistance roles, including six people for setup, shift coverage during the event, and teardown/closing coverage.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T20:57:31.000Z",
+      "updatedAt": "2026-08-28T20:57:31.000Z"
+    },
+    {
+      "id": 210001,
+      "kind": "action",
+      "workstream": "communications",
+      "title": "Build QR code and landing paths for ticket, donation, volunteer, and sponsor actions",
+      "data": "{\"action_text\":\"Create one clear QR entry point with paths for ticket purchase, cannot-attend donation, volunteer interest, and sponsorship.\",\"owner\":\"Scott\",\"priority\":\"High\",\"due_date\":\"Before Save the Date distribution\",\"status\":\"In Progress\",\"blocker\":\"Final platform paths and event pricing must be confirmed.\",\"latest_update\":\"Meeting aligned on a triangulated QR approach using GradRoots where possible.\",\"next_step\":\"Configure routes, test each conversion path, and publish the QR destination.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:44.000Z",
+      "updatedAt": "2026-08-28T21:13:44.000Z"
+    },
+    {
+      "id": 210002,
+      "kind": "action",
+      "workstream": "communications",
+      "title": "Release Casino Night Save the Date",
+      "data": "{\"action_text\":\"Send the concise Save the Date with event date, venue, 50th-anniversary framing, and event-information link.\",\"owner\":\"Scott / Kate / Nicholas\",\"priority\":\"High\",\"due_date\":\"2026-08-31\",\"status\":\"In Progress\",\"blocker\":\"Final distribution still requires approved audience, sender, and working conversion links.\",\"latest_update\":\"Save the Date copy package drafted and indexed privately: https://docs.google.com/document/d/1JnMx-bb6U0aVTN3k082_rSjdUfnTzE6N1OWhJcobZnc/edit\",\"next_step\":\"Review institutional copy, confirm audience/sender, and replace the coming-soon CTA with tested ticket/sponsor/donation links.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:45.000Z",
+      "updatedAt": "2026-08-28T22:34:02.000Z"
+    },
+    {
+      "id": 210003,
+      "kind": "action",
+      "workstream": "communications",
+      "title": "Place Casino Night on critical leadership calendars",
+      "data": "{\"action_text\":\"Add the event to PC and key assistant/leadership calendars without creating a confusing college-wide Outlook invitation.\",\"owner\":\"Kate / Executive assistants\",\"priority\":\"High\",\"due_date\":\"2026-08-31\",\"status\":\"Not Started\",\"blocker\":\"Confirm exact calendar owners and distribution method.\",\"latest_update\":\"Committee identified critical calendar placement as separate from broad outreach.\",\"next_step\":\"Identify calendar owners and send targeted holds.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:45.000Z",
+      "updatedAt": "2026-08-28T21:13:45.000Z"
+    },
+    {
+      "id": 210004,
+      "kind": "action",
+      "workstream": "communications",
+      "title": "Route formal trustee invitations through Mary Grady",
+      "data": "{\"action_text\":\"Coordinate a formal, concise invitation and attendance-response path for trustees through Mary Grady.\",\"owner\":\"Mary Grady / Scott\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"In Progress\",\"blocker\":\"Recipient address and trustee protocol must be confirmed.\",\"latest_update\":\"Trustee-routing Gmail draft created (draft r-5437809446080244006); recipient intentionally blank because Mary Grady’s address is not verified.\",\"next_step\":\"Verify Mary Grady’s address, then review and send.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:46.000Z",
+      "updatedAt": "2026-08-28T22:34:06.000Z"
+    },
+    {
+      "id": 210005,
+      "kind": "action",
+      "workstream": "staffing",
+      "title": "Send appeal for event participation",
+      "data": "{\"action_text\":\"Send a clear appeal for event assistance with specific roles, shift windows, and manager-support language.\",\"owner\":\"Kate / Scott\",\"priority\":\"High\",\"due_date\":\"2026-09-01\",\"status\":\"In Progress\",\"blocker\":\"Release remains blocked by authorized language review, shift confirmation, and signup readiness.\",\"latest_update\":\"Participation appeal and role-based staffing matrix drafted: https://docs.google.com/document/d/1U7Jw-E7mLkYuk4iAOFQp_M9_xGeY5XNb1D1iWhg0AMM/edit\",\"next_step\":\"Obtain authorized labor/HR and manager review, confirm shift windows, then connect the signup form.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:46.000Z",
+      "updatedAt": "2026-08-28T22:34:03.000Z"
+    },
+    {
+      "id": 210006,
+      "kind": "action",
+      "workstream": "staffing",
+      "title": "Create commencement-style recruitment schedule for event assistance",
+      "data": "{\"action_text\":\"Use the commencement staffing model to define setup, event-host, check-in, rotating coverage, closing, and teardown shifts.\",\"owner\":\"Kate\",\"priority\":\"High\",\"due_date\":\"Before 2026-09-01 appeal\",\"status\":\"In Progress\",\"blocker\":\"Vendor/facilities timing and labor review remain pending.\",\"latest_update\":\"Commencement-style event-assistance schedule drafted with setup, host, program, closing, and teardown functions: https://docs.google.com/document/d/1U7Jw-E7mLkYuk4iAOFQp_M9_xGeY5XNb1D1iWhg0AMM/edit\",\"next_step\":\"Kate and authorized reviewers refine the provisional windows before release.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:46.000Z",
+      "updatedAt": "2026-08-28T22:34:03.000Z"
+    },
+    {
+      "id": 210007,
+      "kind": "action",
+      "workstream": "staffing",
+      "title": "Confirm staffing overtime dollars and constraints with Christine Nguyen",
+      "data": "{\"action_text\":\"Clarify whether overtime funding is available and what schedule-adjustment alternatives are authorized.\",\"owner\":\"Scott / Christine Nguyen\",\"priority\":\"High\",\"due_date\":\"Before staffing appeal\",\"status\":\"In Progress\",\"blocker\":\"Pending Scott review/send and authorized response.\",\"latest_update\":\"Unsent Gmail draft created for Christine Nguyen at cnguyen@coastline.edu (draft r2148326665899581085).\",\"next_step\":\"Scott reviews and sends the staffing budget/guidance request.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:47.000Z",
+      "updatedAt": "2026-08-28T22:34:05.000Z"
+    },
+    {
+      "id": 210008,
+      "kind": "action",
+      "workstream": "staffing",
+      "title": "Draft manager guidance for comp-time and schedule-adjustment conversation",
+      "data": "{\"action_text\":\"Draft plain-language manager guidance that does not promise or require comp time and is reviewed by authorized labor/HR staff.\",\"owner\":\"Kate\",\"priority\":\"High\",\"due_date\":\"Before 2026-09-01 appeal\",\"status\":\"In Progress\",\"blocker\":\"Authorized labor/HR review required before distribution.\",\"latest_update\":\"Manager guidance now explicitly avoids promising overtime, comp time, or schedule changes: https://docs.google.com/document/d/1U7Jw-E7mLkYuk4iAOFQp_M9_xGeY5XNb1D1iWhg0AMM/edit\",\"next_step\":\"Kate routes the language for authorized review.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:47.000Z",
+      "updatedAt": "2026-08-28T22:34:03.000Z"
+    },
+    {
+      "id": 210009,
+      "kind": "action",
+      "workstream": "staffing",
+      "title": "Ask Vince to encourage manager support for Casino Night participation",
+      "data": "{\"action_text\":\"Request Vince’s help encouraging managers to support event participation and schedule coordination.\",\"owner\":\"Nicholas\",\"priority\":\"High\",\"due_date\":\"Before 2026-09-01 appeal\",\"status\":\"Not Started\",\"blocker\":\"Staffing message should be ready first.\",\"latest_update\":\"Nicholas was named for the manager-engagement ask.\",\"next_step\":\"Prepare the concise ask and speak with Vince.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:48.000Z",
+      "updatedAt": "2026-08-28T21:13:48.000Z"
+    },
+    {
+      "id": 210010,
+      "kind": "action",
+      "workstream": "budget",
+      "title": "Finalize and circulate ticket pricing and event economics",
+      "data": "{\"action_text\":\"Publish clear pricing, sponsorship, donation, and event-economics information on the event-information page.\",\"owner\":\"Scott\",\"priority\":\"High\",\"due_date\":\"Before Save the Date follow-through\",\"status\":\"In Progress\",\"blocker\":\"Final catering/bar/operations quotes, underwriting confirmation, and authorized compliance/accounting review.\",\"latest_update\":\"Deep pricing research completed August 28. Eight core Southern California comps center on a $75 median. Recommendation: $50 limited early-access, $65 advance GA, $75 late/door, and $100 mission-patron; $50 alone is not self-supporting with two drinks, food, and the $5,760 gaming package.\",\"next_step\":\"Obtain all-in catering and bar quotes; confirm at least $5,760 of authorized underwriting; complete gaming, alcohol, raffle, FMV/tax, finance, and counsel review; then approve and publish tiers.\",\"research_file\":\"/Users/scottwayman/Documents/Coastline_Casino_Night_Committee_2026-08-28/deliverables/casino-night-pricing-research-2026-08-28.md\",\"scenario_file\":\"/Users/scottwayman/Documents/Coastline_Casino_Night_Committee_2026-08-28/deliverables/casino-night-pricing-scenarios.csv\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:48.000Z",
+      "updatedAt": "2026-08-28T22:51:26.000Z"
+    },
+    {
+      "id": 210011,
+      "kind": "action",
+      "workstream": "staffing",
+      "title": "Recruit and assign 15–20 event-assistance roles",
+      "data": "{\"action_text\":\"Recruit and assign 15–20 people across setup, hosts/check-in, event coverage, closing, and teardown; include six setup assignments.\",\"owner\":\"Committee lead TBD\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"In Progress\",\"blocker\":\"Role ownership, final shift windows, and approved recruitment language remain open.\",\"latest_update\":\"Provisional 15–20 person staffing matrix drafted, including six setup assignments: https://docs.google.com/document/d/1U7Jw-E7mLkYuk4iAOFQp_M9_xGeY5XNb1D1iWhg0AMM/edit\",\"next_step\":\"Assign a staffing lead and role leads Monday; recruit only after approval gates clear.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:48.000Z",
+      "updatedAt": "2026-08-28T22:34:03.000Z"
+    },
+    {
+      "id": 210012,
+      "kind": "action",
+      "workstream": "vendors",
+      "title": "Confirm gaming vendor load-in, setup, breakdown, and weekend pickup",
+      "data": "{\"action_text\":\"Resolve exact arrival, setup, breakdown, venue-access, and pickup requirements for the gaming vendor.\",\"owner\":\"Scott\",\"priority\":\"High\",\"due_date\":\"Before week’s end\",\"status\":\"In Progress\",\"blocker\":\"Pending Scott review/send and vendor/campus responses.\",\"latest_update\":\"Unsent Gmail draft created for Dominica Dao at info@all-inproductions.net (draft r6709166790451852269).\",\"next_step\":\"Scott reviews and sends the vendor logistics request.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:49.000Z",
+      "updatedAt": "2026-08-28T22:34:05.000Z"
+    },
+    {
+      "id": 210013,
+      "kind": "action",
+      "workstream": "facilities",
+      "title": "Schedule Newport Beach campus layout walk-through with Tom Neal",
+      "data": "{\"action_text\":\"Email Tom Neal to schedule a walk-through covering floor layout, existing furniture, lighting, setup/takedown, elevators/stairs, heaters, and campus options.\",\"owner\":\"Scott\",\"priority\":\"High\",\"due_date\":\"ASAP\",\"status\":\"In Progress\",\"blocker\":\"Pending Scott review/send and Tom’s availability.\",\"latest_update\":\"Unsent Gmail draft created for Tom Neal at tneal14@coastline.edu (draft r383398367918026192).\",\"next_step\":\"Scott reviews and sends the walkthrough request.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:49.000Z",
+      "updatedAt": "2026-08-28T22:34:04.000Z"
+    },
+    {
+      "id": 210014,
+      "kind": "action",
+      "workstream": "staffing",
+      "title": "Standardize the term ‘event assistance’ for staffing communications",
+      "data": "{\"action_text\":\"Use ‘event assistance’ or ‘event hosts’ in staffing materials and have authorized reviewers confirm the language does not create labor-compliance ambiguity.\",\"owner\":\"Kate / Authorized labor reviewer\",\"priority\":\"High\",\"due_date\":\"Before 2026-09-01 appeal\",\"status\":\"In Progress\",\"blocker\":\"Terminology is drafted but not institutionally approved.\",\"latest_update\":\"“Event assistance” and “event hosts” terminology incorporated into the staffing draft: https://docs.google.com/document/d/1U7Jw-E7mLkYuk4iAOFQp_M9_xGeY5XNb1D1iWhg0AMM/edit\",\"next_step\":\"Confirm terminology with the authorized reviewer and apply it to the signup form.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:52.000Z",
+      "updatedAt": "2026-08-28T22:34:04.000Z"
+    },
+    {
+      "id": 210015,
+      "kind": "action",
+      "workstream": "it-av",
+      "title": "Validate event layout and AV scope with IT",
+      "data": "{\"action_text\":\"Confirm table geometry, microphone/sound needs, monitor locations, streaming limits, Wi-Fi, and cable/power constraints.\",\"owner\":\"Steve Willett / IT-AV lead TBD\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Campus walk-through and IT availability.\",\"latest_update\":\"The two-floor working concept requires technical validation.\",\"next_step\":\"Schedule joint facilities/IT walk-through.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:53.000Z",
+      "updatedAt": "2026-08-28T21:13:53.000Z"
+    },
+    {
+      "id": 210016,
+      "kind": "action",
+      "workstream": "program",
+      "title": "Confirm David Michael Lee gallery opening opportunity",
+      "data": "{\"action_text\":\"Determine whether David Michael Lee can open the gallery during Casino Night and what staffing, security, and timing that requires.\",\"owner\":\"Scott / Gallery contact TBD\",\"priority\":\"Medium\",\"due_date\":\"TBD\",\"status\":\"In Progress\",\"blocker\":\"Pending Scott review/send and gallery availability.\",\"latest_update\":\"Unsent Gmail draft created for David Michael Lee at dmlee@coastline.edu (draft r2050704943560217901).\",\"next_step\":\"Scott reviews and sends the gallery feasibility request.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:54.000Z",
+      "updatedAt": "2026-08-28T22:34:05.000Z"
+    },
+    {
+      "id": 210017,
+      "kind": "action",
+      "workstream": "it-av",
+      "title": "Design monitor experience for donations and student life",
+      "data": "{\"action_text\":\"Create an on-screen experience that can show donation activity, student life, and photo/video content without interfering with guest flow.\",\"owner\":\"Scott / Steve Willett\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"In Progress\",\"blocker\":\"Recipient address and IT/AV availability must be confirmed.\",\"latest_update\":\"IT/AV walkthrough Gmail draft created (draft r4740942025249684576); recipient intentionally blank because Steve Willett’s address is not verified.\",\"next_step\":\"Verify Steve Willett’s address, then review and send.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:55.000Z",
+      "updatedAt": "2026-08-28T22:34:06.000Z"
+    },
+    {
+      "id": 210018,
+      "kind": "action",
+      "workstream": "media",
+      "title": "Create Casino Night photo and video plan",
+      "data": "{\"action_text\":\"Define event capture needs, shot list, consent considerations, coverage times, and qualified resource.\",\"owner\":\"Nicholas\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Resource and budget selection.\",\"latest_update\":\"Nicholas was named to lead video and photos.\",\"next_step\":\"Draft scope and identify capture options.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:55.000Z",
+      "updatedAt": "2026-08-28T21:13:55.000Z"
+    },
+    {
+      "id": 210019,
+      "kind": "action",
+      "workstream": "honorees",
+      "title": "Build past-president recognition and legacy content",
+      "data": "{\"action_text\":\"Develop concise legacy/accomplishment language for past presidents and confirm a wearable ribbon or equivalent recognition marker.\",\"owner\":\"Scott / Nicholas\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"In Progress\",\"blocker\":\"Source material, attendance, and verification of accomplishments.\",\"latest_update\":\"Committee aligned on visible, intentional recognition.\",\"next_step\":\"Complete outreach, collect verified accomplishments, and draft recognition copy.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:56.000Z",
+      "updatedAt": "2026-08-28T21:13:56.000Z"
+    },
+    {
+      "id": 210020,
+      "kind": "action",
+      "workstream": "program",
+      "title": "Write the event program and protect the 7:45–8:15 recognition window",
+      "data": "{\"action_text\":\"Draft a concise program with formal announcements, luminaries, honorees, past presidents, and student-impact storytelling from 7:45 to 8:15 PM.\",\"owner\":\"Scott / Program lead TBD\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"In Progress\",\"blocker\":\"Final program depends on verified honorees, speakers, and campus/AV decisions.\",\"latest_update\":\"Draft program and run of show completed, protecting the 7:45–8:15 PM recognition window: https://docs.google.com/document/d/1Jv_5PfMDq3ZcrRz291ruro5j--ucXcPHx7GkvTzELJ0/edit\",\"next_step\":\"Confirm honorees, emcee, speakers, protocol, pronunciations, and production owners.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:56.000Z",
+      "updatedAt": "2026-08-28T22:34:04.000Z"
+    },
+    {
+      "id": 210021,
+      "kind": "action",
+      "workstream": "creative",
+      "title": "Create 50-year iconography for each past president",
+      "data": "{\"action_text\":\"Create reusable visual iconography or short-video treatments pairing each past president with verified accomplishments.\",\"owner\":\"Nicholas\",\"priority\":\"Medium\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Verified source material and final creative format.\",\"latest_update\":\"Committee aligned on accomplishment-led visual recognition.\",\"next_step\":\"Choose format and build the first prototype.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:57.000Z",
+      "updatedAt": "2026-08-28T21:13:57.000Z"
+    },
+    {
+      "id": 210022,
+      "kind": "action",
+      "workstream": "communications",
+      "title": "Draft concise invitations for presidents and executives",
+      "data": "{\"action_text\":\"Create short, audience-specific invitation language for college presidents and executives.\",\"owner\":\"Kate\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Final event-information link and RSVP path.\",\"latest_update\":\"Committee emphasized concision for leadership audiences.\",\"next_step\":\"Draft and route for approval.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:58.000Z",
+      "updatedAt": "2026-08-28T21:13:58.000Z"
+    },
+    {
+      "id": 210023,
+      "kind": "action",
+      "workstream": "honorees",
+      "title": "Invite past Coastline board members",
+      "data": "{\"action_text\":\"Build the past-board-member list, verify contact information, and send the appropriate invitation.\",\"owner\":\"Scott\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Complete historical roster and contact information.\",\"latest_update\":\"Scott accepted responsibility for past board members.\",\"next_step\":\"Build and verify the outreach list.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:58.000Z",
+      "updatedAt": "2026-08-28T21:13:58.000Z"
+    },
+    {
+      "id": 210024,
+      "kind": "action",
+      "workstream": "outreach",
+      "title": "Request Academic Senate agenda time from Danny Pittaway",
+      "data": "{\"action_text\":\"Ask for brief agenda time to announce Casino Night and request logistics support, participation, and donations.\",\"owner\":\"Scott\",\"priority\":\"High\",\"due_date\":\"ASAP\",\"status\":\"In Progress\",\"blocker\":\"Pending Scott review/send and Senate agenda availability.\",\"latest_update\":\"Unsent Gmail draft created for Danny Pittaway at dpittaway@coastline.edu (draft r-6221995215108262943).\",\"next_step\":\"Scott reviews and sends the Academic Senate agenda request.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:59.000Z",
+      "updatedAt": "2026-08-28T22:34:04.000Z"
+    },
+    {
+      "id": 210025,
+      "kind": "action",
+      "workstream": "outreach",
+      "title": "Coordinate Classified Senate invitation through Anna Isbell",
+      "data": "{\"action_text\":\"Extend the formal event invitation and participation request through Anna Isbell.\",\"owner\":\"Anna Isbell / Scott\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"In Progress\",\"blocker\":\"Pending Scott review/send and Senate timing.\",\"latest_update\":\"Unsent Gmail draft created for Anna Isbell at aisbell2@coastline.edu (draft r2491067784906912336).\",\"next_step\":\"Scott reviews and sends the Classified Senate invitation request.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:59.000Z",
+      "updatedAt": "2026-08-28T22:34:05.000Z"
+    },
+    {
+      "id": 210026,
+      "kind": "action",
+      "workstream": "auction",
+      "title": "Source and prioritize silent-auction items",
+      "data": "{\"action_text\":\"Create a silent-auction prospect list, assign outreach, and secure items early enough for advance promotion.\",\"owner\":\"Auction lead TBD\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Committee lead and procurement list.\",\"latest_update\":\"Committee discussed advance promotion as a reason to source items early.\",\"next_step\":\"Assign auction lead Monday and build prospect pipeline.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:13:59.000Z",
+      "updatedAt": "2026-08-28T21:13:59.000Z"
+    },
+    {
+      "id": 210027,
+      "kind": "action",
+      "workstream": "communications",
+      "title": "Codify ‘cocktail attire encouraged’ in all event messaging",
+      "data": "{\"action_text\":\"Use the exact dress guidance ‘cocktail attire encouraged’ across Save the Date, invitations, landing pages, and event information.\",\"owner\":\"Kate / Nicholas\",\"priority\":\"Medium\",\"due_date\":\"Before outreach release\",\"status\":\"Not Started\",\"blocker\":\"Final copy and asset versions.\",\"latest_update\":\"Committee agreed on encouraged—not required—cocktail attire.\",\"next_step\":\"Add the wording to the messaging checklist.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:00.000Z",
+      "updatedAt": "2026-08-28T21:14:00.000Z"
+    },
+    {
+      "id": 210028,
+      "kind": "action",
+      "workstream": "creative",
+      "title": "Send Tim event details for ‘Shark’ and discuss event ideas",
+      "data": "{\"action_text\":\"Send Tim the current event details for ‘Shark’ and call to gather ideas for filling and elevating the Newport Beach space.\",\"owner\":\"Scott\",\"priority\":\"Medium\",\"due_date\":\"ASAP\",\"status\":\"Not Started\",\"blocker\":\"Confirm Tim’s availability and the intended ‘Shark’ reference.\",\"latest_update\":\"Committee identified Tim’s event-space experience as useful.\",\"next_step\":\"Send details and schedule the call.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:00.000Z",
+      "updatedAt": "2026-08-28T21:14:00.000Z"
+    },
+    {
+      "id": 210029,
+      "kind": "action",
+      "workstream": "auction",
+      "title": "Set auction-item acquisition and promotion timeline",
+      "data": "{\"action_text\":\"Work backward from the event to set item commitment, photography/copy, preview, launch, and close dates.\",\"owner\":\"Auction lead TBD\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Auction platform and lead not yet selected.\",\"latest_update\":\"Committee wants selected items promoted in advance.\",\"next_step\":\"Draft the milestone calendar once the platform path is chosen.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:00.000Z",
+      "updatedAt": "2026-08-28T21:14:00.000Z"
+    },
+    {
+      "id": 210030,
+      "kind": "action",
+      "workstream": "auction",
+      "title": "Select remote-bidding platform and operating model",
+      "data": "{\"action_text\":\"Compare GradRoots, GiveSmart, and OneCause for remote bidding, donations, payments, reporting, and event-day support.\",\"owner\":\"Scott / Aeron Zentner / GradRoots team\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"In Progress\",\"blocker\":\"Platform features, pricing, and support still require comparison.\",\"latest_update\":\"Unsent Gmail draft created for Aeron Zentner at azentner@coastline.edu (draft r-3784785675610805338).\",\"next_step\":\"Scott reviews/sends; prepare bounded GradRoots vs GiveSmart vs OneCause comparison.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:01.000Z",
+      "updatedAt": "2026-08-28T22:34:05.000Z"
+    },
+    {
+      "id": 210031,
+      "kind": "action",
+      "workstream": "fundraising",
+      "title": "Enable donation-only conversion in the GradRoots event flow",
+      "data": "{\"action_text\":\"Add a clear ‘cannot attend, but want to donate’ option alongside ticket purchase, sponsorship, and volunteer interest.\",\"owner\":\"Scott\",\"priority\":\"High\",\"due_date\":\"Before invitation release\",\"status\":\"In Progress\",\"blocker\":\"Final event instance and payment configuration.\",\"latest_update\":\"Scott confirmed GradRoots can support a donation option.\",\"next_step\":\"Configure, test, and verify settlement/reporting behavior.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:01.000Z",
+      "updatedAt": "2026-08-28T21:14:01.000Z"
+    },
+    {
+      "id": 210032,
+      "kind": "action",
+      "workstream": "decor",
+      "title": "Build décor plan and recruit décor volunteers",
+      "data": "{\"action_text\":\"Develop a décor plan that elevates the two-floor experience and identify volunteers or vendors for setup and strike.\",\"owner\":\"Décor lead TBD\",\"priority\":\"Medium\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Final layout, budget, and committee lead.\",\"latest_update\":\"Committee discussed fabric treatments, photo moments, and anniversary storytelling.\",\"next_step\":\"Assign lead Monday and produce a scoped concept.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:01.000Z",
+      "updatedAt": "2026-08-28T21:14:01.000Z"
+    },
+    {
+      "id": 210033,
+      "kind": "action",
+      "workstream": "creative",
+      "title": "Create and order reusable 50-year step-and-repeat",
+      "data": "{\"action_text\":\"Design a 50th-anniversary step-and-repeat that is not Casino Night-specific so it can support the full anniversary year.\",\"owner\":\"Nicholas\",\"priority\":\"Medium\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Final logo treatment, dimensions, and budget.\",\"latest_update\":\"Committee preferred a reusable 50-year design.\",\"next_step\":\"Confirm size/location, design artwork, price, and order.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:02.000Z",
+      "updatedAt": "2026-08-28T21:14:02.000Z"
+    },
+    {
+      "id": 210034,
+      "kind": "action",
+      "workstream": "entertainment",
+      "title": "Research music options with cultural representation",
+      "data": "{\"action_text\":\"Explore restrained live or ambient music that supports conversation and represents Coastline’s communities; consult Ashley and Patty.\",\"owner\":\"Ashley / Patty / Music lead TBD\",\"priority\":\"Medium\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Budget, acoustics, availability, and cultural fit.\",\"latest_update\":\"Committee discussed jazz/string/folk scale and Vietnamese/Hispanic representation.\",\"next_step\":\"Develop three feasible options with cost and AV needs.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:02.000Z",
+      "updatedAt": "2026-08-28T21:14:02.000Z"
+    },
+    {
+      "id": 210035,
+      "kind": "action",
+      "workstream": "fundraising",
+      "title": "Define gaming and opportunity-drawing prize structure",
+      "data": "{\"action_text\":\"Set the top gaming prize, one major opportunity-drawing prize, eligibility, timing, and announcement plan.\",\"owner\":\"Fundraising lead TBD\",\"priority\":\"Medium\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Budget, donated-prize availability, and compliance review.\",\"latest_update\":\"Committee identified a biggest-gaming-winner prize and a major raffle-style prize as options.\",\"next_step\":\"Draft compliant options and secure approval.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:02.000Z",
+      "updatedAt": "2026-08-28T21:14:02.000Z"
+    },
+    {
+      "id": 210036,
+      "kind": "action",
+      "workstream": "food-beverage",
+      "title": "Finalize catering menu and service model",
+      "data": "{\"action_text\":\"Confirm Love at First Bite menu options emphasizing substantial, non-messy passed finger foods plus desserts and adequate service staffing.\",\"owner\":\"Food and beverage lead TBD\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"In Progress\",\"blocker\":\"Menu, pricing, staffing, kitchen access, and contract.\",\"latest_update\":\"Committee aligned on substantial passed food rather than a plated dinner.\",\"next_step\":\"Obtain menu/pricing and make final selections.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:03.000Z",
+      "updatedAt": "2026-08-28T21:14:03.000Z"
+    },
+    {
+      "id": 210037,
+      "kind": "action",
+      "workstream": "food-beverage",
+      "title": "Finalize beverage, alcohol, mocktail, and drink-ticket policy",
+      "data": "{\"action_text\":\"Confirm bar placement, beer/wine/mocktail mix, drink-ticket approach, responsible service, staffing, and campus approvals.\",\"owner\":\"Food and beverage lead TBD\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Campus policy, licensed service, insurance, budget, and approvals.\",\"latest_update\":\"Committee discussed drink tickets and a strong nonalcoholic option.\",\"next_step\":\"Obtain written campus/vendor requirements and draft the service plan.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:03.000Z",
+      "updatedAt": "2026-08-28T21:14:03.000Z"
+    },
+    {
+      "id": 210038,
+      "kind": "action",
+      "workstream": "facilities",
+      "title": "Close facilities, safety, custodial, parking, and fee-waiver requirements",
+      "data": "{\"action_text\":\"Confirm facility-use agreement, fee-waiver process, campus safety, custodial coverage, signage, parking, and VIP/reserved-space needs.\",\"owner\":\"Scott / Patty / Facilities lead TBD\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"In Progress\",\"blocker\":\"Campus responses and formal approvals.\",\"latest_update\":\"Patty was contacted August 28 regarding the agreement and waiver; response pending.\",\"next_step\":\"Consolidate requirements and obtain written confirmation.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:03.000Z",
+      "updatedAt": "2026-08-28T21:14:03.000Z"
+    },
+    {
+      "id": 210039,
+      "kind": "action",
+      "workstream": "facilities",
+      "title": "Resolve furniture rental, delivery, and pickup plan",
+      "data": "{\"action_text\":\"Inventory existing campus furniture, identify rental gaps, and confirm Baker delivery/setup/pickup timing including weekend constraints.\",\"owner\":\"Facilities lead TBD\",\"priority\":\"High\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Walk-through, rental quote, and pickup rules.\",\"latest_update\":\"Committee identified weekend pickup as a key vendor question.\",\"next_step\":\"Complete inventory and obtain a full logistics quote.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:04.000Z",
+      "updatedAt": "2026-08-28T21:14:04.000Z"
+    },
+    {
+      "id": 210040,
+      "kind": "action",
+      "workstream": "honorees",
+      "title": "Plan VIP parking and honoree arrival support",
+      "data": "{\"action_text\":\"Reserve and sign priority parking and create an arrival/escort plan for past presidents, trustees, executives, and honorees.\",\"owner\":\"Honoree lead TBD\",\"priority\":\"Medium\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Confirmed attendance and campus parking authority.\",\"latest_update\":\"Committee emphasized making honorees feel intentionally recognized.\",\"next_step\":\"Identify spaces, signage, hosts, and RSVP trigger.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:04.000Z",
+      "updatedAt": "2026-08-28T21:14:04.000Z"
+    },
+    {
+      "id": 210041,
+      "kind": "action",
+      "workstream": "event-day-ops",
+      "title": "Create visible identifier for event hosts",
+      "data": "{\"action_text\":\"Select a tasteful pin, button, ribbon, or other identifier so guests can recognize staff/event hosts for questions.\",\"owner\":\"Creative / Staffing leads TBD\",\"priority\":\"Medium\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Staffing roles and visual direction.\",\"latest_update\":\"Committee discussed a visible ‘I can help’ marker for event assistants.\",\"next_step\":\"Prototype options and align with honoree ribbons.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:05.000Z",
+      "updatedAt": "2026-08-28T21:14:05.000Z"
+    },
+    {
+      "id": 210042,
+      "kind": "action",
+      "workstream": "facilities",
+      "title": "Prepare weather and outdoor-comfort contingency",
+      "data": "{\"action_text\":\"Monitor forecast and determine availability of heat lamps, blankets, or other outdoor-comfort measures for the open-air campus areas.\",\"owner\":\"Facilities lead TBD\",\"priority\":\"Medium\",\"due_date\":\"Week of event\",\"status\":\"Not Started\",\"blocker\":\"Forecast and equipment inventory.\",\"latest_update\":\"Committee identified cool evening conditions as a possible mid-October risk.\",\"next_step\":\"Inventory options and set a weather decision date.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:05.000Z",
+      "updatedAt": "2026-08-28T21:14:05.000Z"
+    },
+    {
+      "id": 210043,
+      "kind": "action",
+      "workstream": "communications",
+      "title": "Assess multilingual and cultural-access needs",
+      "data": "{\"action_text\":\"Determine whether event materials or guest support need Vietnamese/Spanish language assistance and identify qualified reviewers.\",\"owner\":\"Communications lead TBD\",\"priority\":\"Medium\",\"due_date\":\"TBD\",\"status\":\"Not Started\",\"blocker\":\"Scope, audience needs, and reviewer availability.\",\"latest_update\":\"Committee discussed Coastline’s Vietnamese and Hispanic communities and translation resources.\",\"next_step\":\"Identify priority materials and authorized language reviewers.\"}",
+      "sortOrder": 999,
+      "createdAt": "2026-08-28T21:14:06.000Z",
+      "updatedAt": "2026-08-28T21:14:06.000Z"
+    },
+    {
+      "id": 60002,
+      "kind": "contract",
+      "workstream": "contracting",
+      "title": "Ace High / All-In procurement record",
+      "data": "{\"vendorBrand\":\"Ace High (public branding; singular)\",\"legalEntity\":\"Unresolved — Dominica was asked to confirm the exact legal entity; quote identifies “Ace High / All-In Productions / Casino De Paris.”\",\"vendorRep\":\"Dominica Dao — Sales Manager / vendor representative; correspondence from All-In Productions Casino Rentals, LLC.\",\"quoteVersion\":\"Final signed package confirmed August 28, 2026\",\"finalAmount\":\"$5,760 signed package\",\"packageScope\":\"13 gaming tables; 15 dealers/facilitators; four-hour operating window from 6:00–10:00 PM\",\"draftContract\":\"Contract signed, as reported by Scott during the August 28 planning session\",\"poRouting\":\"PO route confirmed — process as a purchase order with quote\",\"coiAdditionalInsured\":\"Pending confirmation of COI wording and any charge\",\"venueAccess\":\"Coastline College Newport Beach Campus, 1515 Monrovia Avenue; venue access/service elevator confirmation pending\",\"guestArrivalDealerTimes\":\"Event operating window confirmed as 6:00–10:00 PM; vendor arrival and load-in timing still pending\",\"tableChairCounts\":\"13 gaming tables confirmed; detailed furniture/chair needs pending campus/vendor coordination\",\"retainerBalanceTerms\":\"Contract signed; payment/retainer/balance status not recorded in the meeting source\",\"authorizedSignerApproval\":\"Contract signature reported by Scott; signer authority and review evidence were not captured in the Bee meeting source\",\"evidence\":\"August 24 email record and correspondence\",\"owner\":\"Scott\",\"dueDate\":\"TBD\",\"blocker\":\"Payment status, COI wording/charge, vendor arrival/load-in, weekend access, and pickup remain pending\",\"status\":\"Signed / logistics in progress\",\"latestUpdate\":\"August 28: Scott reported the contract signed for $5,760; 13 tables and 15 dealers/facilitators confirmed.\"}",
+      "sortOrder": 0,
+      "createdAt": "2026-08-25T14:34:24.000Z",
+      "updatedAt": "2026-08-28T21:16:21.000Z"
+    },
+    {
+      "id": 1,
+      "kind": "workstream",
+      "workstream": "staffing",
+      "title": "Staffing & Event-Day Roles",
+      "data": "{\"status\":\"TBD\",\"owner\":\"Unassigned\",\"milestone\":\"TBD\",\"risk\":\"TBD\",\"completion\":0,\"questions\":\"TBD\",\"decisions\":\"None recorded\",\"actions\":\"TBD\",\"dependencies\":\"TBD\",\"output\":\"Role map with hour-by-hour functions, Friday versus Saturday coverage, recruitment owner, and deadline.\",\"notes\":\"Employee-help wording is TBD and must receive authorized review before use.\",\"evidence\":\"Foundation planning brief\"}",
+      "sortOrder": 0,
+      "createdAt": "2026-08-25T14:10:01.000Z",
+      "updatedAt": "2026-08-25T14:10:01.000Z"
+    },
+    {
+      "id": 2,
+      "kind": "workstream",
+      "workstream": "communications",
+      "title": "Save-the-Date & Communications",
+      "data": "{\"status\":\"TBD\",\"owner\":\"Unassigned\",\"milestone\":\"TBD\",\"risk\":\"TBD\",\"completion\":0,\"questions\":\"TBD\",\"decisions\":\"None recorded\",\"actions\":\"TBD\",\"dependencies\":\"TBD\",\"output\":\"Message sequence with owners and dates for employee save-the-date, President’s newsletter, PIAC/Senate/cabinet reinforcement, 21+ language, RSVP, and release sequence.\",\"notes\":\"Institutional communications require authorized review.\",\"evidence\":\"Foundation planning brief\"}",
+      "sortOrder": 1,
+      "createdAt": "2026-08-25T14:10:01.000Z",
+      "updatedAt": "2026-08-25T14:10:01.000Z"
+    },
+    {
+      "id": 3,
+      "kind": "workstream",
+      "workstream": "logistics",
+      "title": "Setup & Logistics",
+      "data": "{\"status\":\"TBD\",\"owner\":\"Unassigned\",\"milestone\":\"TBD\",\"risk\":\"TBD\",\"completion\":0,\"questions\":\"TBD\",\"decisions\":\"None recorded\",\"actions\":\"TBD\",\"dependencies\":\"TBD\",\"output\":\"Run-of-show skeleton and needs list covering load-in, décor, greeting, raffle, silent auction, AV, photography, security, vendor handoffs, dependencies, and escalation.\",\"notes\":\"Contract, procurement, insurance, risk, alcohol, facilities, and signature requirements still apply.\",\"evidence\":\"Foundation planning brief\"}",
+      "sortOrder": 2,
+      "createdAt": "2026-08-25T14:10:01.000Z",
+      "updatedAt": "2026-08-25T14:10:01.000Z"
+    },
+    {
+      "id": 4,
+      "kind": "workstream",
+      "workstream": "honorees",
+      "title": "Honorees & Invitations",
+      "data": "{\"status\":\"TBD\",\"owner\":\"Unassigned\",\"milestone\":\"TBD\",\"risk\":\"TBD\",\"completion\":0,\"questions\":\"TBD\",\"decisions\":\"None recorded\",\"actions\":\"TBD\",\"dependencies\":\"TBD\",\"output\":\"Prioritized outreach list for past presidents and priority guests, routed through the President’s Office/Mary Grady with RSVP, accommodations, recognition, and follow-up fields.\",\"notes\":\"Do not record confidential personal information in this workspace.\",\"evidence\":\"Foundation planning brief\"}",
+      "sortOrder": 3,
+      "createdAt": "2026-08-25T14:10:01.000Z",
+      "updatedAt": "2026-08-25T14:10:01.000Z"
+    },
+    {
+      "id": 5,
+      "kind": "workstream",
+      "workstream": "decisions",
+      "title": "Decisions & Follow-Through",
+      "data": "{\"status\":\"TBD\",\"owner\":\"Unassigned\",\"milestone\":\"TBD\",\"risk\":\"TBD\",\"completion\":0,\"questions\":\"TBD\",\"decisions\":\"None recorded\",\"actions\":\"TBD\",\"dependencies\":\"TBD\",\"output\":\"Committee-ready action register with decision, owner, due date, blocker, status, dependency, evidence, and latest update.\",\"notes\":\"Unknown owners and dates remain Unassigned or TBD until verified.\",\"evidence\":\"Foundation planning brief\"}",
+      "sortOrder": 4,
+      "createdAt": "2026-08-25T14:10:01.000Z",
+      "updatedAt": "2026-08-25T14:10:01.000Z"
+    },
+    {
+      "id": 60001,
+      "kind": "workstream",
+      "workstream": "contracting",
+      "title": "Contracting & Procurement",
+      "data": "{\"status\":\"In progress\",\"owner\":\"Unassigned\",\"milestone\":\"Draft contract and final package/price confirmation pending\",\"risk\":\"Contracting, price, and vendor-entity requirements remain unresolved\",\"completion\":0,\"questions\":\"Confirm legal entity, final package/price, COI wording/charge, timing, counts, and venue access.\",\"decisions\":\"PO route confirmed; no executed contract, payment, retainer, or binding reservation recorded.\",\"actions\":\"Open Action Items track the required contracting follow-through.\",\"dependencies\":\"Vendor draft contract, final quote/package, PO workflow, authorized review, COI and venue coordination.\",\"output\":\"Contracting record with vendor, quote, package, PO, COI, venue, timing, commercial terms, authorization, evidence, owner, due date, blocker, status, and last update.\",\"notes\":\"August 24 correspondence: public branding is “Ace High” (singular); correspondence is from “All-In Productions Casino Rentals, LLC.” The exact legal entity remains unresolved because the quote identifies “Ace High / All-In Productions / Casino De Paris.”\",\"evidence\":\"August 24 correspondence; Scott Wayman August 24 email; Patty Gilyeart August 24 guidance\"}",
+      "sortOrder": 5,
+      "createdAt": "2026-08-25T14:34:24.000Z",
+      "updatedAt": "2026-08-25T14:34:24.000Z"
+    }
+  ],
+  "activity": [
+    {
+      "id": 450001,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210010,
+      "createdAt": "2026-08-28T22:51:26.000Z"
+    },
+    {
+      "id": 420017,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 60008,
+      "createdAt": "2026-08-28T22:34:06.000Z"
+    },
+    {
+      "id": 420016,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210017,
+      "createdAt": "2026-08-28T22:34:06.000Z"
+    },
+    {
+      "id": 420015,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210004,
+      "createdAt": "2026-08-28T22:34:06.000Z"
+    },
+    {
+      "id": 420014,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210012,
+      "createdAt": "2026-08-28T22:34:05.000Z"
+    },
+    {
+      "id": 420013,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210030,
+      "createdAt": "2026-08-28T22:34:05.000Z"
+    },
+    {
+      "id": 420012,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210016,
+      "createdAt": "2026-08-28T22:34:05.000Z"
+    },
+    {
+      "id": 420011,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210025,
+      "createdAt": "2026-08-28T22:34:05.000Z"
+    },
+    {
+      "id": 420010,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210007,
+      "createdAt": "2026-08-28T22:34:05.000Z"
+    },
+    {
+      "id": 420009,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210024,
+      "createdAt": "2026-08-28T22:34:04.000Z"
+    },
+    {
+      "id": 420008,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210013,
+      "createdAt": "2026-08-28T22:34:04.000Z"
+    },
+    {
+      "id": 420007,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210020,
+      "createdAt": "2026-08-28T22:34:04.000Z"
+    },
+    {
+      "id": 420006,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210014,
+      "createdAt": "2026-08-28T22:34:04.000Z"
+    },
+    {
+      "id": 420005,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210011,
+      "createdAt": "2026-08-28T22:34:03.000Z"
+    },
+    {
+      "id": 420004,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210008,
+      "createdAt": "2026-08-28T22:34:03.000Z"
+    },
+    {
+      "id": 420003,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210006,
+      "createdAt": "2026-08-28T22:34:03.000Z"
+    },
+    {
+      "id": 420002,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210005,
+      "createdAt": "2026-08-28T22:34:03.000Z"
+    },
+    {
+      "id": 420001,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 210002,
+      "createdAt": "2026-08-28T22:34:02.000Z"
+    },
+    {
+      "id": 390001,
+      "action": "updated",
+      "description": "Updated a accomplishment record in the shared database.",
+      "recordKind": "accomplishment",
+      "recordId": 210048,
+      "createdAt": "2026-08-28T21:50:11.000Z"
+    },
+    {
+      "id": 360001,
+      "action": "updated",
+      "description": "Updated a accomplishment record in the shared database.",
+      "recordKind": "accomplishment",
+      "recordId": 210048,
+      "createdAt": "2026-08-28T21:44:22.000Z"
+    },
+    {
+      "id": 330004,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 60008,
+      "createdAt": "2026-08-28T21:16:22.000Z"
+    },
+    {
+      "id": 330003,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 60005,
+      "createdAt": "2026-08-28T21:16:22.000Z"
+    },
+    {
+      "id": 330002,
+      "action": "updated",
+      "description": "Updated a action record in the shared database.",
+      "recordKind": "action",
+      "recordId": 60003,
+      "createdAt": "2026-08-28T21:16:22.000Z"
+    },
+    {
+      "id": 330001,
+      "action": "updated",
+      "description": "Updated a contract record in the shared database.",
+      "recordKind": "contract",
+      "recordId": 60002,
+      "createdAt": "2026-08-28T21:16:21.000Z"
+    },
+    {
+      "id": 300049,
+      "action": "created",
+      "description": "Added a accomplishment planning record to the shared database.",
+      "recordKind": "accomplishment",
+      "recordId": 210049,
+      "createdAt": "2026-08-28T21:14:08.000Z"
+    },
+    {
+      "id": 300048,
+      "action": "created",
+      "description": "Added a accomplishment planning record to the shared database.",
+      "recordKind": "accomplishment",
+      "recordId": 210048,
+      "createdAt": "2026-08-28T21:14:07.000Z"
+    },
+    {
+      "id": 300047,
+      "action": "created",
+      "description": "Added a accomplishment planning record to the shared database.",
+      "recordKind": "accomplishment",
+      "recordId": 210047,
+      "createdAt": "2026-08-28T21:14:07.000Z"
+    },
+    {
+      "id": 300046,
+      "action": "created",
+      "description": "Added a accomplishment planning record to the shared database.",
+      "recordKind": "accomplishment",
+      "recordId": 210046,
+      "createdAt": "2026-08-28T21:14:06.000Z"
+    },
+    {
+      "id": 300045,
+      "action": "created",
+      "description": "Added a accomplishment planning record to the shared database.",
+      "recordKind": "accomplishment",
+      "recordId": 210045,
+      "createdAt": "2026-08-28T21:14:06.000Z"
+    },
+    {
+      "id": 300044,
+      "action": "created",
+      "description": "Added a accomplishment planning record to the shared database.",
+      "recordKind": "accomplishment",
+      "recordId": 210044,
+      "createdAt": "2026-08-28T21:14:06.000Z"
+    },
+    {
+      "id": 300043,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210043,
+      "createdAt": "2026-08-28T21:14:06.000Z"
+    },
+    {
+      "id": 300042,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210042,
+      "createdAt": "2026-08-28T21:14:05.000Z"
+    },
+    {
+      "id": 300041,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210041,
+      "createdAt": "2026-08-28T21:14:05.000Z"
+    },
+    {
+      "id": 300040,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210040,
+      "createdAt": "2026-08-28T21:14:04.000Z"
+    },
+    {
+      "id": 300039,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210039,
+      "createdAt": "2026-08-28T21:14:04.000Z"
+    },
+    {
+      "id": 300038,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210038,
+      "createdAt": "2026-08-28T21:14:03.000Z"
+    },
+    {
+      "id": 300037,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210037,
+      "createdAt": "2026-08-28T21:14:03.000Z"
+    },
+    {
+      "id": 300036,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210036,
+      "createdAt": "2026-08-28T21:14:03.000Z"
+    },
+    {
+      "id": 300035,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210035,
+      "createdAt": "2026-08-28T21:14:02.000Z"
+    },
+    {
+      "id": 300034,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210034,
+      "createdAt": "2026-08-28T21:14:02.000Z"
+    },
+    {
+      "id": 300033,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210033,
+      "createdAt": "2026-08-28T21:14:02.000Z"
+    },
+    {
+      "id": 300032,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210032,
+      "createdAt": "2026-08-28T21:14:01.000Z"
+    },
+    {
+      "id": 300031,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210031,
+      "createdAt": "2026-08-28T21:14:01.000Z"
+    },
+    {
+      "id": 300030,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210030,
+      "createdAt": "2026-08-28T21:14:01.000Z"
+    },
+    {
+      "id": 300029,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210029,
+      "createdAt": "2026-08-28T21:14:00.000Z"
+    },
+    {
+      "id": 300028,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210028,
+      "createdAt": "2026-08-28T21:14:00.000Z"
+    },
+    {
+      "id": 300027,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210027,
+      "createdAt": "2026-08-28T21:14:00.000Z"
+    },
+    {
+      "id": 300026,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210026,
+      "createdAt": "2026-08-28T21:13:59.000Z"
+    },
+    {
+      "id": 300025,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210025,
+      "createdAt": "2026-08-28T21:13:59.000Z"
+    },
+    {
+      "id": 300024,
+      "action": "created",
+      "description": "Added a action planning record to the shared database.",
+      "recordKind": "action",
+      "recordId": 210024,
+      "createdAt": "2026-08-28T21:13:59.000Z"
+    }
+  ]
+}

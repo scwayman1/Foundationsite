@@ -7,10 +7,11 @@ import crypto from "crypto";
 import { fileURLToPath } from "url";
 import initSqlJs, { type Database } from "sql.js";
 import { AvailabilityStore } from "./availability-store";
+import { PlanningStore } from "./planning-store";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const casinoNightPlanningStudioUrl = "https://casinonight-g5w3tsno.manus.space/";
+
 
 type NamingPolicyUser = { id: string; name: string; role: string };
 type NamingPolicySection = {
@@ -54,6 +55,15 @@ const availabilityStore = new AvailabilityStore({
     availabilityLegacyJsonPath,
     path.resolve(process.cwd(), "data", "casino-night-availability.json"),
   ])),
+});
+const planningDbPath = process.env.CASINO_PLANNING_DB || (
+  process.env.NODE_ENV === "production" && fs.existsSync("/var/data")
+    ? "/var/data/casino-night-planning.sqlite"
+    : path.resolve(process.cwd(), "data", "casino-night-planning.sqlite")
+);
+const planningStore = new PlanningStore({
+  dbPath: planningDbPath,
+  seedPath: path.resolve(process.cwd(), "data", "casino-night-planning-manus-snapshot.json"),
 });
 
 function availabilityVerificationAuthorized(req: Request) {
@@ -246,18 +256,64 @@ function namingMarkdown(db: NamingPolicyDb) {
 
 async function startServer() {
   await availabilityStore.initialize();
+  await planningStore.initialize();
   const app = express();
   const server = createServer(app);
 
   // Parse JSON request bodies
   app.use(express.json());
 
-  // Unlisted entry point for the shared, database-backed Manus planning studio.
-  // Manus remains authoritative for tracker data and activity history.
-  app.get("/internal/casino-night-planning-studio", (_req, res) => {
-    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
-    res.setHeader("Cache-Control", "no-store");
-    res.redirect(302, casinoNightPlanningStudioUrl);
+  // ── Hidden Casino Night planning workspace ──
+  app.get("/api/casino-night-planning/snapshot", async (_req, res) => {
+    try {
+      res.setHeader("Cache-Control", "no-store");
+      res.json(await planningStore.snapshot());
+    } catch (error) {
+      console.error("Casino Night planning snapshot failed:", error);
+      res.status(500).json({ error: "planning_workspace_unavailable" });
+    }
+  });
+
+  app.get("/api/casino-night-planning/health", async (_req, res) => {
+    try {
+      res.setHeader("Cache-Control", "no-store");
+      res.json({ ...await planningStore.health(), generatedAt: new Date().toISOString() });
+    } catch (error) {
+      console.error("Casino Night planning health check failed:", error);
+      res.status(500).json({ error: "planning_workspace_unavailable" });
+    }
+  });
+
+  app.post("/api/casino-night-planning/records", async (req, res) => {
+    try {
+      res.status(201).json(await planningStore.create(req.body || {}));
+    } catch (error) {
+      console.error("Casino Night planning create failed:", error);
+      res.status(400).json({ error: error instanceof Error ? error.message : "invalid_planning_record" });
+    }
+  });
+
+  app.patch("/api/casino-night-planning/records/:id", async (req, res) => {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) return res.status(400).json({ error: "invalid_planning_record_id" });
+    try {
+      res.json(await planningStore.update(id, req.body || {}));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "planning_update_failed";
+      const status = message === "planning_revision_conflict" ? 409 : message === "planning_record_not_found" ? 404 : 400;
+      res.status(status).json({ error: message });
+    }
+  });
+
+  app.delete("/api/casino-night-planning/records/:id", async (req, res) => {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) return res.status(400).json({ error: "invalid_planning_record_id" });
+    try {
+      res.json(await planningStore.archive(id, req.body?.actor));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "planning_archive_failed";
+      res.status(message === "planning_record_not_found" ? 404 : 400).json({ error: message });
+    }
   });
 
   // ── 50th Anniversary Casino Night availability ──
@@ -593,6 +649,11 @@ async function startServer() {
   });
   app.use("/50th-planning-availability", (_req, res, next) => {
     res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    next();
+  });
+  app.use("/internal/casino-night-planning-studio", (_req, res, next) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    res.setHeader("Cache-Control", "no-store");
     next();
   });
 
