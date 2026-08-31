@@ -58,5 +58,9 @@ Improvements over the former table-heavy workspace:
 3. `GET /api/casino-night-planning/health` should report 66 active records and 50 activity events immediately after a clean seed import.
 4. The live route must return `X-Robots-Tag: noindex, nofollow, noarchive, nosnippet` and `Cache-Control: no-store`.
 5. The route must not appear in public header, mobile, footer, homepage, or sitemap navigation.
-6. After deploy, exercise one controlled update and restore the original value; verify both events remain in activity history and the database file survives a same-commit redeploy before promising production durability.
+6. A production durability probe should create a synthetic action, archive it, confirm two audit events, deploy the same reviewed code again, and confirm both events remain while the active record count is unchanged.
 7. Recovery requires a byte-for-byte copy of `/var/data/casino-night-planning.sqlite`; never reconstruct records from screenshots, aggregate counts, or memory.
+
+### Production verification — August 30, 2026
+
+The first production deployment imported 66 active records and 50 historical events. A controlled synthetic action was created and archived, leaving the active count at 66 while recording one archived record and two new append-only events. A follow-up deployment is used to confirm those counts survive a fresh application release from the same persistent disk.
