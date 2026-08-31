@@ -8,6 +8,8 @@ import { fileURLToPath } from "url";
 import initSqlJs, { type Database } from "sql.js";
 import { AvailabilityStore } from "./availability-store";
 import { PlanningStore } from "./planning-store";
+import { installPlanningMcp } from "./planning-mcp";
+import QRCode from "qrcode";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -262,6 +264,21 @@ async function startServer() {
 
   // Parse JSON request bodies
   app.use(express.json());
+
+  installPlanningMcp(app, planningStore);
+
+  app.get("/internal/casino-night-agent-connect/qr.svg", async (req, res) => {
+    const origin = `${req.protocol}://${req.get("host")}`;
+    const setupUrl = `${origin}/internal/casino-night-agent-connect`;
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    res.type("image/svg+xml").send(await QRCode.toString(setupUrl, {
+      type: "svg",
+      margin: 1,
+      width: 512,
+      color: { dark: "#082f49", light: "#ffffff" },
+    }));
+  });
 
   // ── Hidden Casino Night planning workspace ──
   app.get("/api/casino-night-planning/snapshot", async (_req, res) => {
@@ -652,6 +669,11 @@ async function startServer() {
     next();
   });
   app.use("/internal/casino-night-planning-studio", (_req, res, next) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    res.setHeader("Cache-Control", "no-store");
+    next();
+  });
+  app.use("/internal/casino-night-agent-connect", (_req, res, next) => {
     res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
     res.setHeader("Cache-Control", "no-store");
     next();

@@ -17,6 +17,8 @@ services:
         value: /var/data/casino-night-availability.json
       - key: CASINO_PLANNING_DB
         value: /var/data/casino-night-planning.sqlite
+      - key: CASINO_PLANNING_MCP_TOKEN
+        sync: false
       - key: AVAILABILITY_VERIFICATION_TOKEN
         sync: false
       - key: VITE_FRONTEND_FORGE_API_KEY

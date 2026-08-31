@@ -24,11 +24,15 @@ const RayCordova = lazy(() => import("./pages/RayCordova"));
 const NamingPolicyStudio = lazy(() => import("./pages/NamingPolicyStudio"));
 const CasinoNightAvailability = lazy(() => import("./pages/CasinoNightAvailability"));
 const CasinoNightPlanningStudio = lazy(() => import("./pages/CasinoNightPlanningStudio"));
+const CasinoNightAgentConnect = lazy(() => import("./pages/CasinoNightAgentConnect"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function Router() {
   if (window.location.pathname === "/internal/casino-night-planning-studio") {
     return <Suspense fallback={null}><CasinoNightPlanningStudio /></Suspense>;
+  }
+  if (window.location.pathname === "/internal/casino-night-agent-connect") {
+    return <Suspense fallback={null}><CasinoNightAgentConnect /></Suspense>;
   }
 
   return (

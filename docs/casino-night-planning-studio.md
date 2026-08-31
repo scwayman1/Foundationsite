@@ -35,6 +35,10 @@ Render persistent disks permit a single attached service instance. Move this wor
 
 The UI currently exposes create/update flows and retains archive support at the API layer for a future controlled archive interaction.
 
+## Experimental agent access
+
+A token-authenticated Streamable HTTP MCP endpoint is available at `/mcp/casino-night-planning`, with an unlisted QR/setup page at `/internal/casino-night-agent-connect`. It exposes read, create, revision-safe update, completion, and recent-activity tools; archive/delete is deliberately excluded. See `docs/casino-night-planning-mcp.md` for the complete tool contract, client configuration, token rotation, and security boundaries.
+
 ## UX direction
 
 Taste contract: institutional, calm, operational, legible, and committee-ready; never cramped, ornamental, or dashboard-theater.
