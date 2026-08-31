@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Activity,
   AlertTriangle,
@@ -243,8 +243,22 @@ function KanbanCard({ record, onOpen }: { record: PlanningRecord; onOpen: () => 
 
 function KanbanBoard({ records, selectedId, onSelect, onSaved }: { records: PlanningRecord[]; selectedId: number | null; onSelect: (id: number | null) => void; onSaved: (record: PlanningRecord) => void }) {
   const selected = selectedId == null ? null : records.find((record) => record.id === selectedId) || null;
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!selected) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const focusTimer = window.setTimeout(() => dialogRef.current?.focus(), 0);
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") onSelect(null); };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      window.clearTimeout(focusTimer);
+      window.removeEventListener("keydown", closeOnEscape);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selected, onSelect]);
   return <div className="mt-4 min-w-0 max-w-full">
-    {selected && <div className="mb-5 rounded-2xl border border-[#8bccea] bg-white p-4 shadow-sm sm:p-5"><div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-xs font-black uppercase tracking-[.14em] text-[#0b6fa4]">Selected action</p><h3 className="mt-1 text-xl font-black text-[#132746]">{selected.title}</h3></div><button onClick={() => onSelect(null)} className="rounded-full border bg-white p-2 text-slate-500" aria-label="Close selected action"><X size={18}/></button></div><RecordEditor record={selected} onClose={() => onSelect(null)} onSaved={(record) => { onSaved(record); onSelect(null); }}/></div>}
+    {selected && <div className="fixed inset-0 z-[80] overflow-y-auto bg-slate-950/60 p-3 backdrop-blur-[2px] sm:p-8" onMouseDown={(event) => { if (event.target === event.currentTarget) onSelect(null); }}><div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby={`kanban-action-${selected.id}`} tabIndex={-1} className="mx-auto max-w-5xl rounded-2xl border border-[#8bccea] bg-white p-4 shadow-2xl outline-none sm:p-6"><div><p className="text-xs font-black uppercase tracking-[.14em] text-[#0b6fa4]">Selected action</p><h3 id={`kanban-action-${selected.id}`} className="mt-1 text-xl font-black text-[#132746]">{selected.title}</h3><p className="mt-2 text-sm text-slate-600">Update the owner, status, deadline, blocker, and next concrete move. Press Escape to close without saving.</p></div><RecordEditor record={selected} onClose={() => onSelect(null)} onSaved={(record) => { onSaved(record); onSelect(null); }}/></div></div>}
     <div className="w-full min-w-0 max-w-full overflow-x-auto overscroll-x-contain pb-3" style={{ contain: "inline-size" }}><div className="grid min-w-[1160px] grid-cols-4 gap-4 xl:min-w-0">{kanbanColumns.map((column) => {
       const columnRecords = records.filter((record) => kanbanStatus(record) === column.id);
       return <section key={column.id} className={`min-w-0 rounded-2xl border-t-4 p-3 ${column.tone}`}><header className="flex items-start justify-between gap-3 px-1 pb-3"><div><div className="flex items-center gap-2"><span className={`h-2.5 w-2.5 rounded-full ${column.dot}`}/><h3 className="font-black text-[#132746]">{column.label}</h3></div><p className="mt-1 text-xs text-slate-500">{column.helper}</p></div><span className="rounded-full bg-white px-2.5 py-1 text-xs font-black text-slate-600 shadow-sm">{columnRecords.length}</span></header><div className="grid gap-3">{columnRecords.map((record) => <KanbanCard key={record.id} record={record} onOpen={() => onSelect(record.id)}/>)}{!columnRecords.length && <div className="rounded-xl border border-dashed border-slate-300 bg-white/60 p-5 text-center text-xs font-semibold text-slate-400">No actions in this lane</div>}</div></section>;
