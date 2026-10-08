@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { Menu, X, ExternalLink, Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import MeasurementChoice from "./MeasurementChoice";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -38,6 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
+      <MeasurementChoice />
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <div className="min-h-screen flex flex-col bg-background font-sans">
       {/* ── Premium Navigation ── */}
@@ -295,6 +297,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               &copy; {new Date().getFullYear()} Coastline College Foundation. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
+              <Link href="/privacy"><a className="text-xs text-slate-300 hover:text-white transition-colors">Privacy Notice</a></Link>
               <a href="https://www.coastline.edu" target="_blank" rel="noopener noreferrer" className="text-xs text-slate-300 hover:text-white transition-colors">
                 Coastline College
               </a>

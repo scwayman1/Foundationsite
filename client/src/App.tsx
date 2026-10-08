@@ -27,6 +27,7 @@ const CasinoNightPlanningStudio = lazy(() => import("./pages/CasinoNightPlanning
 const CasinoNightAgentConnect = lazy(() => import("./pages/CasinoNightAgentConnect"));
 const CasinoNightPlanningAccess = lazy(() => import("./pages/CasinoNightPlanningAccess"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const Privacy = lazy(() => import("./pages/Privacy"));
 
 function Router() {
   if (window.location.pathname === "/internal/casino-night-planning-studio") {
@@ -49,6 +50,7 @@ function Router() {
           <Route path="/programs" component={Programs} />
           <Route path="/budget" component={Budget} />
           <Route path="/get-involved" component={GetInvolved} />
+          <Route path="/privacy" component={Privacy} />
           <Route path="/50-year" component={FiftyYear} />
           <Route path="/foundation/ray-cordova/:slug" component={RayCordova} />
           <Route path="/foundation/ray-cordova" component={RayCordova} />

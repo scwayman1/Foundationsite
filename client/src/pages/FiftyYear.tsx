@@ -218,8 +218,8 @@ export default function FiftyYear() {
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="rounded-md border-white/25 bg-white/8 px-6 py-6 text-white hover:bg-white/14">
-                <a href="mailto:foundation@coastline.edu?subject=Coastline%2050th%20Anniversary%20Sponsorship">
-                  Contact the Foundation
+                <a href="/get-involved?interest=50-year-sponsorship#contact-form">
+                  Ask About Sponsorship
                   <Mail size={17} aria-hidden="true" />
                 </a>
               </Button>
@@ -444,8 +444,8 @@ export default function FiftyYear() {
               </p>
             </div>
             <Button asChild size="lg" className="rounded-md bg-[#08324a] px-6 py-6 text-white hover:bg-[#0b3d59]">
-              <a href="mailto:foundation@coastline.edu?subject=Coastline%2050th%20Anniversary%20Sponsorship">
-                Contact Foundation Team
+              <a href="/get-involved?interest=50-year-sponsorship#contact-form">
+                Ask About Sponsorship
                 <Mail size={17} aria-hidden="true" />
               </a>
             </Button>
