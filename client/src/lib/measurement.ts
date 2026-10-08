@@ -7,8 +7,12 @@ type AnalyticsWindow = Window & {
   gtag?: (...args: unknown[]) => void;
 };
 
-const adsId = import.meta.env.VITE_GOOGLE_ADS_ID?.trim();
-const contactSendTo = import.meta.env.VITE_GOOGLE_ADS_CONTACT_SEND_TO?.trim();
+// These are public identifiers verified in the Foundation Google Ads account.
+// Keep a source default because an existing Render service may not import newly
+// added render.yaml build variables until its Blueprint is synchronized.
+const adsId = import.meta.env.VITE_GOOGLE_ADS_ID?.trim() || "AW-18114155352";
+const contactSendTo = import.meta.env.VITE_GOOGLE_ADS_CONTACT_SEND_TO?.trim() ||
+  "AW-18114155352/iZSwCIOIlZUdENimwL1D";
 export const measurementConfigured = Boolean(adsId && contactSendTo && /^AW-\d+$/.test(adsId) && contactSendTo.startsWith(`${adsId}/`));
 
 export function measurementChoice(): "allowed" | "declined" | null {
