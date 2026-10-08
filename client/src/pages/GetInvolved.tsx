@@ -380,7 +380,7 @@ export default function GetInvolved() {
                         className="flex items-center gap-3 p-4 rounded-xl bg-red-50 border border-red-100 text-sm text-red-600"
                       >
                         <AlertCircle size={18} className="flex-shrink-0" />
-                        <span>{statusMessage}</span>
+                        <span>{statusMessage} <a className="font-semibold underline" href="mailto:foundation@coastline.edu">Email the Foundation directly</a>.</span>
                       </motion.div>
                     )}
 
