@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Heart, Handshake, Users, Mail, Phone, MapPin, ArrowRight, CheckCircle, AlertCircle, Loader2, Award } from "lucide-react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { useState } from "react";
+import { submitContactInquiry } from "@/lib/contact";
+import { trackSuccessfulContact } from "@/lib/measurement";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -29,7 +31,9 @@ export default function GetInvolved() {
     firstName: "",
     lastName: "",
     email: "",
-    message: "",
+    message: new URLSearchParams(window.location.search).get("interest") === "50-year-sponsorship"
+      ? "I would like to discuss 50th Anniversary sponsorship."
+      : "",
   });
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
@@ -44,25 +48,13 @@ export default function GetInvolved() {
     setStatusMessage("");
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        setStatus("success");
-        setStatusMessage(data.message || "Your message has been sent successfully!");
-        setFormData({ firstName: "", lastName: "", email: "", message: "" });
-      } else {
-        setStatus("error");
-        setStatusMessage(data.error || "Something went wrong. Please try again.");
-      }
-    } catch {
+      const message = await submitContactInquiry(formData, trackSuccessfulContact);
+      setStatus("success");
+      setStatusMessage(message);
+      setFormData({ firstName: "", lastName: "", email: "", message: "" });
+    } catch (error) {
       setStatus("error");
-      setStatusMessage("Unable to send your message. Please email us directly at foundation@coastline.edu.");
+      setStatusMessage(error instanceof Error ? error.message : "Unable to send your message. Please email foundation@coastline.edu directly.");
     }
   };
 
@@ -244,7 +236,7 @@ export default function GetInvolved() {
       </section>
 
       {/* ── Contact Section ── */}
-      <section className="py-24 bg-[#fafbfd]">
+      <section id="contact-form" className="py-24 bg-[#fafbfd]">
         <div className="container">
           <motion.div
             className="rounded-2xl overflow-hidden shadow-xl shadow-slate-200/30 border border-slate-100/60 flex flex-col md:flex-row"
@@ -378,6 +370,7 @@ export default function GetInvolved() {
                         placeholder="How would you like to get involved?"
                       />
                     </div>
+                    <p className="text-xs leading-5 text-slate-500">We use these details to respond to your inquiry. Read the <a className="underline" href="/privacy">Foundation Privacy Notice</a> before submitting.</p>
 
                     {/* Error message */}
                     {status === "error" && (

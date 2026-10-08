@@ -188,3 +188,24 @@ MIT License - See LICENSE file for details
 ## 📞 Support
 
 For issues and questions, please open an issue on GitHub.
+# Foundation contact and Ads conversion setup
+
+The public Get Involved form returns success only after configured SMTP accepts
+the email. Set `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, and optionally
+`CONTACT_EMAIL` (defaults to `foundation@coastline.edu`) in the Render service.
+If SMTP is unavailable, the form displays an error and offers the email address;
+it never treats a server log entry as a lead.
+
+The verified Google Ads tag and website contact conversion are configured in
+`render.yaml` as build-time `VITE_GOOGLE_ADS_ID` and
+`VITE_GOOGLE_ADS_CONTACT_SEND_TO` values. If a different hosting configuration
+is used, set those same values there at build time. Without both values, no Google
+tag or conversion event is loaded by this integration. When configured, the
+visitor must allow measurement before
+the tag loads. A conversion event is sent only after a successful contact API
+response, at most once per ad-click identifier in a browser session. No form
+fields are included in the event.
+
+Before deployment, confirm that the published privacy notice accurately covers
+the Foundation's actual data handling, especially email retention, website host
+access, and any other analytics or marketing tools configured outside this repo.

@@ -31,6 +31,10 @@ services:
         sync: false
       - key: VITE_FRONTEND_FORGE_API_URL
         value: https://forge.butterfly-effect.dev
+      - key: VITE_GOOGLE_ADS_ID
+        value: AW-18114155352
+      - key: VITE_GOOGLE_ADS_CONTACT_SEND_TO
+        value: AW-18114155352/iZSwCIOIlZUdENimwL1D
     disk:
       name: naming-policy-data
       mountPath: /var/data
