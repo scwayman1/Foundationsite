@@ -70,7 +70,7 @@ export default function Budget() {
               <Button
                 asChild
                 size="lg"
-                className="bg-blue-600 hover:bg-blue-500 text-white border-none shadow-xl shadow-blue-600/20 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 px-7 py-6 text-[15px] font-semibold rounded-xl btn-premium"
+                className="bg-blue-600 hover:bg-blue-500 text-white border-none shadow-xl shadow-blue-600/20 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 max-w-full whitespace-normal h-auto px-5 py-4 text-center text-[15px] font-semibold rounded-xl btn-premium"
               >
                 <a href={budgetSourceUrl} target="_blank" rel="noopener noreferrer"><FileText className="mr-2 h-5 w-5 shrink-0" /> View FY 2026–27 Budget Source</a>
               </Button>
