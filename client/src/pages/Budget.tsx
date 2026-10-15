@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { BarChart3, DollarSign, TrendingUp, PieChart, ArrowUpRight, FileText } from "lucide-react";
 import { motion } from "framer-motion";
+import BudgetDetails from "@/components/BudgetDetails";
+import { budgetSourceUrl } from "@/data/foundationBudget";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -19,7 +21,7 @@ const cardVariant = {
   hidden: { opacity: 0, y: 32, scale: 0.97 },
   visible: {
     opacity: 1, y: 0, scale: 1,
-    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }
+    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }
   }
 };
 
@@ -49,7 +51,7 @@ export default function Budget() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] border border-white/[0.08] backdrop-blur-xl mb-6"
               variants={fadeInUp}
             >
-              <span className="text-[13px] font-medium text-blue-200/90 tracking-wide">Fiscal Year 2024-25</span>
+              <span className="text-[13px] font-medium text-blue-200/90 tracking-wide">Fiscal Year 2026–27 · Proposed Budget</span>
             </motion.div>
             <motion.h1
               className="text-4xl md:text-6xl font-heading font-bold mb-6 leading-[1.08]"
@@ -62,15 +64,15 @@ export default function Budget() {
               className="text-lg md:text-xl text-slate-300/90 leading-relaxed max-w-2xl mb-8"
               variants={fadeInUp}
             >
-              A clear overview of our revenue sources, strategic investments, and long-term sustainability goals.
+              Our proposed FY 2026–27 operating budget, with prior-year comparisons and restricted campaign projections shown separately.
             </motion.p>
             <motion.div variants={fadeInUp}>
               <Button
+                asChild
                 size="lg"
-                className="bg-blue-600 hover:bg-blue-500 text-white border-none shadow-xl shadow-blue-600/20 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 px-7 py-6 text-[15px] font-semibold rounded-xl btn-premium"
-                onClick={() => window.open('https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:d9574f31-703b-4958-bfb3-52d45d1f522d', '_blank')}
+                className="bg-blue-600 hover:bg-blue-500 text-white border-none shadow-xl shadow-blue-600/20 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 max-w-full whitespace-normal h-auto px-5 py-4 text-center text-[15px] font-semibold rounded-xl btn-premium"
               >
-                <FileText className="mr-2 h-5 w-5" /> View FY 24-25 Budget Document
+                <a href={budgetSourceUrl} target="_blank" rel="noopener noreferrer"><FileText className="mr-2 h-5 w-5 shrink-0" /> View FY 2026–27 Budget Source</a>
               </Button>
             </motion.div>
           </div>
@@ -93,13 +95,13 @@ export default function Budget() {
                 <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-t-2xl" />
                 <div className="absolute -top-8 -right-8 w-24 h-24 bg-emerald-500/[0.04] rounded-full blur-2xl group-hover:bg-emerald-500/[0.08] transition-colors duration-500" />
                 <div className="flex justify-between items-start mb-3">
-                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.1em]">Total Donations</p>
+                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.1em]">Unrestricted Revenue</p>
                   <div className="p-2 bg-emerald-50 rounded-lg text-emerald-600">
                     <TrendingUp size={18} />
                   </div>
                 </div>
-                <h3 className="text-3xl font-bold text-slate-900 mb-1">$363.0K</h3>
-                <p className="text-xs text-slate-400">Fiscal Year 2024-25</p>
+                <h3 className="text-3xl font-bold text-slate-900 mb-1">$310,500</h3>
+                <p className="text-xs text-slate-400">FY 2026–27 proposed</p>
               </div>
             </motion.div>
 
@@ -108,13 +110,13 @@ export default function Budget() {
                 <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-blue-500 to-blue-600 rounded-t-2xl" />
                 <div className="absolute -top-8 -right-8 w-24 h-24 bg-blue-500/[0.04] rounded-full blur-2xl group-hover:bg-blue-500/[0.08] transition-colors duration-500" />
                 <div className="flex justify-between items-start mb-3">
-                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.1em]">Scholarships Awarded</p>
+                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.1em]">Unrestricted Expenses</p>
                   <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
                     <BarChart3 size={18} />
                   </div>
                 </div>
-                <h3 className="text-3xl font-bold text-slate-900 mb-1">$384.6K</h3>
-                <p className="text-xs text-slate-400">309 awards in FY24/25</p>
+                <h3 className="text-3xl font-bold text-slate-900 mb-1">$171,450</h3>
+                <p className="text-xs text-slate-400">FY 2026–27 proposed</p>
               </div>
             </motion.div>
 
@@ -123,18 +125,20 @@ export default function Budget() {
                 <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-teal-400 to-teal-500 rounded-t-2xl" />
                 <div className="absolute -top-8 -right-8 w-24 h-24 bg-teal-500/[0.04] rounded-full blur-2xl group-hover:bg-teal-500/[0.08] transition-colors duration-500" />
                 <div className="flex justify-between items-start mb-3">
-                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.1em]">Total Assets</p>
+                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.1em]">Operating Surplus</p>
                   <div className="p-2 bg-teal-50 rounded-lg text-teal-600">
                     <PieChart size={18} />
                   </div>
                 </div>
-                <h3 className="text-3xl font-bold text-slate-900 mb-1">$4.62M</h3>
-                <p className="text-xs text-slate-400">+10.0% from prior year</p>
+                <h3 className="text-3xl font-bold text-slate-900 mb-1">$139,050</h3>
+                <p className="text-xs text-slate-400">FY 2026–27 proposed</p>
               </div>
             </motion.div>
           </motion.div>
         </div>
       </section>
+
+      <BudgetDetails />
 
       {/* ── Revenue Strategy ── */}
       <section className="py-20 bg-white relative overflow-hidden">
@@ -159,13 +163,13 @@ export default function Budget() {
                   {
                     num: "01",
                     title: "Financial Independence",
-                    desc: "Generating $80,000 through our \"Indirect Cost\" revenue model, capturing 10% of all originated funding to support operations.",
+                    desc: "The proposed budget includes $35,000 in indirect costs revenue. The source worksheet identifies a 10% indirect-cost charge for temporary restricted fund accounts.",
                     gradient: "from-blue-500 to-blue-600"
                   },
                   {
                     num: "02",
                     title: "President's Circle Growth",
-                    desc: "Expanding membership to increase revenue from $4,200 to $13,000, building a strong network of core supporters.",
+                    desc: "The proposed President's Circle revenue is $13,000, compared with $4,200 in 2025/26 YTD revenue as of June 30, 2026.",
                     gradient: "from-teal-400 to-teal-500"
                   },
                   {
