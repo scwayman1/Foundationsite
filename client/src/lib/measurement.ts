@@ -54,3 +54,28 @@ export function trackSuccessfulContact() {
   gtag("event", "conversion", { send_to: contactSendTo });
   sessionStorage.setItem(key, "1");
 }
+
+/** An outbound registration click, never a completed registration or contact conversion. */
+export function trackWorkshopRegistrationClick(placement: string) {
+  try {
+    if (measurementChoice() !== "allowed" || !measurementConfigured) return;
+    loadMeasurement();
+    (window as AnalyticsWindow).gtag?.("event", "workshop_registration_click", {
+      send_to: adsId,
+      event_slug: "ai-agents-workshop",
+      link_placement: placement,
+      destination: "gradroots",
+    });
+    const clickSentKey = "foundation_workshop_registration_click_sent_v1";
+    if (!sessionStorage.getItem(clickSentKey)) {
+      (window as AnalyticsWindow).gtag?.("event", "conversion", {
+        send_to: "AW-18114155352/EhWjCNb-orUdENimwL1D",
+        value: 0,
+        currency: "USD",
+      });
+      sessionStorage.setItem(clickSentKey, "1");
+    }
+  } catch {
+    // Optional measurement must never prevent a visitor from registering.
+  }
+}
