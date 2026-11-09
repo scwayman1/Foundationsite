@@ -17,6 +17,7 @@ const Board = lazy(() => import("./pages/Board"));
 const NewsImpact = lazy(() => import("./pages/NewsImpact"));
 const NewsPost = lazy(() => import("./pages/NewsPost"));
 const Events = lazy(() => import("./pages/Events"));
+const AIWorkshop = lazy(() => import("./pages/AIWorkshop"));
 const EventPost = lazy(() => import("./pages/EventPost"));
 const FiftiethAnniversary = lazy(() => import("./pages/FiftiethAnniversary"));
 const FiftyYear = lazy(() => import("./pages/FiftyYear"));
@@ -64,6 +65,7 @@ function Router() {
           <Route path="/internal/naming-policy-studio" component={NamingPolicyStudio} />
           <Route path="/50th-planning-availability" component={CasinoNightAvailability} />
           <Route path="/50th-planning-availability/results" component={CasinoNightAvailability} />
+          <Route path="/events/ai-agents-workshop" component={AIWorkshop} />
           <Route path="/events/:slug" component={EventPost} />
           <Route path="/404" component={NotFound} />
           <Route component={NotFound} />

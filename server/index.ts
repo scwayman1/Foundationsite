@@ -686,6 +686,36 @@ async function startServer() {
     next();
   });
 
+  // Serve event metadata on the Foundation domain for previews and search crawlers.
+  app.get(["/events/ai-agents-workshop", "/events/ai-agents-workshop/"], (_req, res) => {
+    const html = fs.readFileSync(path.join(staticPath, "index.html"), "utf8");
+    const event = {
+      "@context": "https://schema.org", "@type": "EducationEvent",
+      name: "AI Agents Workshop for Business Owners",
+      description: "A hands-on educational workshop co-presented by Coastline College Foundation and Fountain Valley Chamber of Commerce. Bring your laptop. Enter WORKSHOPFREE manually on GradRoots for free registration.",
+      startDate: "2026-12-02T17:30:00-08:00", endDate: "2026-12-02T19:30:00-08:00",
+      doorTime: "2026-12-02T17:00:00-08:00",
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      eventStatus: "https://schema.org/EventScheduled",
+      url: "https://www.coastlinecollegefoundation.com/events/ai-agents-workshop",
+      image: "https://www.coastlinecollegefoundation.com/ai-agents-workshop.png",
+      maximumAttendeeCapacity: 48,
+      location: { "@type": "Place", name: "Coastline College, Fountain Valley campus, Room 109", address: { "@type": "PostalAddress", streetAddress: "11460 Warner Ave.", addressLocality: "Fountain Valley", addressRegion: "CA", postalCode: "92708", addressCountry: "US" } },
+      organizer: [
+        { "@type": "Organization", name: "Coastline College Foundation", url: "https://www.coastlinecollegefoundation.com" },
+        { "@type": "Organization", name: "Fountain Valley Chamber of Commerce" },
+      ],
+    };
+    res.type("html").send(html.replace("<title>Coastline College Foundation</title>", `<title>AI Agents Workshop · December 2, 2026 | Coastline College Foundation</title>
+      <meta name="description" content="Build your first AI agent at a hands-on workshop for business owners. December 2, 2026, 5:30–7:30 p.m. Pacific. Fountain Valley, Room 109. Free with WORKSHOPFREE." />
+      <link rel="canonical" href="https://www.coastlinecollegefoundation.com/events/ai-agents-workshop" />
+      <meta property="og:title" content="AI Agents Workshop for Business Owners" />
+      <meta property="og:description" content="December 2, 2026 · Coastline College, Room 109 · Free registration with WORKSHOPFREE. Bring your laptop." />
+      <meta property="og:url" content="https://www.coastlinecollegefoundation.com/events/ai-agents-workshop" />
+      <meta property="og:image" content="https://www.coastlinecollegefoundation.com/ai-agents-workshop.png" />
+      <script type="application/ld+json">${JSON.stringify(event)}</script>`));
+  });
+
   app.use(express.static(staticPath));
 
   // Handle client-side routing - serve index.html for all routes

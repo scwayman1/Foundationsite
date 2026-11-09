@@ -37,4 +37,27 @@ describe("consent-gated contact measurement", () => {
     expect(events).toEqual([["event", "conversion", { send_to: "AW-18114155352/iZSwCIOIlZUdENimwL1D" }]]);
     expect(JSON.stringify(events)).not.toMatch(/test@example|message|firstName/);
   });
+  it("does not record workshop clicks without consent", async () => {
+    const measurement = await import("./measurement");
+    measurement.trackWorkshopRegistrationClick("hero");
+    expect(document.head.appendChild).not.toHaveBeenCalled();
+    expect((window as Window & { dataLayer: unknown[] }).dataLayer).toEqual([]);
+  });
+
+  it("records a consented outbound click separately from a conversion", async () => {
+    const measurement = await import("./measurement");
+    measurement.setMeasurementChoice("allowed");
+    measurement.trackWorkshopRegistrationClick("registration");
+    const events = (window as Window & { dataLayer: unknown[][] }).dataLayer.filter((entry) => entry[0] === "event");
+    expect(events).toEqual([["event", "workshop_registration_click", {
+      send_to: "AW-18114155352", event_slug: "ai-agents-workshop",
+      link_placement: "registration", destination: "gradroots",
+    }], ["event", "conversion", {
+      send_to: "AW-18114155352/EhWjCNb-orUdENimwL1D", value: 0, currency: "USD",
+    }]]);
+    measurement.trackWorkshopRegistrationClick("hero");
+    const conversions = (window as Window & { dataLayer: unknown[][] }).dataLayer.filter((entry) => entry[1] === "conversion");
+    expect(conversions).toHaveLength(1);
+  });
+
 });

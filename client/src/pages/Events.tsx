@@ -37,6 +37,12 @@ const featuredPanelPhoto = featuredEvent.useGenericPhotos === false ? undefined 
 export default function Events() {
   return (
     <div className="flex min-h-screen flex-col bg-[#f6fbfd]">
+      <section className="bg-sky-50 border-b border-sky-100">
+        <div className="container flex flex-wrap items-center justify-between gap-4 py-6">
+          <div><p className="text-sm font-semibold text-[#0b6fa4]">December 2, 2026 · Free with WORKSHOPFREE</p><h2 className="mt-1 font-heading text-xl font-bold text-[#08324a]">AI Agents Workshop for Business Owners</h2><p className="mt-1 text-sm text-slate-600">5:30–7:30 p.m. Pacific · Fountain Valley campus · Room 109</p></div>
+          <Button asChild className="bg-[#0096d6] text-white hover:bg-[#0284bc]"><Link href="/events/ai-agents-workshop">Workshop details & registration <ArrowRight size={16} className="ml-2" /></Link></Button>
+        </div>
+      </section>
       <section className="relative overflow-hidden bg-[#06263a] text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(143,221,255,0.18),transparent_34%),radial-gradient(circle_at_85%_15%,rgba(255,255,255,0.14),transparent_26%)]" />
         <img

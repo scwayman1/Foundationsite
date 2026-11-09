@@ -209,3 +209,18 @@ fields are included in the event.
 Before deployment, confirm that the published privacy notice accurately covers
 the Foundation's actual data handling, especially email retention, website host
 access, and any other analytics or marketing tools configured outside this repo.
+
+## AI Agents Workshop landing page
+
+The public event is `/events/ai-agents-workshop` on the canonical
+`https://www.coastlinecollegefoundation.com` origin. Sections `#learn`, `#agenda`,
+`#location`, and `#registration` provide stable links. The existing Render
+GitHub deployment remains the publishing path; no DNS changes are needed.
+
+Actual GradRoots registration CTA clicks, after measurement consent, emit
+`workshop_registration_click` and the dedicated Google Ads click conversion
+`AW-18114155352/EhWjCNb-orUdENimwL1D` with value 0, once per browser session.
+This measures an outbound click, **not** a completed registration. It never
+uses the Foundation contact inquiry conversion. Declining measurement leaves
+registration links fully functional. GradRoots owns checkout; attendees must
+manually apply WORKSHOPFREE and confirm a $0 total.
